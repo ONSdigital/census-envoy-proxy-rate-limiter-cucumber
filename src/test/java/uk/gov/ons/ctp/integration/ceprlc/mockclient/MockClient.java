@@ -13,7 +13,7 @@ import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.common.error.CTPException.Fault;
-import uk.gov.ons.ctp.integration.ceprlc.context.FulfilmentsRequestWrapperDTO;
+import uk.gov.ons.ctp.integration.ceprlc.client.RateLimiterClientRequest;
 
 @Data
 @NoArgsConstructor
@@ -23,42 +23,41 @@ public class MockClient {
   private Map<String, Integer> allowanceMap = new HashMap<>();
   private Map<String, Map<String, List<Long>>> postingsTimeMap = new HashMap<>();
 
-  public int postFulfilment(
-      final FulfilmentsRequestWrapperDTO fulfilmentsRequestWrapperDTORequestDTO)
+  public int postRequest(final RateLimiterClientRequest rateLimiterClientRequest)
       throws CTPException {
 
-    List<String> requestKeyList = getKeys(fulfilmentsRequestWrapperDTORequestDTO);
-    if (!isValidateRequest(requestKeyList, fulfilmentsRequestWrapperDTORequestDTO)) {
+    List<String> requestKeyList = getKeys(rateLimiterClientRequest);
+    if (!isValidateRequest(requestKeyList, rateLimiterClientRequest)) {
       throw new CTPException(Fault.BAD_REQUEST);
     }
-    postRequest(requestKeyList, fulfilmentsRequestWrapperDTORequestDTO);
+    postRequest(requestKeyList, rateLimiterClientRequest);
     return HttpStatus.SC_OK;
   }
 
-  private List<String> getKeys(FulfilmentsRequestWrapperDTO f) {
+  private List<String> getKeys(RateLimiterClientRequest request) {
     List<String> keyList = new ArrayList<>();
     StringBuilder keyBuff =
-        new StringBuilder(f.getFulfilmentsRequestDTO().getProductGroup().name().toUpperCase())
+        new StringBuilder(request.getProduct().getProductGroup().name().toUpperCase())
             .append("-")
-            .append(Boolean.valueOf(f.isIndvidual()).toString().toUpperCase())
+            .append(request.getProduct().getIndividual().toString().toUpperCase())
             .append("-")
-            .append(f.getFulfilmentsRequestDTO().getDeliveryChannel().name().toUpperCase())
+            .append(request.getProduct().getDeliveryChannel().name().toUpperCase())
             .append("-")
-            .append(f.getFulfilmentsRequestDTO().getCaseType().name().toUpperCase())
+            .append(request.getCaseType().name().toUpperCase())
             .append("-");
-    if (f.getUprn() != null) {
+    if (request.getUprn() != null) {
       keyList.add(keyBuff.toString() + "UPRN");
     }
-    if (f.getIpAddress() != null) {
+    if (request.getIpAddress() != null) {
       keyList.add(keyBuff.toString() + "IP");
     }
-    if (f.getTelNo() != null) {
+    if (request.getTelNo().isPresent()) {
       keyList.add(keyBuff.toString() + "TELNO");
     }
     return keyList;
   }
 
-  private boolean isValidateRequest(List<String> requestKeyList, FulfilmentsRequestWrapperDTO f) {
+  private boolean isValidateRequest(List<String> requestKeyList, RateLimiterClientRequest f) {
     boolean isValidRequest = true;
     for (String requestKey : requestKeyList) {
       final int noRequestAllowed = allowanceMap.get(requestKey);
@@ -70,13 +69,13 @@ public class MockClient {
       final String keyType = keyConstituents[keyConstituents.length - 1];
       List<Long> postingsList = null;
       if (keyType.equals("UPRN")) {
-        postingsList = postedMap.get(f.getUprn());
+        postingsList = postedMap.get(f.getUprn().getValue() + "");
       }
       if (keyType.equals("IP")) {
         postingsList = postedMap.get(f.getIpAddress());
       }
       if (keyType.equals("TELNO")) {
-        postingsList = postedMap.get(f.getTelNo());
+        postingsList = postedMap.get(f.getTelNo().isPresent() ? f.getTelNo().get() : null);
       }
       if (postingsList == null) {
         continue;
@@ -97,7 +96,7 @@ public class MockClient {
     return isValidRequest;
   }
 
-  private void postRequest(List<String> requestKeyList, FulfilmentsRequestWrapperDTO f) {
+  private void postRequest(List<String> requestKeyList, final RateLimiterClientRequest request) {
 
     for (String requestKey : requestKeyList) {
       Map<String, List<Long>> postedMap = postingsTimeMap.get(requestKey);
@@ -106,16 +105,15 @@ public class MockClient {
       }
       final String[] keyConstituents = requestKey.split("-");
       final String keyType = keyConstituents[keyConstituents.length - 1];
-      List<Long> postingsList = null;
       String postingsListKey = null;
       if (keyType.equals("UPRN")) {
-        postingsListKey = f.getUprn();
+        postingsListKey = request.getUprn().getValue() + "";
       }
       if (keyType.equals("IP")) {
-        postingsListKey = f.getIpAddress();
+        postingsListKey = request.getIpAddress();
       }
       if (keyType.equals("TELNO")) {
-        postingsListKey = f.getTelNo();
+        postingsListKey = request.getTelNo().isPresent() ? request.getTelNo().get() : null;
       }
       postedMap.computeIfAbsent(postingsListKey, k -> new ArrayList<>());
       final Date now = new Date(System.currentTimeMillis());
@@ -201,18 +199,17 @@ public class MockClient {
 
   public void waitHours(final int hours) {
     postingsTimeMap.forEach(
-        (key1, value1) -> {
-          value1.forEach(
-              (key2, value2) -> {
-                final List<Long> updatedTimeList = new ArrayList<>();
-                value2.forEach(
-                    timeValue -> {
-                      final Date transactionDate = new Date(timeValue);
-                      final Date minusHours = DateUtils.addHours(transactionDate, (hours * -1));
-                      updatedTimeList.add(minusHours.getTime());
-                    });
-                value1.put(key2, updatedTimeList);
-              });
-        });
+        (key1, value1) ->
+            value1.forEach(
+                (key2, value2) -> {
+                  final List<Long> updatedTimeList = new ArrayList<>();
+                  value2.forEach(
+                      timeValue -> {
+                        final Date transactionDate = new Date(timeValue);
+                        final Date minusHours = DateUtils.addHours(transactionDate, (hours * -1));
+                        updatedTimeList.add(minusHours.getTime());
+                      });
+                  value1.put(key2, updatedTimeList);
+                }));
   }
 }

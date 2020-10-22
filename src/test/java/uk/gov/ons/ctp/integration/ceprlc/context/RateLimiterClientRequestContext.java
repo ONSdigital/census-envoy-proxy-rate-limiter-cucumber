@@ -8,16 +8,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import uk.gov.ons.ctp.integration.ceprlc.client.RateLimiterClientRequest;
 
 @Data
 @NoArgsConstructor
 @Scope(SCOPE_CUCUMBER_GLUE)
-public class FulfilmentDTOContext {
+public class RateLimiterClientRequestContext {
 
   @Value("${mock-client}")
   private Boolean useStubClient;
 
-  private List<FulfilmentsRequestWrapperDTO> fulfilmentsList = new ArrayList<>();
-  private int noFulfilments = 0;
+  private List<RateLimiterClientRequest> RateLimiterRequestList = new ArrayList<>();
+  private int noRequests = 0;
   private List<Boolean> passFail = new ArrayList<>();
+  private RateLimiterClientRequest rateLimiterClientRequest = new RateLimiterClientRequest();
 }
