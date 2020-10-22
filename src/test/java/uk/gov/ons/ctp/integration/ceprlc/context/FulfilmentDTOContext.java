@@ -20,5 +20,4 @@ public class FulfilmentDTOContext {
   private List<FulfilmentsRequestWrapperDTO> fulfilmentsList = new ArrayList<>();
   private int noFulfilments = 0;
   private List<Boolean> passFail = new ArrayList<>();
-
 }

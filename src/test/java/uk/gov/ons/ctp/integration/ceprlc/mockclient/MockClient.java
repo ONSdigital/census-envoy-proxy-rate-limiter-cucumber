@@ -37,15 +37,15 @@ public class MockClient {
 
   private List<String> getKeys(FulfilmentsRequestWrapperDTO f) {
     List<String> keyList = new ArrayList<>();
-    StringBuilder keyBuff = new StringBuilder(
-        f.getFulfilmentsRequestDTO().getProductGroup().name().toUpperCase())
-        .append("-")
-        .append(Boolean.valueOf(f.isIndvidual()).toString().toUpperCase())
-        .append("-")
-        .append(f.getFulfilmentsRequestDTO().getDeliveryChannel().name().toUpperCase())
-        .append("-")
-        .append(f.getFulfilmentsRequestDTO().getCaseType().name().toUpperCase())
-        .append("-");
+    StringBuilder keyBuff =
+        new StringBuilder(f.getFulfilmentsRequestDTO().getProductGroup().name().toUpperCase())
+            .append("-")
+            .append(Boolean.valueOf(f.isIndvidual()).toString().toUpperCase())
+            .append("-")
+            .append(f.getFulfilmentsRequestDTO().getDeliveryChannel().name().toUpperCase())
+            .append("-")
+            .append(f.getFulfilmentsRequestDTO().getCaseType().name().toUpperCase())
+            .append("-");
     if (f.getUprn() != null) {
       keyList.add(keyBuff.toString() + "UPRN");
     }
@@ -124,7 +124,6 @@ public class MockClient {
     }
   }
 
-
   @PostConstruct
   private void setupAllowances() {
 
@@ -159,7 +158,6 @@ public class MockClient {
     allowanceMap.put("QUESTIONNAIRE-TRUE-POST-CE-UPRN", 50);
     allowanceMap.put("CONTINUATION-FALSE-POST-HH-UPRN", 1);
     allowanceMap.put("CONTINUATION-FALSE-POST-SPG-UPRN", 1);
-
   }
 
   @PostConstruct
@@ -202,16 +200,19 @@ public class MockClient {
   }
 
   public void waitHours(final int hours) {
-    postingsTimeMap.forEach( (key1, value1) -> {
-      value1.forEach( (key2, value2) -> {
-        final List<Long> updatedTimeList = new ArrayList<>();
-        value2.forEach( timeValue -> {
-          final Date transactionDate = new Date(timeValue);
-          final Date minusHours = DateUtils.addHours(transactionDate, (hours* -1));
-          updatedTimeList.add(minusHours.getTime());
+    postingsTimeMap.forEach(
+        (key1, value1) -> {
+          value1.forEach(
+              (key2, value2) -> {
+                final List<Long> updatedTimeList = new ArrayList<>();
+                value2.forEach(
+                    timeValue -> {
+                      final Date transactionDate = new Date(timeValue);
+                      final Date minusHours = DateUtils.addHours(transactionDate, (hours * -1));
+                      updatedTimeList.add(minusHours.getTime());
+                    });
+                value1.put(key2, updatedTimeList);
+              });
         });
-        value1.put(key2,updatedTimeList);
-      });
-    });
   }
 }

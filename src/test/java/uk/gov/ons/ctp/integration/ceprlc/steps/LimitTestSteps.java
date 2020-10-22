@@ -1,9 +1,13 @@
 package uk.gov.ons.ctp.integration.ceprlc.steps;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.integration.ceprlc.context.FulfilmentDTOContext;
@@ -12,17 +16,12 @@ import uk.gov.ons.ctp.integration.ceprlc.mockclient.MockClient;
 import uk.gov.ons.ctp.integration.contactcentresvc.representation.DeliveryChannel;
 import uk.gov.ons.ctp.integration.contactcentresvc.representation.FulfilmentsRequestDTO;
 import uk.gov.ons.ctp.integration.contactcentresvc.representation.ProductGroup;
-import org.apache.commons.lang3.mutable.MutableInt;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 public class LimitTestSteps {
 
-  @Autowired
-  private FulfilmentDTOContext fulfilmentDTOContext;
+  @Autowired private FulfilmentDTOContext fulfilmentDTOContext;
 
-  @Autowired
-  private MockClient mockClient;
+  @Autowired private MockClient mockClient;
 
   @Given(
       "I have {int} fulfilment requests of product group {string} delivery channel {string} access code {string} individual is {string} uprn {string}")
@@ -34,13 +33,13 @@ public class LimitTestSteps {
       final String individualStr,
       final String uprnStr) {
 
-    final FulfilmentsRequestDTO fulfilmentsRequestDTO = getFulfilmentsRequestDTO(productGroup, deliveryChannel, accessCode, individualStr);
+    final FulfilmentsRequestDTO fulfilmentsRequestDTO =
+        getFulfilmentsRequestDTO(productGroup, deliveryChannel, accessCode, individualStr);
     FulfilmentsRequestWrapperDTO f = new FulfilmentsRequestWrapperDTO();
     f.setFulfilmentsRequestDTO(fulfilmentsRequestDTO);
     f.setUprn(uprnStr);
 
-
-    for (int i=0; i < noFulfilments; i++) {
+    for (int i = 0; i < noFulfilments; i++) {
       fulfilmentDTOContext.getFulfilmentsList().add(f);
     }
   }
@@ -51,8 +50,7 @@ public class LimitTestSteps {
       try {
         mockClient.postFulfilment(f);
         fulfilmentDTOContext.getPassFail().add(true);
-      }
-      catch (Exception ex) {
+      } catch (Exception ex) {
         fulfilmentDTOContext.getPassFail().add(false);
       }
     }
@@ -63,15 +61,17 @@ public class LimitTestSteps {
 
     System.out.println(fulfilmentDTOContext.getPassFail());
     final MutableInt count = new MutableInt();
-    fulfilmentDTOContext.getPassFail().forEach( passfail -> {
-      count.increment();
-      if (count.getValue() > successes) {
-        assertFalse(passfail);
-      }
-      else {
-        assertTrue(passfail);
-      }
-    });
+    fulfilmentDTOContext
+        .getPassFail()
+        .forEach(
+            passfail -> {
+              count.increment();
+              if (count.getValue() > successes) {
+                assertFalse(passfail);
+              } else {
+                assertTrue(passfail);
+              }
+            });
   }
 
   private FulfilmentsRequestDTO getFulfilmentsRequestDTO(
