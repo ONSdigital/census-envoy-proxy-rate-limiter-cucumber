@@ -51,7 +51,7 @@ public class MockClient {
     if (request.getIpAddress() != null) {
       keyList.add(keyBuff.toString() + "IP");
     }
-    if (request.getTelNo().isPresent()) {
+    if (request.getTelNo() != null) {
       keyList.add(keyBuff.toString() + "TELNO");
     }
     return keyList;
@@ -75,7 +75,7 @@ public class MockClient {
         postingsList = postedMap.get(f.getIpAddress());
       }
       if (keyType.equals("TELNO")) {
-        postingsList = postedMap.get(f.getTelNo().isPresent() ? f.getTelNo().get() : null);
+        postingsList = postedMap.get(f.getTelNo());
       }
       if (postingsList == null) {
         continue;
@@ -97,7 +97,6 @@ public class MockClient {
   }
 
   private void postRequest(List<String> requestKeyList, final RateLimiterClientRequest request) {
-
     for (String requestKey : requestKeyList) {
       Map<String, List<Long>> postedMap = postingsTimeMap.get(requestKey);
       if (postedMap == null) {
@@ -113,7 +112,7 @@ public class MockClient {
         postingsListKey = request.getIpAddress();
       }
       if (keyType.equals("TELNO")) {
-        postingsListKey = request.getTelNo().isPresent() ? request.getTelNo().get() : null;
+        postingsListKey = request.getTelNo();
       }
       postedMap.computeIfAbsent(postingsListKey, k -> new ArrayList<>());
       final Date now = new Date(System.currentTimeMillis());
@@ -124,7 +123,6 @@ public class MockClient {
 
   @PostConstruct
   private void setupAllowances() {
-
     allowanceMap.put("UAC-FALSE-SMS-HH-UPRN", 5);
     allowanceMap.put("UAC-FALSE-SMS-SPG-UPRN", 5);
     allowanceMap.put("UAC-FALSE-SMS-CE-UPRN", 5);

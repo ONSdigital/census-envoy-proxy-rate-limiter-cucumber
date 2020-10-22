@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import uk.gov.ons.ctp.common.rest.RestClient;
-import uk.gov.ons.ctp.integration.ceprlc.context.CucTestContext;
 import uk.gov.ons.ctp.integration.ceprlc.context.RateLimiterClientRequestContext;
 import uk.gov.ons.ctp.integration.ceprlc.mockclient.MockClient;
 import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient;
@@ -16,7 +15,6 @@ import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient;
 @ContextConfiguration(
     classes = {
       SpringIntegrationTest.class,
-      CucTestContext.class,
       RateLimiterClientRequestContext.class,
       RateLimiterClient.class,
       MockClient.class

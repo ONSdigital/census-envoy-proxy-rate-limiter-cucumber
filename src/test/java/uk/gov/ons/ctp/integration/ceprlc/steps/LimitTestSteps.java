@@ -1,5 +1,6 @@
 package uk.gov.ons.ctp.integration.ceprlc.steps;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -8,6 +9,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.ons.ctp.common.domain.CaseType;
@@ -17,7 +20,6 @@ import uk.gov.ons.ctp.integration.ceprlc.context.RateLimiterClientRequestContext
 import uk.gov.ons.ctp.integration.ceprlc.mockclient.MockClient;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
 import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient;
-import uk.gov.ons.ctp.integration.ratelimiter.model.RateLimitResponse;
 
 public class LimitTestSteps {
 
@@ -48,23 +50,29 @@ public class LimitTestSteps {
 
   @When("I post the fulfilments to the envoy poxy client")
   public void iPostTheFulfilmentsToTheEnvoyPoxyClient() {
+    final List<Boolean> passFailList = rateLimiterClientRequestContext.getPassFail();
     for (RateLimiterClientRequest r : rateLimiterClientRequestContext.getRateLimiterRequestList()) {
       if (rateLimiterClientRequestContext.getUseStubClient()) {
         try {
-          mockClient.postRequest(r);
-          rateLimiterClientRequestContext.getPassFail().add(true);
+          int status = mockClient.postRequest(r);
+          if (status == 200) {
+            passFailList.add(true);
+          } else {
+            passFailList.add(false);
+          }
         } catch (Exception ex) {
-          rateLimiterClientRequestContext.getPassFail().add(false);
+          passFailList.add(false);
         }
       } else {
-        RateLimitResponse response =
-            rateLimiterClient.checkRateLimit(
-                r.getDomain(),
-                r.getProduct(),
-                r.getCaseType(),
-                r.getIpAddress(),
-                r.getUprn(),
-                r.getTelNo());
+        // RateLimitResponse response =
+        rateLimiterClient.checkRateLimit(
+            r.getDomain(),
+            r.getProduct(),
+            r.getCaseType(),
+            r.getIpAddress(),
+            r.getUprn(),
+            Optional.ofNullable(r.getTelNo()));
+        // TODO add code here to interrogate response
       }
     }
   }
@@ -73,6 +81,8 @@ public class LimitTestSteps {
   public void iExpectTheFirstArgCallsToSucceedAndArgCallsToFail(int successes, int failures) {
 
     final MutableInt count = new MutableInt();
+    final MutableInt actualSuccesses = new MutableInt();
+    final MutableInt actualFailures = new MutableInt();
 
     if (rateLimiterClientRequestContext.getUseStubClient()) {
       rateLimiterClientRequestContext
@@ -82,13 +92,20 @@ public class LimitTestSteps {
                 count.increment();
                 if (count.getValue() > successes) {
                   assertFalse(passfail);
+                  actualFailures.increment();
                 } else {
                   assertTrue(passfail);
+                  actualSuccesses.increment();
                 }
               });
     } else {
       assertTrue(true);
     }
+
+    int actSuccesses = actualSuccesses.getValue();
+    assertEquals("Actual No Successes should be " + successes, successes, actSuccesses);
+    int actFailures = actualFailures.getValue();
+    assertEquals("Actual No Failures should be " + failures, failures, actFailures);
   }
 
   private RateLimiterClientRequest getRateLimiterClientRequest(

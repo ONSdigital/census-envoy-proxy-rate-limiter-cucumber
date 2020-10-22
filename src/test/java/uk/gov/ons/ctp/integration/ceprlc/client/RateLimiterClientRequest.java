@@ -1,6 +1,5 @@
 package uk.gov.ons.ctp.integration.ceprlc.client;
 
-import java.util.Optional;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uk.gov.ons.ctp.common.domain.CaseType;
@@ -18,5 +17,5 @@ public class RateLimiterClientRequest {
   private CaseType caseType;
   private String ipAddress;
   private UniquePropertyReferenceNumber uprn;
-  private Optional<String> telNo = Optional.empty();
+  private String telNo;
 }
