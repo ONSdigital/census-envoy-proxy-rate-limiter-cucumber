@@ -8,11 +8,15 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import uk.gov.ons.ctp.integration.ceprlc.context.CucTestContext;
+import uk.gov.ons.ctp.integration.ceprlc.context.FulfilmentDTOContext;
+import uk.gov.ons.ctp.integration.ceprlc.mockclient.MockClient;
 
 @ContextConfiguration(
     classes = {
       SpringIntegrationTest.class,
       CucTestContext.class,
+      FulfilmentDTOContext.class,
+      MockClient.class
     },
     loader = SpringBootContextLoader.class,
     initializers = ConfigFileApplicationContextInitializer.class)

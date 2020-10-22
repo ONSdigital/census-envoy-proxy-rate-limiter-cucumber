@@ -16,3 +16,5 @@ logging:
   profile: DEV
   useJson: false
 
+mock-client: ${USE-MOCK-CLIENT:false}
+
