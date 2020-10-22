@@ -18,3 +18,7 @@ logging:
 
 mock-client: ${USE-MOCK-CLIENT:false}
 
+envoy:
+  host: ${ENVOY_HOST}
+  port: 80
+  scheme: ${ENVOY_SCHEME}
