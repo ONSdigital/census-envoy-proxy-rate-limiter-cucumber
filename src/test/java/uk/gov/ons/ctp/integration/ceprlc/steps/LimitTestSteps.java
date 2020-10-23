@@ -4,17 +4,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.godaddy.logging.Logger;
+import com.godaddy.logging.LoggerFactory;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.server.ResponseStatusException;
 import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
+import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.integration.ceprlc.client.RateLimiterClientRequest;
 import uk.gov.ons.ctp.integration.ceprlc.context.RateLimiterClientRequestContext;
 import uk.gov.ons.ctp.integration.ceprlc.mockclient.MockClient;
@@ -22,6 +25,8 @@ import uk.gov.ons.ctp.integration.common.product.model.Product;
 import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient;
 
 public class LimitTestSteps {
+
+  private static final Logger log = LoggerFactory.getLogger(LimitTestSteps.class);
 
   @Autowired private RateLimiterClientRequestContext rateLimiterClientRequestContext;
 
@@ -64,48 +69,66 @@ public class LimitTestSteps {
           passFailList.add(false);
         }
       } else {
-        // RateLimitResponse response =
-        rateLimiterClient.checkRateLimit(
-            r.getDomain(),
-            r.getProduct(),
-            r.getCaseType(),
-            r.getIpAddress(),
-            r.getUprn(),
-            Optional.ofNullable(r.getTelNo()));
-        // TODO add code here to interrogate response
+        try {
+          rateLimiterClient.checkRateLimit(
+              r.getDomain(),
+              r.getProduct(),
+              r.getCaseType(),
+              r.getIpAddress(),
+              r.getUprn(),
+              r.getTelNo());
+          passFailList.add(true);
+
+        } catch (CTPException ex) {
+          log.error(ex, "Rate Limiter has blown: " + r.toString());
+          throw new RuntimeException("Rate Limiter has blown for request: " + r.toString(), ex);
+        } catch (ResponseStatusException rsex) {
+          if (rsex.getStatus() == org.springframework.http.HttpStatus.TOO_MANY_REQUESTS) {
+            passFailList.add(false);
+          } else {
+            throw new RuntimeException("Invalid status thrown for request: " + r.toString(), rsex);
+          }
+        }
       }
     }
   }
 
   @Then("I expect the first {int} calls to succeed and {int} calls to fail")
-  public void iExpectTheFirstArgCallsToSucceedAndArgCallsToFail(int successes, int failures) {
+  public void iExpectTheFirstArgCallsToSucceedAndArgCallsToFail(
+      int expectedSuccesses, int expectedFailures) {
 
     final MutableInt count = new MutableInt();
     final MutableInt actualSuccesses = new MutableInt();
     final MutableInt actualFailures = new MutableInt();
 
-    if (rateLimiterClientRequestContext.getUseStubClient()) {
-      rateLimiterClientRequestContext
-          .getPassFail()
-          .forEach(
-              passfail -> {
-                count.increment();
-                if (count.getValue() > successes) {
-                  assertFalse(passfail);
-                  actualFailures.increment();
-                } else {
-                  assertTrue(passfail);
-                  actualSuccesses.increment();
-                }
-              });
-    } else {
-      assertTrue(true);
+    if (!rateLimiterClientRequestContext.getUseStubClient()
+        && rateLimiterClientRequestContext.getHoursSetForward() > 0) {
+      // we can't set the real limiter back at the moment, so if we have set the clock forward then
+      // we have to expect all failures
+      expectedFailures += expectedSuccesses;
+      expectedSuccesses = 0;
     }
 
+    final int mExpectedSuccesses = expectedSuccesses;
+    rateLimiterClientRequestContext
+        .getPassFail()
+        .forEach(
+            passfail -> {
+              count.increment();
+              if (count.getValue() > mExpectedSuccesses) {
+                assertFalse(passfail);
+                actualFailures.increment();
+              } else {
+                assertTrue(passfail);
+                actualSuccesses.increment();
+              }
+            });
+
     int actSuccesses = actualSuccesses.getValue();
-    assertEquals("Actual No Successes should be " + successes, successes, actSuccesses);
+    assertEquals(
+        "Actual No Successes should be " + expectedSuccesses, expectedSuccesses, actSuccesses);
     int actFailures = actualFailures.getValue();
-    assertEquals("Actual No Failures should be " + failures, failures, actFailures);
+    assertEquals("Actual No Failures should be " + expectedFailures, expectedFailures, actFailures);
   }
 
   private RateLimiterClientRequest getRateLimiterClientRequest(

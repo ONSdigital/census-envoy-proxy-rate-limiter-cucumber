@@ -31,4 +31,5 @@ public class RateLimiterClientRequestContext {
   private int noRequests = 0;
   private List<Boolean> passFail = new ArrayList<>();
   private RateLimiterClientRequest rateLimiterClientRequest = new RateLimiterClientRequest();
+  private int hoursSetForward = 0;
 }

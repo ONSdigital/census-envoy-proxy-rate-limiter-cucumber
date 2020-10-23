@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import uk.gov.ons.ctp.common.error.CTPException;
-import uk.gov.ons.ctp.common.error.CTPException.Fault;
+import org.springframework.web.server.ResponseStatusException;
 import uk.gov.ons.ctp.integration.ceprlc.client.RateLimiterClientRequest;
 
 @Data
@@ -24,11 +23,11 @@ public class MockClient {
   private Map<String, Map<String, List<Long>>> postingsTimeMap = new HashMap<>();
 
   public int postRequest(final RateLimiterClientRequest rateLimiterClientRequest)
-      throws CTPException {
+      throws ResponseStatusException {
 
     List<String> requestKeyList = getKeys(rateLimiterClientRequest);
     if (!isValidateRequest(requestKeyList, rateLimiterClientRequest)) {
-      throw new CTPException(Fault.BAD_REQUEST);
+      throw new ResponseStatusException(org.springframework.http.HttpStatus.TOO_MANY_REQUESTS);
     }
     postRequest(requestKeyList, rateLimiterClientRequest);
     return HttpStatus.SC_OK;

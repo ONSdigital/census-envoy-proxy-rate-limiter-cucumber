@@ -18,4 +18,8 @@ public class RateLimiterClientRequest {
   private String ipAddress;
   private UniquePropertyReferenceNumber uprn;
   private String telNo;
+
+  public String toString() {
+    return String.format(product.toString(), caseType, ipAddress, uprn, telNo);
+  }
 }
