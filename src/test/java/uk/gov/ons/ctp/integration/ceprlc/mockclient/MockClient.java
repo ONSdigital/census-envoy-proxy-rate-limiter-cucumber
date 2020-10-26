@@ -44,7 +44,7 @@ public class MockClient {
             .append("-")
             .append(request.getCaseType().name().toUpperCase())
             .append("-");
-    if (request.getUprn() != null) {
+    if (request.getUprn() != null && request.getUprn().getValue() != 0) {
       keyList.add(keyBuff.toString() + "UPRN");
     }
     if (request.getIpAddress() != null) {
@@ -151,8 +151,8 @@ public class MockClient {
     allowanceMap.put("QUESTIONNAIRE-TRUE-POST-HH-UPRN", 5);
     allowanceMap.put("QUESTIONNAIRE-TRUE-POST-SPG-UPRN", 5);
     allowanceMap.put("QUESTIONNAIRE-TRUE-POST-CE-UPRN", 50);
-    allowanceMap.put("CONTINUATION-FALSE-POST-HH-UPRN", 1);
-    allowanceMap.put("CONTINUATION-FALSE-POST-SPG-UPRN", 1);
+    allowanceMap.put("CONTINUATION-FALSE-POST-HH-UPRN", 12);
+    allowanceMap.put("CONTINUATION-FALSE-POST-SPG-UPRN", 12);
   }
 
   @PostConstruct

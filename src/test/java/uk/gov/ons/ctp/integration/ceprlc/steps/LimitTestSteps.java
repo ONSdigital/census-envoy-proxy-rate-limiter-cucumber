@@ -46,7 +46,45 @@ public class LimitTestSteps {
 
     final RateLimiterClientRequest rateLimiterClientRequest =
         getRateLimiterClientRequest(
-            productGroup, deliveryChannel, accessCode, individualStr, uprnStr);
+            productGroup, deliveryChannel, accessCode, individualStr, uprnStr, null, null);
+
+    for (int i = 0; i < noRequests; i++) {
+      rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
+    }
+  }
+
+  @Given(
+      "I have {int} fulfilment requests of product group {string} delivery channel {string} access code {string} individual is {string} telephone {string}")
+  public void iHaveFulfilmentRequestsOfProductGroupDeliveryChannelAccessCodeIndividualIsTelephone(
+      final int noRequests,
+      final String productGroup,
+      final String deliveryChannel,
+      final String accessCode,
+      final String individualStr,
+      final String telephone) {
+
+    final RateLimiterClientRequest rateLimiterClientRequest =
+        getRateLimiterClientRequest(
+            productGroup, deliveryChannel, accessCode, individualStr, null, telephone, null);
+
+    for (int i = 0; i < noRequests; i++) {
+      rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
+    }
+  }
+
+  @Given(
+      "I have {int} fulfilment requests of product group {string} delivery channel {string} access code {string} individual is {string} ip {string}")
+  public void iHaveFulfilmentRequestsOfProductGroupDeliveryChannelAccessCodeIndividualIsIP(
+      final int noRequests,
+      final String productGroup,
+      final String deliveryChannel,
+      final String accessCode,
+      final String individualStr,
+      final String ipAddress) {
+
+    final RateLimiterClientRequest rateLimiterClientRequest =
+        getRateLimiterClientRequest(
+            productGroup, deliveryChannel, accessCode, individualStr, null, null, ipAddress);
 
     for (int i = 0; i < noRequests; i++) {
       rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
@@ -136,7 +174,9 @@ public class LimitTestSteps {
       String deliveryChannel,
       String accessCode,
       String individualStr,
-      String uprnStr) {
+      String uprnStr,
+      String telNo,
+      String ipAddress) {
     final RateLimiterClientRequest request = new RateLimiterClientRequest();
     Product.CaseType caseType = Product.CaseType.valueOf(accessCode);
     Product product =
@@ -150,6 +190,8 @@ public class LimitTestSteps {
     request.setProduct(product);
     UniquePropertyReferenceNumber uprn = UniquePropertyReferenceNumber.create(uprnStr);
     request.setUprn(uprn);
+    request.setTelNo(telNo);
+    request.setIpAddress(ipAddress);
     return request;
   }
 
