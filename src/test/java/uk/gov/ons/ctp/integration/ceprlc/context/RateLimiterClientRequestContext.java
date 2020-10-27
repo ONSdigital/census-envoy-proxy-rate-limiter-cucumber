@@ -18,15 +18,6 @@ public class RateLimiterClientRequestContext {
   @Value("${mock-client}")
   private Boolean useStubClient;
 
-  @Value("${envoy.host}")
-  private String envoyHost;
-
-  @Value("${envoy.port}")
-  private String envoyPort;
-
-  @Value("${envoy.scheme}")
-  private String envoyScheme;
-
   private List<RateLimiterClientRequest> RateLimiterRequestList = new ArrayList<>();
   private int noRequests = 0;
   private List<Boolean> passFail = new ArrayList<>();

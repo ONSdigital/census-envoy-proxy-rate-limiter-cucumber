@@ -1,6 +1,5 @@
 package uk.gov.ons.ctp.integration.ceprlc.context;
 
-import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +7,6 @@ import javax.annotation.PostConstruct;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import uk.gov.ons.ctp.common.rest.RestClient;
@@ -33,12 +31,12 @@ public class RateLimiterClientProvider {
 
   @PostConstruct
   public void setupRateLimiterClient() {
-    RestClientConfig restClientConfig = new RestClientConfig(envoyScheme, envoyHost, envoyPort, "", "");
+    RestClientConfig restClientConfig =
+        new RestClientConfig(envoyScheme, envoyHost, envoyPort, "", "");
     Map<HttpStatus, HttpStatus> httpErrorMapping = new HashMap<>();
     httpErrorMapping.put(HttpStatus.TOO_MANY_REQUESTS, HttpStatus.TOO_MANY_REQUESTS);
     final RestClient restClient =
         new RestClient(restClientConfig, httpErrorMapping, HttpStatus.INTERNAL_SERVER_ERROR);
-    rateLimiterClient  = new RateLimiterClient(restClient);
+    rateLimiterClient = new RateLimiterClient(restClient);
   }
-
 }
