@@ -59,6 +59,9 @@ public class MockClient {
   private boolean isValidateRequest(List<String> requestKeyList, RateLimiterClientRequest f) {
     boolean isValidRequest = true;
     for (String requestKey : requestKeyList) {
+      if (!allowanceMap.containsKey(requestKey)) {
+        continue; // not in scope so is valid....
+      }
       final int noRequestAllowed = allowanceMap.get(requestKey);
       Map<String, List<Long>> postedMap = postingsTimeMap.get(requestKey);
       if (postedMap == null) {

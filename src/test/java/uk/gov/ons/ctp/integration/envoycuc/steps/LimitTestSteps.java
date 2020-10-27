@@ -11,6 +11,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +45,10 @@ public class LimitTestSteps {
       final String individualStr,
       final String uprnStr) {
 
-    final RateLimiterClientRequest rateLimiterClientRequest =
-        getRateLimiterClientRequest(
-            productGroup, deliveryChannel, accessCode, individualStr, uprnStr, null, null);
-
     for (int i = 0; i < noRequests; i++) {
+      final RateLimiterClientRequest rateLimiterClientRequest =
+          getRateLimiterClientRequest(
+              productGroup, deliveryChannel, accessCode, individualStr, uprnStr, getUniqueValue(), getUniqueValue());
       rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
     }
   }
@@ -63,11 +63,10 @@ public class LimitTestSteps {
       final String individualStr,
       final String telephone) {
 
-    final RateLimiterClientRequest rateLimiterClientRequest =
-        getRateLimiterClientRequest(
-            productGroup, deliveryChannel, accessCode, individualStr, null, telephone, null);
-
     for (int i = 0; i < noRequests; i++) {
+      final RateLimiterClientRequest rateLimiterClientRequest =
+          getRateLimiterClientRequest(
+              productGroup, deliveryChannel, accessCode, individualStr, getUniqueValue(), telephone, getUniqueValue());
       rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
     }
   }
@@ -82,11 +81,10 @@ public class LimitTestSteps {
       final String individualStr,
       final String ipAddress) {
 
-    final RateLimiterClientRequest rateLimiterClientRequest =
-        getRateLimiterClientRequest(
-            productGroup, deliveryChannel, accessCode, individualStr, null, null, ipAddress);
-
     for (int i = 0; i < noRequests; i++) {
+      final RateLimiterClientRequest rateLimiterClientRequest =
+          getRateLimiterClientRequest(
+              productGroup, deliveryChannel, accessCode, individualStr, getUniqueValue(), getUniqueValue(), ipAddress);
       rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
     }
   }
@@ -95,16 +93,16 @@ public class LimitTestSteps {
   public void iPostTheFulfilmentsToTheEnvoyPoxyClient() {
     final List<Boolean> passFailList = rateLimiterClientRequestContext.getPassFail();
     for (RateLimiterClientRequest r : rateLimiterClientRequestContext.getRateLimiterRequestList()) {
+      boolean isPass = true;
       if (rateLimiterClientRequestContext.getUseStubClient()) {
         try {
           int status = mockClient.postRequest(r);
           if (status == 200) {
-            passFailList.add(true);
           } else {
-            passFailList.add(false);
+            isPass = false;
           }
         } catch (Exception ex) {
-          passFailList.add(false);
+          isPass = false;
         }
       } else {
         try {
@@ -117,14 +115,12 @@ public class LimitTestSteps {
                   r.getIpAddress(),
                   r.getUprn(),
                   r.getTelNo());
-          passFailList.add(true);
-
         } catch (CTPException ex) {
           log.error(ex, "Rate Limiter has blown: " + r.toString());
           throw new RuntimeException("Rate Limiter has blown for request: " + r.toString(), ex);
         } catch (ResponseStatusException rsex) {
           if (rsex.getStatus() == org.springframework.http.HttpStatus.TOO_MANY_REQUESTS) {
-            passFailList.add(false);
+            isPass = false;
           } else {
             throw new RuntimeException("Invalid status thrown for request: " + r.toString(), rsex);
           }
@@ -133,7 +129,9 @@ public class LimitTestSteps {
           throw new RuntimeException("Rate Limiter has blown for request: " + r.toString(), ex);
         }
       }
+      passFailList.add(isPass);
     }
+    int andy = 0;
   }
 
   @Then("I expect the first {int} calls to succeed and {int} calls to fail")
@@ -205,5 +203,9 @@ public class LimitTestSteps {
     if (rateLimiterClientRequestContext.getUseStubClient()) {
       mockClient.waitHours(1);
     }
+  }
+
+  private String getUniqueValue() {
+    return rateLimiterClientRequestContext.getUniqueValueAsString();
   }
 }
