@@ -8,5 +8,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
     plugin = {"pretty", "html:target/cucumber"},
     features = {"src/test/resources/features/limiter-test.feature"},
-    glue = {"uk.gov.ons.ctp.integration.envoycuc.steps", "uk.gov.ons.ctp.integration.envoycuc.main"})
+    glue = {
+      "uk.gov.ons.ctp.integration.envoycuc.steps",
+      "uk.gov.ons.ctp.integration.envoycuc.main"
+    })
 public class RunLimiterTest {}

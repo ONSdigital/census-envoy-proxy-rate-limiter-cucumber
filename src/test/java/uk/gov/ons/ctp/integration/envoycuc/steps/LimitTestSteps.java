@@ -18,11 +18,11 @@ import org.springframework.web.server.ResponseStatusException;
 import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.common.error.CTPException;
+import uk.gov.ons.ctp.integration.common.product.model.Product;
 import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientRequest;
 import uk.gov.ons.ctp.integration.envoycuc.context.RateLimiterClientProvider;
 import uk.gov.ons.ctp.integration.envoycuc.context.RateLimiterClientRequestContext;
 import uk.gov.ons.ctp.integration.envoycuc.mockclient.MockClient;
-import uk.gov.ons.ctp.integration.common.product.model.Product;
 
 public class LimitTestSteps {
 
