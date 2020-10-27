@@ -9,9 +9,9 @@ RUN groupadd -g 985 rhsvc && \
 
 ENV M2_HOME=/home/rhsvc/.m2
 RUN mkdir -p /home/rhsvc/.m2/repository
-COPY . /home/rhsvc/census-ceprl-cucumber
-RUN chown -R rhsvc:rhsvc /home/rhsvc/census-ceprl-cucumber
+COPY . /home/rhsvc/census-envoy-cucumber
+RUN chown -R rhsvc:rhsvc /home/rhsvc/census-envoy-cucumber
 COPY .maven.settings.xml /home/rhsvc/.m2/settings.xml
-WORKDIR /home/rhsvc/census-ceprl-cucumber
+WORKDIR /home/rhsvc/census-envoy-cucumber
 USER rhsvc
 CMD [ "mvn", "verify", "-Dmaven.repo.local=m2/repository"]
