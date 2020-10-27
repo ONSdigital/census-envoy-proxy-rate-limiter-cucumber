@@ -11,7 +11,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +47,13 @@ public class LimitTestSteps {
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
           getRateLimiterClientRequest(
-              productGroup, deliveryChannel, accessCode, individualStr, uprnStr, getUniqueValue(), getUniqueValue());
+              productGroup,
+              deliveryChannel,
+              accessCode,
+              individualStr,
+              uprnStr,
+              getUniqueValue(),
+              getUniqueValue());
       rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
     }
   }
@@ -66,7 +71,13 @@ public class LimitTestSteps {
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
           getRateLimiterClientRequest(
-              productGroup, deliveryChannel, accessCode, individualStr, getUniqueValue(), telephone, getUniqueValue());
+              productGroup,
+              deliveryChannel,
+              accessCode,
+              individualStr,
+              getUniqueValue(),
+              telephone,
+              getUniqueValue());
       rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
     }
   }
@@ -84,7 +95,13 @@ public class LimitTestSteps {
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
           getRateLimiterClientRequest(
-              productGroup, deliveryChannel, accessCode, individualStr, getUniqueValue(), getUniqueValue(), ipAddress);
+              productGroup,
+              deliveryChannel,
+              accessCode,
+              individualStr,
+              getUniqueValue(),
+              getUniqueValue(),
+              ipAddress);
       rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
     }
   }

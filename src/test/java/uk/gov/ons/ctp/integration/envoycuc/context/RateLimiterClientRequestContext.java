@@ -29,9 +29,9 @@ public class RateLimiterClientRequestContext {
 
   @PostConstruct
   private void createUniqueValue() {
-      final Date now = new Date(System.currentTimeMillis());
-      uniqueValue = now.getTime();
-    }
+    final Date now = new Date(System.currentTimeMillis());
+    uniqueValue = now.getTime();
+  }
 
   public String getUniqueValueAsString() {
     uniqueValue++;
