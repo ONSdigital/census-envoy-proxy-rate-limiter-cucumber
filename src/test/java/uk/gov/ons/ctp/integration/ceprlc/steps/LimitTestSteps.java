@@ -19,6 +19,7 @@ import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.integration.ceprlc.client.RateLimiterClientRequest;
+import uk.gov.ons.ctp.integration.ceprlc.context.RateLimiterClientProvider;
 import uk.gov.ons.ctp.integration.ceprlc.context.RateLimiterClientRequestContext;
 import uk.gov.ons.ctp.integration.ceprlc.mockclient.MockClient;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
@@ -32,7 +33,7 @@ public class LimitTestSteps {
 
   @Autowired private MockClient mockClient;
 
-  @Autowired private RateLimiterClient rateLimiterClient;
+  @Autowired private RateLimiterClientProvider rateLimiterClientprovider;
 
   @Given(
       "I have {int} fulfilment requests of product group {string} delivery channel {string} access code {string} individual is {string} uprn {string}")
@@ -108,7 +109,7 @@ public class LimitTestSteps {
         }
       } else {
         try {
-          rateLimiterClient.checkRateLimit(
+          rateLimiterClientprovider.getRateLimiterClient().checkRateLimit(
               r.getDomain(),
               r.getProduct(),
               r.getCaseType(),
@@ -127,6 +128,10 @@ public class LimitTestSteps {
             throw new RuntimeException("Invalid status thrown for request: " + r.toString(), rsex);
           }
         }
+       catch (Exception ex) {
+        log.error(ex, "Rate Limiter : " + r.toString());
+        throw new RuntimeException("Rate Limiter has blown for request: " + r.toString(), ex);
+      }
       }
     }
   }

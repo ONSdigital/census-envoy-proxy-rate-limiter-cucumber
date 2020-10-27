@@ -5,11 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a10dfae-8759-4442-b91e-b03479acd833" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/LimitTestsPlusOneHour.feature" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/ceprlc/context/RateLimiterClientProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/ceprlc/mockclient/MockClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/ceprlc/mockclient/MockClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/ceprlc/client/RateLimiterClientRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/ceprlc/client/RateLimiterClientRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/ceprlc/main/SpringIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/ceprlc/main/SpringIntegrationTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/ceprlc/steps/LimitTestSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/ceprlc/steps/LimitTestSteps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/limiter-test.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/limiter-test.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +101,7 @@
     <configuration name="Feature: limiter-test" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
       <envs>
-        <env name="USE-MOCK-CLIENT" value="TRUE" />
+        <env name="USE-MOCK-CLIENT" value="true" />
       </envs>
       <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/limiter-test.feature" />
       <option name="GLUE" value="uk.gov.ons.ctp.integration.ceprlc.steps uk.gov.ons.ctp.integration.ceprlc.main" />
@@ -137,7 +139,7 @@
       <workItem from="1602670281569" duration="13647000" />
       <workItem from="1603049994567" duration="506000" />
       <workItem from="1603094178405" duration="10582000" />
-      <workItem from="1603186089194" duration="40689000" />
+      <workItem from="1603186089194" duration="49055000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1602604337619</created>
@@ -195,7 +197,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603452219465</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Added the remaining tests">
+      <created>1603714669401</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1603714669401</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,26 +219,27 @@
     <MESSAGE value="Added environment variables" />
     <MESSAGE value="cleanup code" />
     <MESSAGE value="Added hooks for Client Exceptions.&#10;Mirrored in my MockClient" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added hooks for Client Exceptions.&#10;Mirrored in my MockClient" />
+    <MESSAGE value="Added the remaining tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added the remaining tests" />
   </component>
   <component name="WindowStateProjectService">
     <state x="560" y="157" key="#Plugins" timestamp="1603186103716">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="560" y="157" key="#Plugins/0.23.1920.973@0.23.1920.973" timestamp="1603186103716" />
-    <state x="424" y="171" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603452318502">
+    <state x="424" y="171" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603801346884">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="424" y="171" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.973@0.23.1920.973" timestamp="1603452318502" />
-    <state x="424" y="171" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.975@0.23.1920.975" timestamp="1603279762775" />
+    <state x="424" y="171" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.973@0.23.1920.973" timestamp="1603801346884" />
+    <state x="424" y="171" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.975@0.23.1920.975" timestamp="1603800141076" />
     <state x="648" y="252" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1603185785818">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="648" y="252" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1920.973@0.23.1920.973" timestamp="1603185785818" />
-    <state x="404" y="43" key="CommitChangelistDialog2" timestamp="1603452218838">
+    <state x="404" y="43" key="CommitChangelistDialog2" timestamp="1603714668556">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="404" y="43" key="CommitChangelistDialog2/0.23.1920.973@0.23.1920.973" timestamp="1603452218838" />
+    <state x="404" y="43" key="CommitChangelistDialog2/0.23.1920.973@0.23.1920.973" timestamp="1603714668556" />
     <state x="397" y="65" key="CommitChangelistDialog2/0.23.1920.975@0.23.1920.975" timestamp="1603355825050" />
     <state width="437" height="466" key="DebuggerActiveHint" timestamp="1603271525798">
       <screen x="0" y="23" width="1920" height="975" />
@@ -239,46 +249,46 @@
       <screen x="0" y="23" width="1920" height="975" />
     </state>
     <state x="819" y="241" key="EnvironmentVariablesDialog/0.23.1920.975@0.23.1920.975" timestamp="1603279760820" />
-    <state width="1878" height="269" key="GridCell.Tab.0.bottom" timestamp="1603714162151">
-      <screen x="0" y="23" width="1920" height="973" />
+    <state width="1878" height="324" key="GridCell.Tab.0.bottom" timestamp="1603800061295">
+      <screen x="0" y="23" width="1920" height="975" />
     </state>
-    <state width="1878" height="269" key="GridCell.Tab.0.bottom/0.23.1920.973@0.23.1920.973" timestamp="1603714162151" />
-    <state width="1878" height="156" key="GridCell.Tab.0.bottom/0.23.1920.975@0.23.1920.975" timestamp="1603352859447" />
-    <state width="1878" height="269" key="GridCell.Tab.0.center" timestamp="1603714162149">
-      <screen x="0" y="23" width="1920" height="973" />
+    <state width="1878" height="269" key="GridCell.Tab.0.bottom/0.23.1920.973@0.23.1920.973" timestamp="1603797575381" />
+    <state width="1878" height="324" key="GridCell.Tab.0.bottom/0.23.1920.975@0.23.1920.975" timestamp="1603800061295" />
+    <state width="1878" height="324" key="GridCell.Tab.0.center" timestamp="1603800061294">
+      <screen x="0" y="23" width="1920" height="975" />
     </state>
-    <state width="1878" height="269" key="GridCell.Tab.0.center/0.23.1920.973@0.23.1920.973" timestamp="1603714162149" />
-    <state width="1878" height="156" key="GridCell.Tab.0.center/0.23.1920.975@0.23.1920.975" timestamp="1603352859446" />
-    <state width="1878" height="269" key="GridCell.Tab.0.left" timestamp="1603714162149">
-      <screen x="0" y="23" width="1920" height="973" />
+    <state width="1878" height="269" key="GridCell.Tab.0.center/0.23.1920.973@0.23.1920.973" timestamp="1603797575381" />
+    <state width="1878" height="324" key="GridCell.Tab.0.center/0.23.1920.975@0.23.1920.975" timestamp="1603800061294" />
+    <state width="1878" height="324" key="GridCell.Tab.0.left" timestamp="1603800061294">
+      <screen x="0" y="23" width="1920" height="975" />
     </state>
-    <state width="1878" height="269" key="GridCell.Tab.0.left/0.23.1920.973@0.23.1920.973" timestamp="1603714162149" />
-    <state width="1878" height="156" key="GridCell.Tab.0.left/0.23.1920.975@0.23.1920.975" timestamp="1603352859446" />
-    <state width="1878" height="269" key="GridCell.Tab.0.right" timestamp="1603714162150">
-      <screen x="0" y="23" width="1920" height="973" />
+    <state width="1878" height="269" key="GridCell.Tab.0.left/0.23.1920.973@0.23.1920.973" timestamp="1603797575380" />
+    <state width="1878" height="324" key="GridCell.Tab.0.left/0.23.1920.975@0.23.1920.975" timestamp="1603800061294" />
+    <state width="1878" height="324" key="GridCell.Tab.0.right" timestamp="1603800061294">
+      <screen x="0" y="23" width="1920" height="975" />
     </state>
-    <state width="1878" height="269" key="GridCell.Tab.0.right/0.23.1920.973@0.23.1920.973" timestamp="1603714162150" />
-    <state width="1878" height="156" key="GridCell.Tab.0.right/0.23.1920.975@0.23.1920.975" timestamp="1603352859446" />
-    <state width="1878" height="324" key="GridCell.Tab.1.bottom" timestamp="1603714062192">
-      <screen x="0" y="23" width="1920" height="973" />
+    <state width="1878" height="269" key="GridCell.Tab.0.right/0.23.1920.973@0.23.1920.973" timestamp="1603797575381" />
+    <state width="1878" height="324" key="GridCell.Tab.0.right/0.23.1920.975@0.23.1920.975" timestamp="1603800061294" />
+    <state width="1878" height="324" key="GridCell.Tab.1.bottom" timestamp="1603800061296">
+      <screen x="0" y="23" width="1920" height="975" />
     </state>
     <state width="1878" height="324" key="GridCell.Tab.1.bottom/0.23.1920.973@0.23.1920.973" timestamp="1603714062192" />
-    <state width="1878" height="324" key="GridCell.Tab.1.bottom/0.23.1920.975@0.23.1920.975" timestamp="1603277822213" />
-    <state width="1878" height="324" key="GridCell.Tab.1.center" timestamp="1603714062191">
-      <screen x="0" y="23" width="1920" height="973" />
+    <state width="1878" height="324" key="GridCell.Tab.1.bottom/0.23.1920.975@0.23.1920.975" timestamp="1603800061296" />
+    <state width="1878" height="324" key="GridCell.Tab.1.center" timestamp="1603800061295">
+      <screen x="0" y="23" width="1920" height="975" />
     </state>
     <state width="1878" height="324" key="GridCell.Tab.1.center/0.23.1920.973@0.23.1920.973" timestamp="1603714062191" />
-    <state width="1878" height="324" key="GridCell.Tab.1.center/0.23.1920.975@0.23.1920.975" timestamp="1603277822212" />
-    <state width="1878" height="324" key="GridCell.Tab.1.left" timestamp="1603714062190">
-      <screen x="0" y="23" width="1920" height="973" />
+    <state width="1878" height="324" key="GridCell.Tab.1.center/0.23.1920.975@0.23.1920.975" timestamp="1603800061295" />
+    <state width="1878" height="324" key="GridCell.Tab.1.left" timestamp="1603800061295">
+      <screen x="0" y="23" width="1920" height="975" />
     </state>
     <state width="1878" height="324" key="GridCell.Tab.1.left/0.23.1920.973@0.23.1920.973" timestamp="1603714062190" />
-    <state width="1878" height="324" key="GridCell.Tab.1.left/0.23.1920.975@0.23.1920.975" timestamp="1603277822212" />
-    <state width="1878" height="324" key="GridCell.Tab.1.right" timestamp="1603714062192">
-      <screen x="0" y="23" width="1920" height="973" />
+    <state width="1878" height="324" key="GridCell.Tab.1.left/0.23.1920.975@0.23.1920.975" timestamp="1603800061295" />
+    <state width="1878" height="324" key="GridCell.Tab.1.right" timestamp="1603800061296">
+      <screen x="0" y="23" width="1920" height="975" />
     </state>
     <state width="1878" height="324" key="GridCell.Tab.1.right/0.23.1920.973@0.23.1920.973" timestamp="1603714062192" />
-    <state width="1878" height="324" key="GridCell.Tab.1.right/0.23.1920.975@0.23.1920.975" timestamp="1603277822213" />
+    <state width="1878" height="324" key="GridCell.Tab.1.right/0.23.1920.975@0.23.1920.975" timestamp="1603800061296" />
     <state x="561" y="219" key="RollbackChangesDialog" timestamp="1602768199325">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
@@ -287,10 +297,10 @@
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="448" y="91" key="SettingsEditor/0.23.1920.973@0.23.1920.973" timestamp="1602600452786" />
-    <state x="560" y="249" key="Vcs.Push.Dialog.v2" timestamp="1603452221502">
+    <state x="560" y="249" key="Vcs.Push.Dialog.v2" timestamp="1603714673424">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1603452221502" />
+    <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1603714673424" />
     <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.975@0.23.1920.975" timestamp="1603355827519" />
     <state x="761" y="430" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603442372462">
       <screen x="0" y="23" width="1920" height="973" />

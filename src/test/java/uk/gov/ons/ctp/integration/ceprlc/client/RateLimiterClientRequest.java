@@ -12,7 +12,7 @@ import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient.Domain;
 @NoArgsConstructor
 public class RateLimiterClientRequest {
 
-  private RateLimiterClient.Domain domain = Domain.RHSvc;
+  private RateLimiterClient.Domain domain = Domain.RH;
   private Product product;
   private CaseType caseType;
   private String ipAddress;
