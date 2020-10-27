@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a10dfae-8759-4442-b91e-b03479acd833" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/ceprlc/context/RateLimiterClientRequestContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/ceprlc/context/RateLimiterClientRequestContext.java" afterDir="false" />
-    </list>
+    <list default="true" id="6a10dfae-8759-4442-b91e-b03479acd833" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -133,7 +131,7 @@
       <workItem from="1602670281569" duration="13647000" />
       <workItem from="1603049994567" duration="506000" />
       <workItem from="1603094178405" duration="10582000" />
-      <workItem from="1603186089194" duration="49407000" />
+      <workItem from="1603186089194" duration="50073000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1602604337619</created>
@@ -205,7 +203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603801450056</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="reformatted and removed unnecessary env vars">
+      <created>1603801772502</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1603801772502</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -222,7 +227,8 @@
     <MESSAGE value="Added hooks for Client Exceptions.&#10;Mirrored in my MockClient" />
     <MESSAGE value="Added the remaining tests" />
     <MESSAGE value="Created RateLimiterClientProvider - to provide the correct rest client using the env vars for the envoy limiter rest endpoint" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created RateLimiterClientProvider - to provide the correct rest client using the env vars for the envoy limiter rest endpoint" />
+    <MESSAGE value="reformatted and removed unnecessary env vars" />
+    <option name="LAST_COMMIT_MESSAGE" value="reformatted and removed unnecessary env vars" />
   </component>
   <component name="WindowStateProjectService">
     <state x="560" y="157" key="#Plugins" timestamp="1603186103716">
@@ -238,10 +244,10 @@
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="648" y="252" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1920.973@0.23.1920.973" timestamp="1603185785818" />
-    <state x="404" y="43" key="CommitChangelistDialog2" timestamp="1603801449246">
+    <state x="404" y="43" key="CommitChangelistDialog2" timestamp="1603801772101">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="404" y="43" key="CommitChangelistDialog2/0.23.1920.973@0.23.1920.973" timestamp="1603801449246" />
+    <state x="404" y="43" key="CommitChangelistDialog2/0.23.1920.973@0.23.1920.973" timestamp="1603801772101" />
     <state x="397" y="65" key="CommitChangelistDialog2/0.23.1920.975@0.23.1920.975" timestamp="1603355825050" />
     <state width="437" height="466" key="DebuggerActiveHint" timestamp="1603271525798">
       <screen x="0" y="23" width="1920" height="975" />
@@ -299,10 +305,10 @@
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="448" y="91" key="SettingsEditor/0.23.1920.973@0.23.1920.973" timestamp="1602600452786" />
-    <state x="560" y="249" key="Vcs.Push.Dialog.v2" timestamp="1603801458160">
+    <state x="560" y="249" key="Vcs.Push.Dialog.v2" timestamp="1603801775237">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1603801458160" />
+    <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1603801775237" />
     <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.975@0.23.1920.975" timestamp="1603355827519" />
     <state x="761" y="430" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603442372462">
       <screen x="0" y="23" width="1920" height="973" />

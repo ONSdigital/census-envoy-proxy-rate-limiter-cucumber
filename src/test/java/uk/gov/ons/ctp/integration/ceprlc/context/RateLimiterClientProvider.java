@@ -1,6 +1,5 @@
 package uk.gov.ons.ctp.integration.ceprlc.context;
 
-
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
