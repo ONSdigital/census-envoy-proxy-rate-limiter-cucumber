@@ -131,7 +131,8 @@ public class LimitTestSteps {
                   r.getUprn(),
                   r.getTelNo());
         } catch (Exception ex) {
-          final String message = ex.getCause().getMessage();
+          log.info("Exception Thrown is: " + ex.getClass().getName());
+          final String message = ex.getMessage();
           if (message.contains("OVER_LIMIT")) {
             log.info("Rate Limit Blown: " + message);
             isPass = false;
