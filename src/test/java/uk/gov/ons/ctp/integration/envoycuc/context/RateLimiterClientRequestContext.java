@@ -2,6 +2,7 @@ package uk.gov.ons.ctp.integration.envoycuc.context;
 
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,11 +27,14 @@ public class RateLimiterClientRequestContext {
   private RateLimiterClientRequest rateLimiterClientRequest = new RateLimiterClientRequest();
   private int hoursSetForward = 0;
   private Long uniqueValue;
+  private String testValuePrefix;
 
   @PostConstruct
   private void createUniqueValue() {
     final Date now = new Date(System.currentTimeMillis());
+    SimpleDateFormat formatter = new SimpleDateFormat("mmss");
     uniqueValue = now.getTime();
+    testValuePrefix = formatter.format(now);
   }
 
   public String getUniqueValueAsString() {

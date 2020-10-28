@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
@@ -42,6 +44,8 @@ public class LimitTestSteps {
       final String individualStr,
       final String uprnStr) {
 
+    final String fullUprnStr = rateLimiterClientRequestContext.getTestValuePrefix() + uprnStr;
+
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
           getRateLimiterClientRequest(
@@ -49,7 +53,7 @@ public class LimitTestSteps {
               deliveryChannel,
               accessCode,
               individualStr,
-              uprnStr,
+              fullUprnStr,
               getUniqueValue(),
               getUniqueValue());
       rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
@@ -66,6 +70,8 @@ public class LimitTestSteps {
       final String individualStr,
       final String telephone) {
 
+    final String fullTelephone = rateLimiterClientRequestContext.getTestValuePrefix() + telephone;
+
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
           getRateLimiterClientRequest(
@@ -74,7 +80,7 @@ public class LimitTestSteps {
               accessCode,
               individualStr,
               getUniqueValue(),
-              telephone,
+              fullTelephone,
               getUniqueValue());
       rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
     }
@@ -90,6 +96,8 @@ public class LimitTestSteps {
       final String individualStr,
       final String ipAddress) {
 
+    final String fullIpAddress = rateLimiterClientRequestContext.getTestValuePrefix() + ipAddress;
+
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
           getRateLimiterClientRequest(
@@ -99,7 +107,7 @@ public class LimitTestSteps {
               individualStr,
               getUniqueValue(),
               getUniqueValue(),
-              ipAddress);
+              fullIpAddress);
       rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
     }
   }
@@ -130,17 +138,15 @@ public class LimitTestSteps {
                   r.getIpAddress(),
                   r.getUprn(),
                   r.getTelNo());
-        } catch (Exception ex) {
-          ex.printStackTrace();
-          log.info("Exception Thrown is: " + ex.getClass().getName());
-          final String message = ex.getMessage();
-          if (message.contains("OVER_LIMIT")) {
-            log.info("Rate Limit Blown: " + message);
+        } catch (ResponseStatusException ex) {
+          HttpStatus httpStatus = ex.getStatus();
+          if (httpStatus == HttpStatus.TOO_MANY_REQUESTS) {
             isPass = false;
-          } else {
-            throw new RuntimeException(
-                "Invalid status thrown for request: " + r.toString(), ex.getCause());
+            log.info("Rate Limit Exceeded: " + ex.getReason());
           }
+        } catch (Exception unexpectedException) {
+          throw new RuntimeException(
+              "Invalid status thrown for request: " + r.toString(), unexpectedException.getCause());
         }
       }
       passFailList.add(isPass);
