@@ -133,20 +133,16 @@ public class LimitTestSteps {
                   r.getIpAddress(),
                   r.getUprn(),
                   r.getTelNo());
-        } catch (CTPException | ResponseStatusException ex) {
+        } catch (Exception ex) {
           if (ex.getCause() instanceof HttpClientErrorException.TooManyRequests) {
             isPass = false;
           } else {
             throw new RuntimeException("Invalid status thrown for request: " + r.toString(), ex);
           }
-        } catch (Exception ex) {
-          log.error(ex, "Rate Limiter : " + r.toString());
-          throw new RuntimeException("Rate Limiter has blown for request: " + r.toString(), ex);
         }
       }
       passFailList.add(isPass);
     }
-    int andy = 0;
   }
 
   @Then("I expect the first {int} calls to succeed and {int} calls to fail")
