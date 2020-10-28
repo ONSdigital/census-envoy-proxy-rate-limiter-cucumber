@@ -14,8 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpClientErrorException;
 import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
@@ -133,15 +131,13 @@ public class LimitTestSteps {
                   r.getUprn(),
                   r.getTelNo());
         } catch (Exception ex) {
-          if (ex.getCause() instanceof HttpClientErrorException) {
+          final String message = ex.getCause().getMessage();
+          if (message.contains("OVER_LIMIT")) {
+            log.info("Rate Limit Blown: " + message);
             isPass = false;
-            HttpClientErrorException cause = (HttpClientErrorException) ex.getCause();
-            if (cause.getStatusCode() != HttpStatus.TOO_MANY_REQUESTS) {
-              throw new RuntimeException(
-                  "Invalid status thrown for request: " + r.toString(), cause);
-            }
           } else {
-            throw new RuntimeException("Unexpected error thrown for request: " + r.toString(), ex);
+            throw new RuntimeException(
+                "Invalid status thrown for request: " + r.toString(), ex.getCause());
           }
         }
       }
