@@ -131,6 +131,7 @@ public class LimitTestSteps {
                   r.getUprn(),
                   r.getTelNo());
         } catch (Exception ex) {
+          ex.printStackTrace();
           log.info("Exception Thrown is: " + ex.getClass().getName());
           final String message = ex.getMessage();
           if (message.contains("OVER_LIMIT")) {
