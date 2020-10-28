@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a10dfae-8759-4442-b91e-b03479acd833" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/backup.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/context/RateLimiterClientRequestContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/context/RateLimiterClientRequestContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/mockclient/MockClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/mockclient/MockClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/steps/LimitTestSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/steps/LimitTestSteps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/LimitTestsPlusOneHour.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/LimitTestsPlusOneHour.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/features/limiter-test.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/limiter-test.feature" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -139,7 +135,7 @@
       <workItem from="1602670281569" duration="13647000" />
       <workItem from="1603049994567" duration="506000" />
       <workItem from="1603094178405" duration="10582000" />
-      <workItem from="1603186089194" duration="57171000" />
+      <workItem from="1603186089194" duration="59197000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1602604337619</created>
@@ -239,7 +235,21 @@
       <option name="project" value="LOCAL" />
       <updated>1603809876358</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Made changes to make unique keys for each test - uprn, ip, telephone number">
+      <created>1603819019163</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1603819019163</updated>
+    </task>
+    <task id="LOCAL-00016" summary="reformat">
+      <created>1603819052890</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1603819052890</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -258,6 +268,7 @@
     <MESSAGE value="Created RateLimiterClientProvider - to provide the correct rest client using the env vars for the envoy limiter rest endpoint" />
     <MESSAGE value="reformatted and removed unnecessary env vars" />
     <MESSAGE value="changed ceprl to envoy" />
+    <MESSAGE value="Made changes to make unique keys for each test - uprn, ip, telephone number" />
     <MESSAGE value="reformat" />
     <option name="LAST_COMMIT_MESSAGE" value="reformat" />
   </component>
@@ -275,10 +286,10 @@
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="648" y="252" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1920.973@0.23.1920.973" timestamp="1603185785818" />
-    <state x="404" y="43" key="CommitChangelistDialog2" timestamp="1603809876005">
+    <state x="404" y="43" key="CommitChangelistDialog2" timestamp="1603819052575">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="404" y="43" key="CommitChangelistDialog2/0.23.1920.973@0.23.1920.973" timestamp="1603809876005" />
+    <state x="404" y="43" key="CommitChangelistDialog2/0.23.1920.973@0.23.1920.973" timestamp="1603819052575" />
     <state x="397" y="65" key="CommitChangelistDialog2/0.23.1920.975@0.23.1920.975" timestamp="1603355825050" />
     <state width="437" height="466" key="DebuggerActiveHint" timestamp="1603271525798">
       <screen x="0" y="23" width="1920" height="975" />
@@ -288,45 +299,45 @@
       <screen x="0" y="23" width="1920" height="975" />
     </state>
     <state x="819" y="241" key="EnvironmentVariablesDialog/0.23.1920.975@0.23.1920.975" timestamp="1603279760820" />
-    <state width="1878" height="255" key="GridCell.Tab.0.bottom" timestamp="1603818933952">
+    <state width="1878" height="324" key="GridCell.Tab.0.bottom" timestamp="1603881457394">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="255" key="GridCell.Tab.0.bottom/0.23.1920.973@0.23.1920.973" timestamp="1603818933952" />
+    <state width="1878" height="324" key="GridCell.Tab.0.bottom/0.23.1920.973@0.23.1920.973" timestamp="1603881457394" />
     <state width="1878" height="324" key="GridCell.Tab.0.bottom/0.23.1920.975@0.23.1920.975" timestamp="1603800061295" />
-    <state width="1878" height="255" key="GridCell.Tab.0.center" timestamp="1603818933951">
+    <state width="1878" height="324" key="GridCell.Tab.0.center" timestamp="1603881457393">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="255" key="GridCell.Tab.0.center/0.23.1920.973@0.23.1920.973" timestamp="1603818933951" />
+    <state width="1878" height="324" key="GridCell.Tab.0.center/0.23.1920.973@0.23.1920.973" timestamp="1603881457393" />
     <state width="1878" height="324" key="GridCell.Tab.0.center/0.23.1920.975@0.23.1920.975" timestamp="1603800061294" />
-    <state width="1878" height="255" key="GridCell.Tab.0.left" timestamp="1603818933950">
+    <state width="1878" height="324" key="GridCell.Tab.0.left" timestamp="1603881457392">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="255" key="GridCell.Tab.0.left/0.23.1920.973@0.23.1920.973" timestamp="1603818933950" />
+    <state width="1878" height="324" key="GridCell.Tab.0.left/0.23.1920.973@0.23.1920.973" timestamp="1603881457392" />
     <state width="1878" height="324" key="GridCell.Tab.0.left/0.23.1920.975@0.23.1920.975" timestamp="1603800061294" />
-    <state width="1878" height="255" key="GridCell.Tab.0.right" timestamp="1603818933951">
+    <state width="1878" height="324" key="GridCell.Tab.0.right" timestamp="1603881457393">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="255" key="GridCell.Tab.0.right/0.23.1920.973@0.23.1920.973" timestamp="1603818933951" />
+    <state width="1878" height="324" key="GridCell.Tab.0.right/0.23.1920.973@0.23.1920.973" timestamp="1603881457393" />
     <state width="1878" height="324" key="GridCell.Tab.0.right/0.23.1920.975@0.23.1920.975" timestamp="1603800061294" />
-    <state width="1878" height="324" key="GridCell.Tab.1.bottom" timestamp="1603818869965">
+    <state width="1878" height="324" key="GridCell.Tab.1.bottom" timestamp="1603881460897">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="324" key="GridCell.Tab.1.bottom/0.23.1920.973@0.23.1920.973" timestamp="1603818869965" />
+    <state width="1878" height="324" key="GridCell.Tab.1.bottom/0.23.1920.973@0.23.1920.973" timestamp="1603881460897" />
     <state width="1878" height="324" key="GridCell.Tab.1.bottom/0.23.1920.975@0.23.1920.975" timestamp="1603800061296" />
-    <state width="1878" height="324" key="GridCell.Tab.1.center" timestamp="1603818869964">
+    <state width="1878" height="324" key="GridCell.Tab.1.center" timestamp="1603881460896">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="324" key="GridCell.Tab.1.center/0.23.1920.973@0.23.1920.973" timestamp="1603818869964" />
+    <state width="1878" height="324" key="GridCell.Tab.1.center/0.23.1920.973@0.23.1920.973" timestamp="1603881460896" />
     <state width="1878" height="324" key="GridCell.Tab.1.center/0.23.1920.975@0.23.1920.975" timestamp="1603800061295" />
-    <state width="1878" height="324" key="GridCell.Tab.1.left" timestamp="1603818869964">
+    <state width="1878" height="324" key="GridCell.Tab.1.left" timestamp="1603881460895">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="324" key="GridCell.Tab.1.left/0.23.1920.973@0.23.1920.973" timestamp="1603818869964" />
+    <state width="1878" height="324" key="GridCell.Tab.1.left/0.23.1920.973@0.23.1920.973" timestamp="1603881460895" />
     <state width="1878" height="324" key="GridCell.Tab.1.left/0.23.1920.975@0.23.1920.975" timestamp="1603800061295" />
-    <state width="1878" height="324" key="GridCell.Tab.1.right" timestamp="1603818869965">
+    <state width="1878" height="324" key="GridCell.Tab.1.right" timestamp="1603881460896">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="324" key="GridCell.Tab.1.right/0.23.1920.973@0.23.1920.973" timestamp="1603818869965" />
+    <state width="1878" height="324" key="GridCell.Tab.1.right/0.23.1920.973@0.23.1920.973" timestamp="1603881460896" />
     <state width="1878" height="324" key="GridCell.Tab.1.right/0.23.1920.975@0.23.1920.975" timestamp="1603800061296" />
     <state x="561" y="219" key="RollbackChangesDialog" timestamp="1603816683851">
       <screen x="0" y="23" width="1920" height="973" />
@@ -336,10 +347,10 @@
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="448" y="91" key="SettingsEditor/0.23.1920.973@0.23.1920.973" timestamp="1602600452786" />
-    <state x="560" y="249" key="Vcs.Push.Dialog.v2" timestamp="1603809878185">
+    <state x="560" y="249" key="Vcs.Push.Dialog.v2" timestamp="1603819054665">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1603809878185" />
+    <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1603819054665" />
     <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.975@0.23.1920.975" timestamp="1603355827519" />
     <state x="761" y="430" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603442372462">
       <screen x="0" y="23" width="1920" height="973" />
@@ -363,12 +374,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/steps/LimitTestSteps.java</url>
-          <line>133</line>
+          <line>148</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/steps/LimitTestSteps.java</url>
-          <line>95</line>
+          <line>113</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -380,6 +391,11 @@
           <url>file://$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/mockclient/MockClient.java</url>
           <line>64</line>
           <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/steps/LimitTestSteps.java</url>
+          <line>136</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

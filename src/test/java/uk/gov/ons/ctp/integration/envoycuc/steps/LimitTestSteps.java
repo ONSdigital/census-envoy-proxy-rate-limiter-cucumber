@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
@@ -132,14 +133,11 @@ public class LimitTestSteps {
                   r.getIpAddress(),
                   r.getUprn(),
                   r.getTelNo());
-        } catch (CTPException ex) {
-          log.error(ex, "Rate Limiter has blown: " + r.toString());
-          throw new RuntimeException("Rate Limiter has blown for request: " + r.toString(), ex);
-        } catch (ResponseStatusException rsex) {
-          if (rsex.getStatus() == org.springframework.http.HttpStatus.TOO_MANY_REQUESTS) {
+        } catch (CTPException | ResponseStatusException ex) {
+          if (ex.getCause() instanceof HttpClientErrorException.TooManyRequests) {
             isPass = false;
           } else {
-            throw new RuntimeException("Invalid status thrown for request: " + r.toString(), rsex);
+            throw new RuntimeException("Invalid status thrown for request: " + r.toString(), ex);
           }
         } catch (Exception ex) {
           log.error(ex, "Rate Limiter : " + r.toString());
