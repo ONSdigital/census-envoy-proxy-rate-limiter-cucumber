@@ -18,9 +18,10 @@ This project comprises 3 features
 Mock Client and Mock Limiter
 
     Mock CLient
-    
     The MockClient class in this project replaces the real RateLimiterClient and can be switched on using (export USE_MOCK_CLIENT=TRUE) 
     This enables the developer to "test the tests". It returns actual results based on what the real limiter would provide without having to spin services up.
+    Posts to this are held inside hashmaps with a date/time stamp of day+hour. There's a method which allows the dev to roll it forward to the next hour.
+    It actually does this by pushing all held transactions back an hour giving the effect of aging them. 
     
     Mock Limiter
     I have created a branch in the project https://github.com/ONSdigital/census-int-mock-envoy-limiter called Andy Test Branch
