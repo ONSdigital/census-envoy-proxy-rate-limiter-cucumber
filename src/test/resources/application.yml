@@ -16,7 +16,7 @@ logging:
   profile: DEV
   useJson: false
 
-mock-client: ${USE-MOCK-CLIENT:false}
+mock-client: ${USE_MOCK_CLIENT:false}
 
 envoy:
   host: ${ENVOY_HOST:localhost}

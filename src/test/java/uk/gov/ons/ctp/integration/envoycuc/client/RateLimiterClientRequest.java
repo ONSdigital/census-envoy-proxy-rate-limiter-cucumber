@@ -1,7 +1,6 @@
 package uk.gov.ons.ctp.integration.envoycuc.client;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
@@ -9,7 +8,6 @@ import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient;
 import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient.Domain;
 
 @Data
-@NoArgsConstructor
 public class RateLimiterClientRequest {
 
   private RateLimiterClient.Domain domain = Domain.RH;
@@ -18,6 +16,23 @@ public class RateLimiterClientRequest {
   private String ipAddress;
   private UniquePropertyReferenceNumber uprn;
   private String telNo;
+
+  public RateLimiterClientRequest(
+      Domain domain,
+      Product product,
+      CaseType caseType,
+      String ipAddress,
+      UniquePropertyReferenceNumber uprn,
+      String telNo) {
+    this.domain = domain;
+    this.product = product;
+    this.caseType = caseType;
+    this.ipAddress = ipAddress;
+    this.uprn = uprn;
+    this.telNo = telNo;
+  }
+
+  public RateLimiterClientRequest() {}
 
   public String toString() {
     return String.format(product.toString(), caseType, ipAddress, uprn, telNo);

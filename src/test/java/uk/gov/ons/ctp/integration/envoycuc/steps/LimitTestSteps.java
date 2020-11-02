@@ -6,11 +6,14 @@ import static org.junit.Assert.assertTrue;
 
 import com.godaddy.logging.Logger;
 import com.godaddy.logging.LoggerFactory;
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
 import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientRequest;
+import uk.gov.ons.ctp.integration.envoycuc.client.TestClient;
 import uk.gov.ons.ctp.integration.envoycuc.context.RateLimiterClientProvider;
 import uk.gov.ons.ctp.integration.envoycuc.context.RateLimiterClientRequestContext;
 import uk.gov.ons.ctp.integration.envoycuc.mockclient.MockClient;
@@ -44,7 +48,7 @@ public class LimitTestSteps {
       final String individualStr,
       final String uprnStr) {
 
-    final String fullUprnStr = rateLimiterClientRequestContext.getTestValuePrefix() + uprnStr;
+    final String fullUprnStr = rateLimiterClientprovider.getTestValuePrefix() + uprnStr;
 
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
@@ -70,7 +74,7 @@ public class LimitTestSteps {
       final String individualStr,
       final String telephone) {
 
-    final String fullTelephone = rateLimiterClientRequestContext.getTestValuePrefix() + telephone;
+    final String fullTelephone = rateLimiterClientprovider.getTestValuePrefix() + telephone;
 
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
@@ -96,7 +100,7 @@ public class LimitTestSteps {
       final String individualStr,
       final String ipAddress) {
 
-    final String fullIpAddress = rateLimiterClientRequestContext.getTestValuePrefix() + ipAddress;
+    final String fullIpAddress = rateLimiterClientprovider.getTestValuePrefix() + ipAddress;
 
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
@@ -112,42 +116,62 @@ public class LimitTestSteps {
     }
   }
 
+  @Given(
+      "I have {int} fulfilment requests of product group {string} delivery channel {string} access code {string} individual is {string} telephone {string} ipAddress {string} uprn {string}")
+  public void
+      iHaveFulfilmentRequestsOfProductGroupDeliveryChannelAccessCodeIndividualIsTelephoneIpAddressUprn(
+          final int noRequests,
+          final String productGroup,
+          final String deliveryChannel,
+          final String accessCode,
+          final String individualStr,
+          final String telephone,
+          final String ipAddress,
+          final String uprnStr) {
+
+    final String fullTelephone = rateLimiterClientprovider.getTestValuePrefix() + telephone;
+    final String fullIpAddress = rateLimiterClientprovider.getTestValuePrefix() + ipAddress;
+    final String fullUprnStr = rateLimiterClientprovider.getTestValuePrefix() + uprnStr;
+
+    for (int i = 0; i < noRequests; i++) {
+      final RateLimiterClientRequest rateLimiterClientRequest =
+          getRateLimiterClientRequest(
+              productGroup,
+              deliveryChannel,
+              accessCode,
+              individualStr,
+              fullUprnStr,
+              fullTelephone,
+              fullIpAddress);
+
+      rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
+    }
+  }
+
   @When("I post the fulfilments to the envoy poxy client")
   public void iPostTheFulfilmentsToTheEnvoyPoxyClient() {
+    final TestClient client = getTestClient();
+
     final List<Boolean> passFailList = rateLimiterClientRequestContext.getPassFail();
     for (RateLimiterClientRequest r : rateLimiterClientRequestContext.getRateLimiterRequestList()) {
       boolean isPass = true;
-      if (rateLimiterClientRequestContext.getUseStubClient()) {
-        try {
-          int status = mockClient.postRequest(r);
-          if (status == 200) {
-          } else {
-            isPass = false;
-          }
-        } catch (Exception ex) {
+      try {
+        client.checkRateLimit(
+            r.getDomain(),
+            r.getProduct(),
+            r.getCaseType(),
+            r.getIpAddress(),
+            r.getUprn(),
+            r.getTelNo());
+      } catch (ResponseStatusException ex) {
+        HttpStatus httpStatus = ex.getStatus();
+        if (httpStatus == HttpStatus.TOO_MANY_REQUESTS) {
           isPass = false;
+          log.info("Rate Limit Exceeded: " + ex.getReason());
         }
-      } else {
-        try {
-          rateLimiterClientprovider
-              .getRateLimiterClient()
-              .checkRateLimit(
-                  r.getDomain(),
-                  r.getProduct(),
-                  r.getCaseType(),
-                  r.getIpAddress(),
-                  r.getUprn(),
-                  r.getTelNo());
-        } catch (ResponseStatusException ex) {
-          HttpStatus httpStatus = ex.getStatus();
-          if (httpStatus == HttpStatus.TOO_MANY_REQUESTS) {
-            isPass = false;
-            log.info("Rate Limit Exceeded: " + ex.getReason());
-          }
-        } catch (Exception unexpectedException) {
-          throw new RuntimeException(
-              "Invalid status thrown for request: " + r.toString(), unexpectedException.getCause());
-        }
+      } catch (Exception unexpectedException) {
+        throw new RuntimeException(
+            "Invalid status thrown for request: " + r.toString(), unexpectedException.getCause());
       }
       passFailList.add(isPass);
     }
@@ -157,29 +181,26 @@ public class LimitTestSteps {
   public void iExpectTheFirstArgCallsToSucceedAndArgCallsToFail(
       int expectedSuccesses, int expectedFailures) {
 
+    if (rateLimiterClientRequestContext.isPending()) {
+      throw new PendingException("Tests will not wait more than 15 minutes to run");
+    }
+
     final MutableInt count = new MutableInt();
     final MutableInt actualSuccesses = new MutableInt();
     final MutableInt actualFailures = new MutableInt();
 
-    if (!rateLimiterClientRequestContext.getUseStubClient()
-        && rateLimiterClientRequestContext.getHoursSetForward() > 0) {
-      // we can't set the real limiter back at the moment, so if we have set the clock forward then
-      // we have to expect all failures
-      expectedFailures += expectedSuccesses;
-      expectedSuccesses = 0;
-    }
-
     final int mExpectedSuccesses = expectedSuccesses;
+    log.info(rateLimiterClientRequestContext.getPassFail().toString());
     rateLimiterClientRequestContext
         .getPassFail()
         .forEach(
             passfail -> {
               count.increment();
               if (count.getValue() > mExpectedSuccesses) {
-                assertFalse(passfail);
+                assertFalse("Expects Limiter to be blown", passfail);
                 actualFailures.increment();
               } else {
-                assertTrue(passfail);
+                assertTrue("Expects Fulfilment to be posted successfully", passfail);
                 actualSuccesses.increment();
               }
             });
@@ -217,14 +238,47 @@ public class LimitTestSteps {
     return request;
   }
 
-  @And("I wait an hour")
-  public void iWaitAnHour() {
-    if (rateLimiterClientRequestContext.getUseStubClient()) {
-      mockClient.waitHours(1);
+  @And("I wait until the hour")
+  public void iWaitUntilTheHour() {
+    if (!rateLimiterClientprovider.isWaited()) {
+
+      if (rateLimiterClientprovider.getUseStubClient()) {
+        mockClient.waitHours(1);
+        rateLimiterClientprovider.setWaited(true);
+        return;
+      }
+
+      final Date now = new Date(System.currentTimeMillis());
+      SimpleDateFormat formatter = new SimpleDateFormat("mm");
+      int nowMinutes = Integer.parseInt(formatter.format(now));
+      if (nowMinutes < 45) {
+        rateLimiterClientRequestContext.setPending(true);
+      } else {
+        int timeToWait = 61 - nowMinutes;
+        log.info("Wating for " + timeToWait + " minutes.");
+        try {
+          Thread.sleep(1000 * 60 * timeToWait);
+          rateLimiterClientprovider.setWaited(true);
+        } catch (InterruptedException ex) {
+          final String errorMessage = "Unable to wait any longer, so abandoning the test";
+          log.error(errorMessage);
+          throw new RuntimeException(errorMessage, ex);
+        }
+      }
     }
   }
 
   private String getUniqueValue() {
-    return rateLimiterClientRequestContext.getUniqueValueAsString();
+    return rateLimiterClientprovider.getUniqueValueAsString();
+  }
+
+  private TestClient getTestClient() {
+    TestClient client;
+    if (rateLimiterClientprovider.getUseStubClient()) {
+      client = (TestClient) mockClient;
+    } else {
+      client = (TestClient) rateLimiterClientprovider.getRateLimiterClient();
+    }
+    return client;
   }
 }

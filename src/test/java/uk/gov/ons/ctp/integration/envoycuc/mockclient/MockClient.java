@@ -1,5 +1,8 @@
 package uk.gov.ons.ctp.integration.envoycuc.mockclient;
 
+import com.godaddy.logging.Logger;
+import com.godaddy.logging.LoggerFactory;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,28 +12,78 @@ import javax.annotation.PostConstruct;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.time.DateUtils;
-import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
+import uk.gov.ons.ctp.common.domain.CaseType;
+import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
+import uk.gov.ons.ctp.common.error.CTPException;
+import uk.gov.ons.ctp.integration.common.product.model.Product;
 import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientRequest;
+import uk.gov.ons.ctp.integration.envoycuc.client.TestClient;
+import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient;
+import uk.gov.ons.ctp.integration.ratelimiter.model.CurrentLimit;
+import uk.gov.ons.ctp.integration.ratelimiter.model.LimitStatus;
+import uk.gov.ons.ctp.integration.ratelimiter.model.RateLimitResponse;
 
 @Data
 @NoArgsConstructor
 @Component
-public class MockClient {
+public class MockClient implements TestClient {
+
+  private static final Logger log = LoggerFactory.getLogger(MockClient.class);
 
   private Map<String, Integer> allowanceMap = new HashMap<>();
-  private Map<String, Map<String, List<Long>>> postingsTimeMap = new HashMap<>();
+  private Map<String, Map<String, List<Integer>>> postingsTimeMap = new HashMap<>();
 
-  public int postRequest(final RateLimiterClientRequest rateLimiterClientRequest)
+  @PostConstruct
+  private void clearMaps() {
+    allowanceMap.clear();
+    postingsTimeMap.clear();
+  }
+
+  public RateLimitResponse checkRateLimit(
+      RateLimiterClient.Domain domain,
+      Product product,
+      CaseType caseType,
+      String ipAddress,
+      UniquePropertyReferenceNumber uprn,
+      String telNo)
+      throws CTPException {
+
+    final RateLimiterClientRequest rateLimiterClientRequest =
+        new RateLimiterClientRequest(domain, product, caseType, ipAddress, uprn, telNo);
+    final IsValidRequest isValidRequest = postRequest(rateLimiterClientRequest);
+
+    if (!isValidRequest.isValid()) { // invalid request - throw a 429
+      final StringBuilder reason = new StringBuilder("Too Many Requests - ");
+      isValidRequest
+          .getLimitStatusList()
+          .forEach(stat -> reason.append(stat.toString()).append(" - "));
+      throw new ResponseStatusException(
+          org.springframework.http.HttpStatus.TOO_MANY_REQUESTS, reason.toString());
+    }
+
+    RateLimitResponse response = new RateLimitResponse();
+    response.setOverallCode("200");
+    response.setStatuses(isValidRequest.getLimitStatusList());
+    final StringBuilder reason = new StringBuilder("Request Successful - ");
+    isValidRequest
+        .getLimitStatusList()
+        .forEach(stat -> reason.append(stat.toString()).append(" - "));
+    log.info(reason.toString());
+    return response;
+  }
+
+  public IsValidRequest postRequest(final RateLimiterClientRequest rateLimiterClientRequest)
       throws ResponseStatusException {
 
     List<String> requestKeyList = getKeys(rateLimiterClientRequest);
-    if (!isValidateRequest(requestKeyList, rateLimiterClientRequest)) {
-      throw new ResponseStatusException(org.springframework.http.HttpStatus.TOO_MANY_REQUESTS);
+    final IsValidRequest isValidRequest =
+        isValidateRequest(requestKeyList, rateLimiterClientRequest);
+    if (isValidRequest.isValid()) {
+      postRequest(requestKeyList, rateLimiterClientRequest);
     }
-    postRequest(requestKeyList, rateLimiterClientRequest);
-    return HttpStatus.SC_OK;
+    return isValidRequest;
   }
 
   private List<String> getKeys(RateLimiterClientRequest request) {
@@ -56,51 +109,74 @@ public class MockClient {
     return keyList;
   }
 
-  private boolean isValidateRequest(List<String> requestKeyList, RateLimiterClientRequest f) {
-    boolean isValidRequest = true;
+  private IsValidRequest isValidateRequest(
+      List<String> requestKeyList, RateLimiterClientRequest f) {
+    final IsValidRequest isValidRequest = new IsValidRequest();
     for (String requestKey : requestKeyList) {
       if (!allowanceMap.containsKey(requestKey)) {
         continue; // not in scope so is valid....
       }
       final int noRequestAllowed = allowanceMap.get(requestKey);
-      Map<String, List<Long>> postedMap = postingsTimeMap.get(requestKey);
+      Map<String, List<Integer>> postedMap = postingsTimeMap.get(requestKey);
       if (postedMap == null) {
         return isValidRequest;
       }
       final String[] keyConstituents = requestKey.split("-");
       final String keyType = keyConstituents[keyConstituents.length - 1];
-      List<Long> postingsList = null;
+
+      String valueToRecord = "";
       if (keyType.equals("UPRN")) {
-        postingsList = postedMap.get(f.getUprn().getValue() + "");
+        valueToRecord = f.getUprn().getValue() + "";
       }
       if (keyType.equals("IP")) {
-        postingsList = postedMap.get(f.getIpAddress());
+        valueToRecord = f.getIpAddress();
       }
       if (keyType.equals("TELNO")) {
-        postingsList = postedMap.get(f.getTelNo());
+        valueToRecord = f.getTelNo();
       }
-      if (postingsList == null) {
-        continue;
-      }
+
+      final List<Integer> postingsList =
+          postedMap.containsKey(valueToRecord) ? postedMap.get(valueToRecord) : new ArrayList<>();
+
       final Date now = new Date(System.currentTimeMillis());
       final Date oneHourAgo = DateUtils.addHours(now, -1);
-      final Long oneHourAgoLong = oneHourAgo.getTime();
+      SimpleDateFormat dmformatter = new SimpleDateFormat("DDDHH");
+      int dayHourNow = Integer.parseInt(dmformatter.format(now));
       int postsWithinScopeCount = 0;
-      for (Long postDateTime : postingsList) {
-        if (postDateTime > oneHourAgoLong) {
+      for (int postDateHour : postingsList) {
+        if (postDateHour == dayHourNow) {
           postsWithinScopeCount++;
         }
       }
-      if (postsWithinScopeCount >= noRequestAllowed) {
-        isValidRequest = false;
-      }
+      final String recordKey = requestKey + "(" + valueToRecord + ")";
+      recordRequest(isValidRequest, recordKey, noRequestAllowed, postsWithinScopeCount);
     }
     return isValidRequest;
   }
 
+  private void recordRequest(
+      final IsValidRequest isValidRequest,
+      final String recordKey,
+      final int noRequestAllowed,
+      final int postsWithinScopeCount) {
+    final LimitStatus limitStatus = new LimitStatus();
+    limitStatus.setCode(recordKey);
+    final CurrentLimit currentLimit = new CurrentLimit();
+    currentLimit.setRequestsPerUnit(noRequestAllowed);
+    currentLimit.setUnit("HOUR");
+    limitStatus.setCurrentLimit(currentLimit);
+    if (postsWithinScopeCount >= noRequestAllowed) {
+      isValidRequest.setValid(false);
+      limitStatus.setLimitRemaining(0);
+    } else {
+      limitStatus.setLimitRemaining(noRequestAllowed - postsWithinScopeCount);
+    }
+    isValidRequest.getLimitStatusList().add(limitStatus);
+  }
+
   private void postRequest(List<String> requestKeyList, final RateLimiterClientRequest request) {
     for (String requestKey : requestKeyList) {
-      Map<String, List<Long>> postedMap = postingsTimeMap.get(requestKey);
+      Map<String, List<Integer>> postedMap = postingsTimeMap.get(requestKey);
       if (postedMap == null) {
         return;
       }
@@ -118,8 +194,9 @@ public class MockClient {
       }
       postedMap.computeIfAbsent(postingsListKey, k -> new ArrayList<>());
       final Date now = new Date(System.currentTimeMillis());
-      final Long nowLong = now.getTime();
-      postedMap.get(postingsListKey).add(nowLong);
+      SimpleDateFormat dmformatter = new SimpleDateFormat("DDDHH");
+      int dayHour = Integer.parseInt(dmformatter.format(now));
+      postedMap.get(postingsListKey).add(dayHour);
     }
   }
 
@@ -193,7 +270,7 @@ public class MockClient {
     postingsTimeMap.put("CONTINUATION-FALSE-POST-SPG-UPRN", getNewTimeMap());
   }
 
-  private Map<String, List<Long>> getNewTimeMap() {
+  private Map<String, List<Integer>> getNewTimeMap() {
     return new HashMap<>();
   }
 
@@ -202,12 +279,13 @@ public class MockClient {
         (key1, value1) ->
             value1.forEach(
                 (key2, value2) -> {
-                  final List<Long> updatedTimeList = new ArrayList<>();
+                  final List<Integer> updatedTimeList = new ArrayList<>();
                   value2.forEach(
                       timeValue -> {
-                        final Date transactionDate = new Date(timeValue);
-                        final Date minusHours = DateUtils.addHours(transactionDate, (hours * -1));
-                        updatedTimeList.add(minusHours.getTime());
+                        updatedTimeList.add(
+                            timeValue
+                                - hours); // we only store the day and hour now, so to roll back
+                        // just subtract 1
                       });
                   value1.put(key2, updatedTimeList);
                 }));

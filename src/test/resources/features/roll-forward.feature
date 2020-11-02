@@ -1,8 +1,9 @@
-Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
-  I want to test Fulfilment Journeys using the Rate Limiter for all combinations
+Feature: This feature tests that tests can be rerun once the hour ticks over and the limiter is refreshed
+  I want to test Fulfilment Journeys using the Rate Limiter after waiting 1 hour
 
-  Scenario Outline: UPRN TEST
+  Scenario Outline: Roll Forward - UPRN TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> access code <accessCode> individual is <individual> uprn <uprn>
+    And I wait until the hour
     When I post the fulfilments to the envoy poxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
@@ -27,8 +28,9 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
       | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "HH"        | "false"    | "11128" |
       | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "SPG"       | "false"    | "11129" |
 
-  Scenario Outline: TELEPHONE TEST
+  Scenario Outline: Roll Forward - TELEPHONE TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> access code <accessCode> individual is <individual> telephone <telNo>
+    And I wait until the hour
     When I post the fulfilments to the envoy poxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
@@ -40,8 +42,9 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
       | 20            |   10           | 10             | "UAC"         | "SMS"           | "SPG"       | "true"     | "111115" |
       | 100           |   50           | 50             | "UAC"         | "SMS"           | "CE"        | "true"     | "111116" |
 
-  Scenario Outline: IP ADDRESS TEST
+  Scenario Outline: Roll Forward - IP ADDRESS TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> access code <accessCode> individual is <individual> ip <ip>
+    And I wait until the hour
     When I post the fulfilments to the envoy poxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
@@ -52,6 +55,3 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
       | 150           |   100          | 50             | "UAC"         | "SMS"           | "HH"        | "true"     | ".1.1.4"|
       | 150           |   100          | 50             | "UAC"         | "SMS"           | "SPG"       | "true"     | ".1.1.5"|
       | 150           |   100          | 50             | "UAC"         | "SMS"           | "CE"        | "true"     | ".1.1.6"|
-
-
-
