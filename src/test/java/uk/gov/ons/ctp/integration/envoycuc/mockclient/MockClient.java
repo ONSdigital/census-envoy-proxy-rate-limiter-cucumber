@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
-import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
 import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientRequest;
 import uk.gov.ons.ctp.integration.envoycuc.client.TestClient;
@@ -47,8 +46,7 @@ public class MockClient implements TestClient {
       CaseType caseType,
       String ipAddress,
       UniquePropertyReferenceNumber uprn,
-      String telNo)
-      throws CTPException {
+      String telNo) {
 
     final RateLimiterClientRequest rateLimiterClientRequest =
         new RateLimiterClientRequest(domain, product, caseType, ipAddress, uprn, telNo);
@@ -80,9 +78,10 @@ public class MockClient implements TestClient {
     List<String> requestKeyList = getKeys(rateLimiterClientRequest);
     final IsValidRequest isValidRequest =
         isValidateRequest(requestKeyList, rateLimiterClientRequest);
-    if (isValidRequest.isValid()) {
-      postRequest(requestKeyList, rateLimiterClientRequest);
-    }
+    postRequest(
+        requestKeyList,
+        rateLimiterClientRequest); // always post - it burns allowances every time for all scenarios
+
     return isValidRequest;
   }
 

@@ -2,11 +2,11 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
   I want to test Fulfilment Journeys using the Rate Limiter for all combinations
 
   Scenario Outline: UPRN TEST
-    Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> access code <accessCode> individual is <individual> uprn <uprn>
+    Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> uprn <uprn>
     When I post the fulfilments to the envoy poxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
-      | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | accessCode  | individual | uprn     |
+      | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType  | individual | uprn     |
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "HH"        | "false"    | "11111" |
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "SPG"       | "false"    | "11112" |
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "CE"        | "false"    | "11113" |
@@ -28,11 +28,11 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
       | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "SPG"       | "false"    | "11129" |
 
   Scenario Outline: TELEPHONE TEST
-    Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> access code <accessCode> individual is <individual> telephone <telNo>
+    Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo>
     When I post the fulfilments to the envoy poxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
-      | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | accessCode  | individual | telNo       |
+      | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType  | individual | telNo       |
       | 20            |   10           | 10             | "UAC"         | "SMS"           | "HH"        | "false"    | "111111" |
       | 20            |   10           | 10             | "UAC"         | "SMS"           | "SPG"       | "false"    | "111112" |
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "CE"        | "false"    | "111113" |
@@ -41,11 +41,11 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
       | 100           |   50           | 50             | "UAC"         | "SMS"           | "CE"        | "true"     | "111116" |
 
   Scenario Outline: IP ADDRESS TEST
-    Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> access code <accessCode> individual is <individual> ip <ip>
+    Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> ip <ip>
     When I post the fulfilments to the envoy poxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
-      | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | accessCode  | individual | ip       |
+      | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType  | individual | ip       |
       | 150           |   100          | 50             | "UAC"         | "SMS"           | "HH"        | "false"    | ".1.1.1"|
       | 150           |   100          | 50             | "UAC"         | "SMS"           | "SPG"       | "false"    | ".1.1.2"|
       | 150           |   100          | 50             | "UAC"         | "SMS"           | "CE"        | "false"    | ".1.1.3"|

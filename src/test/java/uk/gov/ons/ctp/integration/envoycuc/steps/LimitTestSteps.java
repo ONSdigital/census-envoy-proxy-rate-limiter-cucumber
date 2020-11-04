@@ -39,12 +39,12 @@ public class LimitTestSteps {
   @Autowired private RateLimiterClientProvider rateLimiterClientprovider;
 
   @Given(
-      "I have {int} fulfilment requests of product group {string} delivery channel {string} access code {string} individual is {string} uprn {string}")
-  public void iHaveFulfilmentRequestsOfProductGroupDeliveryChannelAccessCodeIndividualIsUprn(
+      "I have {int} fulfilment requests of product group {string} delivery channel {string} case type {string} individual is {string} uprn {string}")
+  public void iHaveFulfilmentRequestsOfProductGroupDeliveryChannelCaseTypeIndividualIsUprn(
       final int noRequests,
       final String productGroup,
       final String deliveryChannel,
-      final String accessCode,
+      final String caseType,
       final String individualStr,
       final String uprnStr) {
 
@@ -55,7 +55,7 @@ public class LimitTestSteps {
           getRateLimiterClientRequest(
               productGroup,
               deliveryChannel,
-              accessCode,
+              caseType,
               individualStr,
               fullUprnStr,
               getUniqueValue(),
@@ -65,12 +65,12 @@ public class LimitTestSteps {
   }
 
   @Given(
-      "I have {int} fulfilment requests of product group {string} delivery channel {string} access code {string} individual is {string} telephone {string}")
-  public void iHaveFulfilmentRequestsOfProductGroupDeliveryChannelAccessCodeIndividualIsTelephone(
+      "I have {int} fulfilment requests of product group {string} delivery channel {string} case type {string} individual is {string} telephone {string}")
+  public void iHaveFulfilmentRequestsOfProductGroupDeliveryChannelCaseTypeIndividualIsTelephone(
       final int noRequests,
       final String productGroup,
       final String deliveryChannel,
-      final String accessCode,
+      final String caseType,
       final String individualStr,
       final String telephone) {
 
@@ -81,7 +81,7 @@ public class LimitTestSteps {
           getRateLimiterClientRequest(
               productGroup,
               deliveryChannel,
-              accessCode,
+              caseType,
               individualStr,
               getUniqueValue(),
               fullTelephone,
@@ -91,12 +91,12 @@ public class LimitTestSteps {
   }
 
   @Given(
-      "I have {int} fulfilment requests of product group {string} delivery channel {string} access code {string} individual is {string} ip {string}")
-  public void iHaveFulfilmentRequestsOfProductGroupDeliveryChannelAccessCodeIndividualIsIP(
+      "I have {int} fulfilment requests of product group {string} delivery channel {string} case type {string} individual is {string} ip {string}")
+  public void iHaveFulfilmentRequestsOfProductGroupDeliveryChannelCaseTypeIndividualIsIP(
       final int noRequests,
       final String productGroup,
       final String deliveryChannel,
-      final String accessCode,
+      final String caseType,
       final String individualStr,
       final String ipAddress) {
 
@@ -107,7 +107,7 @@ public class LimitTestSteps {
           getRateLimiterClientRequest(
               productGroup,
               deliveryChannel,
-              accessCode,
+              caseType,
               individualStr,
               getUniqueValue(),
               getUniqueValue(),
@@ -117,13 +117,13 @@ public class LimitTestSteps {
   }
 
   @Given(
-      "I have {int} fulfilment requests of product group {string} delivery channel {string} access code {string} individual is {string} telephone {string} ipAddress {string} uprn {string}")
+      "I have {int} fulfilment requests of product group {string} delivery channel {string} case type {string} individual is {string} telephone {string} ipAddress {string} uprn {string}")
   public void
-      iHaveFulfilmentRequestsOfProductGroupDeliveryChannelAccessCodeIndividualIsTelephoneIpAddressUprn(
+      iHaveFulfilmentRequestsOfProductGroupDeliveryChannelCaseTypeIndividualIsTelephoneIpAddressUprn(
           final int noRequests,
           final String productGroup,
           final String deliveryChannel,
-          final String accessCode,
+          final String caseType,
           final String individualStr,
           final String telephone,
           final String ipAddress,
@@ -138,7 +138,7 @@ public class LimitTestSteps {
           getRateLimiterClientRequest(
               productGroup,
               deliveryChannel,
-              accessCode,
+              caseType,
               individualStr,
               fullUprnStr,
               fullTelephone,
@@ -190,7 +190,11 @@ public class LimitTestSteps {
     final MutableInt actualFailures = new MutableInt();
 
     final int mExpectedSuccesses = expectedSuccesses;
-    log.info(rateLimiterClientRequestContext.getPassFail().toString());
+    int passes =
+        (int) rateLimiterClientRequestContext.getPassFail().stream().filter(s -> s).count();
+    int failures = rateLimiterClientRequestContext.getPassFail().size() - passes;
+
+    log.info("Passes=" + passes + " Fails=" + failures);
     rateLimiterClientRequestContext
         .getPassFail()
         .forEach(
@@ -215,13 +219,13 @@ public class LimitTestSteps {
   private RateLimiterClientRequest getRateLimiterClientRequest(
       String productGroup,
       String deliveryChannel,
-      String accessCode,
+      String caseTypeStr,
       String individualStr,
       String uprnStr,
       String telNo,
       String ipAddress) {
     final RateLimiterClientRequest request = new RateLimiterClientRequest();
-    Product.CaseType caseType = Product.CaseType.valueOf(accessCode);
+    Product.CaseType caseType = Product.CaseType.valueOf(caseTypeStr);
     Product product =
         Product.builder()
             .caseTypes(Collections.singletonList(caseType))
@@ -229,7 +233,7 @@ public class LimitTestSteps {
             .deliveryChannel(Product.DeliveryChannel.valueOf(deliveryChannel))
             .individual(Boolean.valueOf(individualStr))
             .build();
-    request.setCaseType(CaseType.valueOf(accessCode));
+    request.setCaseType(CaseType.valueOf(caseTypeStr));
     request.setProduct(product);
     UniquePropertyReferenceNumber uprn = UniquePropertyReferenceNumber.create(uprnStr);
     request.setUprn(uprn);

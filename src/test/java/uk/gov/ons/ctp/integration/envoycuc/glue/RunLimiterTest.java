@@ -8,8 +8,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
     plugin = {"pretty", "html:target/cucumber"},
     features = {
-      // "src/test/resources/features/limiter-test.feature",
-      // "src/test/resources/features/roll-forward.feature",
+      "src/test/resources/features/limiter-test.feature",
+      "src/test/resources/features/roll-forward.feature",
       "src/test/resources/features/limiter-test-combinations.feature"
     },
     glue = {
