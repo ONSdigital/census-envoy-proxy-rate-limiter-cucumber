@@ -6,7 +6,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
     When I post the fulfilments to the envoy poxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
-      | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType  | individual | uprn     |
+      | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType    | individual | uprn    |
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "HH"        | "false"    | "11111" |
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "SPG"       | "false"    | "11112" |
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "CE"        | "false"    | "11113" |
@@ -32,7 +32,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
     When I post the fulfilments to the envoy poxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
-      | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType  | individual | telNo       |
+      | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType    | individual | telNo    |
       | 20            |   10           | 10             | "UAC"         | "SMS"           | "HH"        | "false"    | "111111" |
       | 20            |   10           | 10             | "UAC"         | "SMS"           | "SPG"       | "false"    | "111112" |
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "CE"        | "false"    | "111113" |
@@ -41,17 +41,17 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
       | 100           |   50           | 50             | "UAC"         | "SMS"           | "CE"        | "true"     | "111116" |
 
   Scenario Outline: IP ADDRESS TEST
-    Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> ip <ip>
+    Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> ip <ipAddress>
     When I post the fulfilments to the envoy poxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
-      | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType  | individual | ip       |
-      | 150           |   100          | 50             | "UAC"         | "SMS"           | "HH"        | "false"    | ".1.1.1"|
-      | 150           |   100          | 50             | "UAC"         | "SMS"           | "SPG"       | "false"    | ".1.1.2"|
-      | 150           |   100          | 50             | "UAC"         | "SMS"           | "CE"        | "false"    | ".1.1.3"|
-      | 150           |   100          | 50             | "UAC"         | "SMS"           | "HH"        | "true"     | ".1.1.4"|
-      | 150           |   100          | 50             | "UAC"         | "SMS"           | "SPG"       | "true"     | ".1.1.5"|
-      | 150           |   100          | 50             | "UAC"         | "SMS"           | "CE"        | "true"     | ".1.1.6"|
+      | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType    | individual | ipAddress |
+      | 150           |   100          | 50             | "UAC"         | "SMS"           | "HH"        | "false"    | ".1.1.1"  |
+      | 150           |   100          | 50             | "UAC"         | "SMS"           | "SPG"       | "false"    | ".1.1.2"  |
+      | 150           |   100          | 50             | "UAC"         | "SMS"           | "CE"        | "false"    | ".1.1.3"  |
+      | 150           |   100          | 50             | "UAC"         | "SMS"           | "HH"        | "true"     | ".1.1.4"  |
+      | 150           |   100          | 50             | "UAC"         | "SMS"           | "SPG"       | "true"     | ".1.1.5"  |
+      | 150           |   100          | 50             | "UAC"         | "SMS"           | "CE"        | "true"     | ".1.1.6"  |
 
 
 
