@@ -4,7 +4,7 @@ Feature: This feature tests that tests can be rerun once the hour ticks over and
   Scenario Outline: Roll Forward - UPRN TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> uprn <uprn>
     And I wait until the hour
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
       | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType    | individual | uprn    |
@@ -31,7 +31,7 @@ Feature: This feature tests that tests can be rerun once the hour ticks over and
   Scenario Outline: Roll Forward - TELEPHONE TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo>
     And I wait until the hour
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
       | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType  | individual | telNo      |
@@ -45,7 +45,7 @@ Feature: This feature tests that tests can be rerun once the hour ticks over and
   Scenario Outline: Roll Forward - IP ADDRESS TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> ip <ipAddress>
     And I wait until the hour
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
       | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType    | individual | ipAddress |

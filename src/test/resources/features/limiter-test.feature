@@ -3,7 +3,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
 
   Scenario Outline: UPRN TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
       | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType    | individual | uprn    |
@@ -29,7 +29,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
 
   Scenario Outline: TELEPHONE TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
       | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType    | individual | telNo    |
@@ -42,7 +42,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
 
   Scenario Outline: IP ADDRESS TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> ip <ipAddress>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
       | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType    | individual | ipAddress |

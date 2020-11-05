@@ -148,8 +148,8 @@ public class LimitTestSteps {
     }
   }
 
-  @When("I post the fulfilments to the envoy poxy client")
-  public void iPostTheFulfilmentsToTheEnvoyPoxyClient() {
+  @When("I post the fulfilments to the envoy proxy client")
+  public void iPostTheFulfilmentsToTheEnvoyproxyClient() {
     final TestClient client = getTestClient();
 
     final List<Boolean> passFailList = rateLimiterClientRequestContext.getPassFail();
@@ -259,7 +259,7 @@ public class LimitTestSteps {
         rateLimiterClientRequestContext.setPending(true);
       } else {
         int timeToWait = 61 - nowMinutes;
-        log.info("Wating for " + timeToWait + " minutes.");
+        log.info("waiting for " + timeToWait + " minutes.");
         try {
           Thread.sleep(1000 * 60 * timeToWait);
           rateLimiterClientprovider.setWaited(true);

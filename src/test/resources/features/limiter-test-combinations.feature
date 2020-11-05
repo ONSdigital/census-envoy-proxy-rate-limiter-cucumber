@@ -3,7 +3,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - UAC SMS SPG Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -15,7 +15,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - UAC SMS SPG Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -27,7 +27,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - UAC SMS HH Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -39,7 +39,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - UAC SMS HH Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -51,7 +51,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - UAC SMS CE Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -63,7 +63,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - UAC SMS CE Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -75,7 +75,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - UAC POST HH Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -87,7 +87,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - UAC POST HH Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -99,7 +99,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - UAC POST SPG Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -111,7 +111,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - UAC POST SPG Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -123,7 +123,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - UAC POST CE Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -135,7 +135,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - UAC POST CE Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -147,7 +147,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - QUESTIONNAIRE POST HH Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -158,7 +158,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - QUESTIONNAIRE POST HH Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -169,7 +169,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - QUESTIONNAIRE POST SPG Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -180,7 +180,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - QUESTIONNAIRE POST SPG Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -191,7 +191,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - QUESTIONNAIRE POST CE Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -202,7 +202,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - CONTINUATION POST HH Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:
@@ -213,7 +213,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
   Scenario Outline: Combinations TEST - CONTINUATION POST SPG Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
-    When I post the fulfilments to the envoy poxy client
+    When I post the fulfilments to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
 
     Examples:

@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6a10dfae-8759-4442-b91e-b03479acd833" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/steps/LimitTestSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/steps/LimitTestSteps.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/features/limiter-test-combinations.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/limiter-test-combinations.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/features/limiter-test.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/limiter-test.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/features/roll-forward.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/roll-forward.feature" afterDir="false" />
@@ -160,7 +161,7 @@
       <workItem from="1603094178405" duration="10582000" />
       <workItem from="1603186089194" duration="72777000" />
       <workItem from="1604308921764" duration="41645000" />
-      <workItem from="1604460055031" duration="5885000" />
+      <workItem from="1604460055031" duration="6517000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1602604337619</created>
@@ -379,7 +380,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604506570116</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="tidy up of features">
+      <created>1604510653665</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1604510653665</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -407,7 +415,8 @@
     <MESSAGE value="Read Me file" />
     <MESSAGE value="testing a limit discrepancy" />
     <MESSAGE value="changed way the mock limiter works &#10;Added combination tests of various types&#10;re-ran tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed way the mock limiter works &#10;Added combination tests of various types&#10;re-ran tests" />
+    <MESSAGE value="tidy up of features" />
+    <option name="LAST_COMMIT_MESSAGE" value="tidy up of features" />
   </component>
   <component name="WindowStateProjectService">
     <state x="560" y="157" key="#Plugins" timestamp="1603186103716">
@@ -428,10 +437,10 @@
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="648" y="252" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1920.973@0.23.1920.973" timestamp="1603185785818" />
-    <state x="404" y="43" key="CommitChangelistDialog2" timestamp="1604506569203">
+    <state x="404" y="43" key="CommitChangelistDialog2" timestamp="1604510652996">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="404" y="43" key="CommitChangelistDialog2/0.23.1920.973@0.23.1920.973" timestamp="1604506569203" />
+    <state x="404" y="43" key="CommitChangelistDialog2/0.23.1920.973@0.23.1920.973" timestamp="1604510652996" />
     <state x="397" y="65" key="CommitChangelistDialog2/0.23.1920.975@0.23.1920.975" timestamp="1604409594726" />
     <state x="404" y="43" key="CommitChangelistDialog2/0.23.1920.978@0.23.1920.978" timestamp="1604407309796" />
     <state width="437" height="466" key="DebuggerActiveHint" timestamp="1603271525798">
@@ -494,20 +503,20 @@
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="448" y="91" key="SettingsEditor/0.23.1920.973@0.23.1920.973" timestamp="1602600452786" />
-    <state x="560" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604506572722">
+    <state x="560" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604510657520">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1604506572722" />
+    <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1604510657520" />
     <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.975@0.23.1920.975" timestamp="1604409596378" />
     <state x="560" y="250" key="Vcs.Push.Dialog.v2/0.23.1920.978@0.23.1920.978" timestamp="1604407312103" />
     <state x="761" y="430" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603442372462">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="761" y="430" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1920.973@0.23.1920.973" timestamp="1603442372462" />
-    <state x="661" y="264" width="624" height="548" key="find.popup" timestamp="1603815451340">
+    <state x="661" y="264" width="624" height="548" key="find.popup" timestamp="1604566491565">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="661" y="264" width="624" height="548" key="find.popup/0.23.1920.973@0.23.1920.973" timestamp="1603815451340" />
+    <state x="661" y="264" width="624" height="548" key="find.popup/0.23.1920.973@0.23.1920.973" timestamp="1604566491565" />
     <state x="708" y="438" key="org.jetbrains.plugins.cucumber.inspections.ui.CreateStepDefinitionFileDialog" timestamp="1602773974691">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
