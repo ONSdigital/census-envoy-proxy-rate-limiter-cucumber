@@ -1,4 +1,4 @@
-Feature: This feature tests all of the requirements for the Envoy Proxy Limiter
+Feature: This feature tests all of the requirements for the Envoy Proxy Limiter - each scenario is independent of the next
   I want to test Fulfilment Journeys using the Rate Limiter for all combinations
 
   Scenario Outline: UPRN TEST
