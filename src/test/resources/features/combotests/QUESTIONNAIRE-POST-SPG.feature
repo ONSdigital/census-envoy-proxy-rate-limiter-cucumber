@@ -1,6 +1,7 @@
 Feature: This feature tests all of the requirements for the Envoy Proxy Limiter - as combinations of requests telephone, ipAddress and uprn
   I want to test Fulfilment Journeys using the Rate Limiter for all combinations
 
+  @QuestionnairePostSPGNonIndividual
   Scenario Outline: Combinations TEST - QUESTIONNAIRE POST SPG Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
     When I post the fulfilments to the envoy proxy client
@@ -12,6 +13,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 10            | 0              | 10             |"QUESTIONNAIRE"| "POST"           | "SPG"       | "false"    | "0000000" | ".0.0.0"  | "911112" |
       | 10            | 1              | 9              |"QUESTIONNAIRE"| "POST"           | "SPG"       | "false"    | "0000000" | ".0.0.0"  | "911114" |
 
+  @QuestionnairePostSPGIndividual
   Scenario Outline: Combinations TEST - QUESTIONNAIRE POST SPG Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
     When I post the fulfilments to the envoy proxy client
@@ -23,6 +25,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 10            | 0              | 10             |"QUESTIONNAIRE"| "POST"          | "SPG"       | "true"     | "0000000" | ".0.0.0"  | "911112" |
       | 10            | 5              | 5              |"QUESTIONNAIRE"| "POST"          | "SPG"       | "true"     | "0000000" | ".0.0.0"  | "911114" |
 
+  @QuestionnairePostCEIndividual
   Scenario Outline: Combinations TEST - QUESTIONNAIRE POST CE Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
     When I post the fulfilments to the envoy proxy client

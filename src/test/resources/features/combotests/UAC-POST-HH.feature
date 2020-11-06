@@ -1,6 +1,7 @@
 Feature: This feature tests all of the requirements for the Envoy Proxy Limiter - as combinations of requests telephone, ipAddress and uprn
   I want to test Fulfilment Journeys using the Rate Limiter for all combinations
 
+  @UACPostHHNonIndividual
   Scenario Outline: Combinations TEST - UAC POST HH Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
     When I post the fulfilments to the envoy proxy client
@@ -13,6 +14,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 10            | 1              | 9              | "UAC"        | "POST"           | "HH"      | "false"    | "0000000" | ".0.0.0"  | "711114" |
       | 10            | 1              | 9              | "UAC"        | "POST"           | "HH"      | "false"    | "0000000" | ".0.0.0"  | "711115" |
 
+  @UACPostHHIndividual
   Scenario Outline: Combinations TEST - UAC POST HH Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
     When I post the fulfilments to the envoy proxy client

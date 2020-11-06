@@ -167,7 +167,7 @@ public class LimitTestSteps {
         HttpStatus httpStatus = ex.getStatus();
         if (httpStatus == HttpStatus.TOO_MANY_REQUESTS) {
           isPass = false;
-          log.info("Rate Limit Exceeded: " + ex.getReason());
+          log.debug("Rate Limit Exceeded: " + ex.getReason());
         }
       } catch (Exception unexpectedException) {
         throw new RuntimeException(

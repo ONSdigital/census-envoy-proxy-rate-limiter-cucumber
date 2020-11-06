@@ -1,6 +1,7 @@
 Feature: This feature tests all of the requirements for the Envoy Proxy Limiter - each scenario is independent of the next
   I want to test Fulfilment Journeys using the Rate Limiter for all combinations
 
+  @LimiterTestUPRNS
   Scenario Outline: UPRN TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> uprn <uprn>
     When I post the fulfilments to the envoy proxy client
@@ -27,6 +28,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "HH"        | "false"    | "11128" |
       | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "SPG"       | "false"    | "11129" |
 
+  @LimiterTestTelephone
   Scenario Outline: TELEPHONE TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo>
     When I post the fulfilments to the envoy proxy client
@@ -40,6 +42,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 20            |   10           | 10             | "UAC"         | "SMS"           | "SPG"       | "true"     | "111115" |
       | 100           |   50           | 50             | "UAC"         | "SMS"           | "CE"        | "true"     | "111116" |
 
+  @LimiterTestIPAddress
   Scenario Outline: IP ADDRESS TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> ip <ipAddress>
     When I post the fulfilments to the envoy proxy client

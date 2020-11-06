@@ -1,6 +1,7 @@
 Feature: This feature tests all of the requirements for the Envoy Proxy Limiter - as combinations of requests telephone, ipAddress and uprn
   I want to test Fulfilment Journeys using the Rate Limiter for all combinations
 
+  @UACSMSSPGNonIndividual
   Scenario Outline: Combinations TEST - UAC SMS SPG Non-Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
     When I post the fulfilments to the envoy proxy client
@@ -13,6 +14,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 10            | 5              | 5              | "UAC"        | "SMS"           | "SPG"      | "false"    | "1333334" | ".0.0.1"  | "111114" |
       | 10            | 0              | 10             | "UAC"        | "SMS"           | "SPG"      | "false"    | "1333335" | ".0.0.1"  | "111115" |
 
+  @UACSMSSPGIndividual
   Scenario Outline: Combinations TEST - UAC SMS SPG Individual
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo> ipAddress <ipAddress> uprn <uprn>
     When I post the fulfilments to the envoy proxy client

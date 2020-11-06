@@ -1,6 +1,7 @@
 Feature: This feature tests that tests can be rerun once the hour ticks over and the limiter is refreshed
   I want to test Fulfilment Journeys using the Rate Limiter after waiting 1 hour
 
+  @RollForwardTestUPRNS
   Scenario Outline: Roll Forward - UPRN TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> uprn <uprn>
     And I wait until the hour
@@ -28,6 +29,7 @@ Feature: This feature tests that tests can be rerun once the hour ticks over and
       | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "HH"        | "false"    | "11128" |
       | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "SPG"       | "false"    | "11129" |
 
+  @RollForwardTestTelephone
   Scenario Outline: Roll Forward - TELEPHONE TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> telephone <telNo>
     And I wait until the hour
@@ -42,6 +44,7 @@ Feature: This feature tests that tests can be rerun once the hour ticks over and
       | 20            |   10           | 10             | "UAC"         | "SMS"           | "SPG"       | "true"     | "111115" |
       | 100           |   50           | 50             | "UAC"         | "SMS"           | "CE"        | "true"     | "111116" |
 
+  @RollForwardTestIPAddress
   Scenario Outline: Roll Forward - IP ADDRESS TEST
     Given I have <noFulfilments> fulfilment requests of product group <productGroup> delivery channel <deliveryChannel> case type <caseType> individual is <individual> ip <ipAddress>
     And I wait until the hour

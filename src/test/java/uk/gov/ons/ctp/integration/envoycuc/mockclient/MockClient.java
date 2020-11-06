@@ -23,6 +23,14 @@ import uk.gov.ons.ctp.integration.ratelimiter.model.CurrentLimit;
 import uk.gov.ons.ctp.integration.ratelimiter.model.LimitStatus;
 import uk.gov.ons.ctp.integration.ratelimiter.model.RateLimitResponse;
 
+/**
+ * simulates the combination of the client access code + the real envoy limiter will store details
+ * as each test is run, (is NOT recreated for each test). Normally this would be undesirable in a
+ * test situation, but in our case it more realistically models the actual envoy limiter, since we
+ * won't be resetting it because it changes state for each test run, then care must be taken
+ * creating tests that do not use data that has been used before the in-memory data structures will
+ * grow big very fast, so care must be taken if a LOT of calls are made
+ */
 @Data
 @NoArgsConstructor
 @Component
@@ -39,6 +47,7 @@ public class MockClient implements TestClient {
     postingsTimeMap.clear();
   }
 
+  @Override
   public RateLimitResponse checkRateLimit(
       RateLimiterClient.Domain domain,
       Product product,
@@ -67,7 +76,7 @@ public class MockClient implements TestClient {
     requestValidationStatus
         .getLimitStatusList()
         .forEach(stat -> reason.append(stat.toString()).append(" - "));
-    log.info(reason.toString());
+    log.debug(reason.toString());
     return response;
   }
 
@@ -108,13 +117,13 @@ public class MockClient implements TestClient {
   }
 
   private RequestValidationStatus createRequestValidationStatus(
-      final List<String> requestKeyList, final RateLimiterClientRequest f) {
+      final List<String> requestKeyList, final RateLimiterClientRequest request) {
     final RequestValidationStatus requestValidationStatus = new RequestValidationStatus();
     for (String requestKey : requestKeyList) {
       if (!allowanceMap.containsKey(requestKey)) {
         continue; // not in scope so is valid....
       }
-      final int noRequestAllowed = allowanceMap.get(requestKey);
+      final int numberRequestsAllowed = allowanceMap.get(requestKey);
       Map<String, List<Integer>> postedMap = postingsTimeMap.get(requestKey);
       if (postedMap == null) {
         return requestValidationStatus;
@@ -122,19 +131,9 @@ public class MockClient implements TestClient {
       final String[] keyConstituents = requestKey.split("-");
       final String keyType = keyConstituents[keyConstituents.length - 1];
 
-      String valueToRecord = "";
-      if (keyType.equals("UPRN")) {
-        valueToRecord = f.getUprn().getValue() + "";
-      }
-      if (keyType.equals("IP")) {
-        valueToRecord = f.getIpAddress();
-      }
-      if (keyType.equals("TELNO")) {
-        valueToRecord = f.getTelNo();
-      }
-
+      String keyToRecord = getListKey(request, keyType);
       final List<Integer> postingsList =
-          postedMap.containsKey(valueToRecord) ? postedMap.get(valueToRecord) : new ArrayList<>();
+          postedMap.containsKey(keyToRecord) ? postedMap.get(keyToRecord) : new ArrayList<>();
 
       final Date now = new Date(System.currentTimeMillis());
       SimpleDateFormat dmformatter = new SimpleDateFormat("DDDHH");
@@ -145,8 +144,9 @@ public class MockClient implements TestClient {
           postsWithinScopeCount++;
         }
       }
-      final String recordKey = requestKey + "(" + valueToRecord + ")";
-      recordRequest(requestValidationStatus, recordKey, noRequestAllowed, postsWithinScopeCount);
+      final String recordKey = requestKey + "(" + keyToRecord + ")";
+      recordRequest(
+          requestValidationStatus, recordKey, numberRequestsAllowed, postsWithinScopeCount);
     }
     return requestValidationStatus;
   }
@@ -154,19 +154,19 @@ public class MockClient implements TestClient {
   private void recordRequest(
       final RequestValidationStatus requestValidationStatus,
       final String recordKey,
-      final int noRequestAllowed,
+      final int numberRequestsAllowed,
       final int postsWithinScopeCount) {
     final LimitStatus limitStatus = new LimitStatus();
     limitStatus.setCode(recordKey);
     final CurrentLimit currentLimit = new CurrentLimit();
-    currentLimit.setRequestsPerUnit(noRequestAllowed);
+    currentLimit.setRequestsPerUnit(numberRequestsAllowed);
     currentLimit.setUnit("HOUR");
     limitStatus.setCurrentLimit(currentLimit);
-    if (postsWithinScopeCount >= noRequestAllowed) {
+    if (postsWithinScopeCount >= numberRequestsAllowed) {
       requestValidationStatus.setValid(false);
       limitStatus.setLimitRemaining(0);
     } else {
-      limitStatus.setLimitRemaining(noRequestAllowed - postsWithinScopeCount);
+      limitStatus.setLimitRemaining(numberRequestsAllowed - postsWithinScopeCount);
     }
     requestValidationStatus.getLimitStatusList().add(limitStatus);
   }
@@ -179,22 +179,28 @@ public class MockClient implements TestClient {
       }
       final String[] keyConstituents = requestKey.split("-");
       final String keyType = keyConstituents[keyConstituents.length - 1];
-      String postingsListKey = null;
-      if (keyType.equals("UPRN")) {
-        postingsListKey = request.getUprn().getValue() + "";
-      }
-      if (keyType.equals("IP")) {
-        postingsListKey = request.getIpAddress();
-      }
-      if (keyType.equals("TELNO")) {
-        postingsListKey = request.getTelNo();
-      }
-      postedMap.computeIfAbsent(postingsListKey, k -> new ArrayList<>());
+      final String listKey = getListKey(request, keyType);
+
+      postedMap.computeIfAbsent(listKey, k -> new ArrayList<>());
       final Date now = new Date(System.currentTimeMillis());
       SimpleDateFormat dmformatter = new SimpleDateFormat("DDDHH");
       int dayHour = Integer.parseInt(dmformatter.format(now));
-      postedMap.get(postingsListKey).add(dayHour);
+      postedMap.get(listKey).add(dayHour);
     }
+  }
+
+  private String getListKey(final RateLimiterClientRequest request, final String keyType) {
+    String listKey = null;
+    if (keyType.equals("UPRN")) {
+      listKey = request.getUprn().getValue() + "";
+    }
+    if (keyType.equals("IP")) {
+      listKey = request.getIpAddress();
+    }
+    if (keyType.equals("TELNO")) {
+      listKey = request.getTelNo();
+    }
+    return listKey;
   }
 
   @PostConstruct
