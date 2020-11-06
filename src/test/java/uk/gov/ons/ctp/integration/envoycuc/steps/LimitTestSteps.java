@@ -152,7 +152,7 @@ public class LimitTestSteps {
   public void iPostTheFulfilmentsToTheEnvoyproxyClient() {
     final TestClient client = getTestClient();
 
-    final List<Boolean> passFailList = rateLimiterClientRequestContext.getPassFail();
+    final List<Boolean> passList = rateLimiterClientRequestContext.getPassList();
     for (RateLimiterClientRequest r : rateLimiterClientRequestContext.getRateLimiterRequestList()) {
       boolean isPass = true;
       try {
@@ -173,7 +173,7 @@ public class LimitTestSteps {
         throw new RuntimeException(
             "Invalid status thrown for request: " + r.toString(), unexpectedException.getCause());
       }
-      passFailList.add(isPass);
+      passList.add(isPass);
     }
   }
 
@@ -191,12 +191,12 @@ public class LimitTestSteps {
 
     final int mExpectedSuccesses = expectedSuccesses;
     int passes =
-        (int) rateLimiterClientRequestContext.getPassFail().stream().filter(s -> s).count();
-    int failures = rateLimiterClientRequestContext.getPassFail().size() - passes;
+        (int) rateLimiterClientRequestContext.getPassList().stream().filter(s -> s).count();
+    int failures = rateLimiterClientRequestContext.getPassList().size() - passes;
 
     log.info("Passes=" + passes + " Fails=" + failures);
     rateLimiterClientRequestContext
-        .getPassFail()
+        .getPassList()
         .forEach(
             passfail -> {
               count.increment();
@@ -279,9 +279,9 @@ public class LimitTestSteps {
   private TestClient getTestClient() {
     TestClient client;
     if (rateLimiterClientprovider.getUseStubClient()) {
-      client = (TestClient) mockClient;
+      client = mockClient;
     } else {
-      client = (TestClient) rateLimiterClientprovider.getRateLimiterClient();
+      client = rateLimiterClientprovider.getRateLimiterClient();
     }
     return client;
   }

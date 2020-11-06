@@ -9,7 +9,7 @@ import uk.gov.ons.ctp.integration.ratelimiter.model.RateLimitResponse;
 
 public interface TestClient {
 
-  public RateLimitResponse checkRateLimit(
+  RateLimitResponse checkRateLimit(
       RateLimiterClient.Domain domain,
       Product product,
       CaseType caseType,

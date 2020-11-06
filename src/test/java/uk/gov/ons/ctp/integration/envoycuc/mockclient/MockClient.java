@@ -11,7 +11,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import uk.gov.ons.ctp.common.domain.CaseType;
@@ -50,11 +49,11 @@ public class MockClient implements TestClient {
 
     final RateLimiterClientRequest rateLimiterClientRequest =
         new RateLimiterClientRequest(domain, product, caseType, ipAddress, uprn, telNo);
-    final IsValidRequest isValidRequest = postRequest(rateLimiterClientRequest);
+    final RequestValidationStatus requestValidationStatus = postRequest(rateLimiterClientRequest);
 
-    if (!isValidRequest.isValid()) { // invalid request - throw a 429
+    if (!requestValidationStatus.isValid()) { // invalid request - throw a 429
       final StringBuilder reason = new StringBuilder("Too Many Requests - ");
-      isValidRequest
+      requestValidationStatus
           .getLimitStatusList()
           .forEach(stat -> reason.append(stat.toString()).append(" - "));
       throw new ResponseStatusException(
@@ -63,26 +62,26 @@ public class MockClient implements TestClient {
 
     RateLimitResponse response = new RateLimitResponse();
     response.setOverallCode("200");
-    response.setStatuses(isValidRequest.getLimitStatusList());
+    response.setStatuses(requestValidationStatus.getLimitStatusList());
     final StringBuilder reason = new StringBuilder("Request Successful - ");
-    isValidRequest
+    requestValidationStatus
         .getLimitStatusList()
         .forEach(stat -> reason.append(stat.toString()).append(" - "));
     log.info(reason.toString());
     return response;
   }
 
-  public IsValidRequest postRequest(final RateLimiterClientRequest rateLimiterClientRequest)
-      throws ResponseStatusException {
+  public RequestValidationStatus postRequest(
+      final RateLimiterClientRequest rateLimiterClientRequest) throws ResponseStatusException {
 
     List<String> requestKeyList = getKeys(rateLimiterClientRequest);
-    final IsValidRequest isValidRequest =
-        isValidateRequest(requestKeyList, rateLimiterClientRequest);
+    final RequestValidationStatus requestValidationStatus =
+        createRequestValidationStatus(requestKeyList, rateLimiterClientRequest);
     postRequest(
         requestKeyList,
         rateLimiterClientRequest); // always post - it burns allowances every time for all scenarios
 
-    return isValidRequest;
+    return requestValidationStatus;
   }
 
   private List<String> getKeys(RateLimiterClientRequest request) {
@@ -108,9 +107,9 @@ public class MockClient implements TestClient {
     return keyList;
   }
 
-  private IsValidRequest isValidateRequest(
-      List<String> requestKeyList, RateLimiterClientRequest f) {
-    final IsValidRequest isValidRequest = new IsValidRequest();
+  private RequestValidationStatus createRequestValidationStatus(
+      final List<String> requestKeyList, final RateLimiterClientRequest f) {
+    final RequestValidationStatus requestValidationStatus = new RequestValidationStatus();
     for (String requestKey : requestKeyList) {
       if (!allowanceMap.containsKey(requestKey)) {
         continue; // not in scope so is valid....
@@ -118,7 +117,7 @@ public class MockClient implements TestClient {
       final int noRequestAllowed = allowanceMap.get(requestKey);
       Map<String, List<Integer>> postedMap = postingsTimeMap.get(requestKey);
       if (postedMap == null) {
-        return isValidRequest;
+        return requestValidationStatus;
       }
       final String[] keyConstituents = requestKey.split("-");
       final String keyType = keyConstituents[keyConstituents.length - 1];
@@ -138,7 +137,6 @@ public class MockClient implements TestClient {
           postedMap.containsKey(valueToRecord) ? postedMap.get(valueToRecord) : new ArrayList<>();
 
       final Date now = new Date(System.currentTimeMillis());
-      final Date oneHourAgo = DateUtils.addHours(now, -1);
       SimpleDateFormat dmformatter = new SimpleDateFormat("DDDHH");
       int dayHourNow = Integer.parseInt(dmformatter.format(now));
       int postsWithinScopeCount = 0;
@@ -148,13 +146,13 @@ public class MockClient implements TestClient {
         }
       }
       final String recordKey = requestKey + "(" + valueToRecord + ")";
-      recordRequest(isValidRequest, recordKey, noRequestAllowed, postsWithinScopeCount);
+      recordRequest(requestValidationStatus, recordKey, noRequestAllowed, postsWithinScopeCount);
     }
-    return isValidRequest;
+    return requestValidationStatus;
   }
 
   private void recordRequest(
-      final IsValidRequest isValidRequest,
+      final RequestValidationStatus requestValidationStatus,
       final String recordKey,
       final int noRequestAllowed,
       final int postsWithinScopeCount) {
@@ -165,12 +163,12 @@ public class MockClient implements TestClient {
     currentLimit.setUnit("HOUR");
     limitStatus.setCurrentLimit(currentLimit);
     if (postsWithinScopeCount >= noRequestAllowed) {
-      isValidRequest.setValid(false);
+      requestValidationStatus.setValid(false);
       limitStatus.setLimitRemaining(0);
     } else {
       limitStatus.setLimitRemaining(noRequestAllowed - postsWithinScopeCount);
     }
-    isValidRequest.getLimitStatusList().add(limitStatus);
+    requestValidationStatus.getLimitStatusList().add(limitStatus);
   }
 
   private void postRequest(List<String> requestKeyList, final RateLimiterClientRequest request) {
@@ -284,7 +282,7 @@ public class MockClient implements TestClient {
                         updatedTimeList.add(
                             timeValue
                                 - hours); // we only store the day and hour now, so to roll back
-                        // just subtract 1
+                        // just subtract hours
                       });
                   value1.put(key2, updatedTimeList);
                 }));
