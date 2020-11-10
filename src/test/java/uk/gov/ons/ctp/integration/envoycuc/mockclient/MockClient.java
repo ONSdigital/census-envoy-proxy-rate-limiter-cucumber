@@ -4,7 +4,6 @@ import com.godaddy.logging.Logger;
 import com.godaddy.logging.LoggerFactory;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,9 +41,10 @@ public class MockClient implements TestClient {
 
   private Map<String, Integer> allowanceMap = new HashMap<>();
   private Map<String, Map<String, List<Integer>>> postingsTimeMap = new HashMap<>();
-  private List<UniquePropertyReferenceNumber> blackListedUprnList = Collections.singletonList(UniquePropertyReferenceNumber.create("666"));
-  private List<String> blackListedIpAddressList = Collections
-      .singletonList("blacklisted-ipAddress");
+  private List<UniquePropertyReferenceNumber> blackListedUprnList =
+      Collections.singletonList(UniquePropertyReferenceNumber.create("666"));
+  private List<String> blackListedIpAddressList =
+      Collections.singletonList("blacklisted-ipAddress");
   private List<String> blackListedTelNoList = Collections.singletonList("blacklisted-telNo");
 
   @PostConstruct
@@ -104,15 +104,16 @@ public class MockClient implements TestClient {
     if (request.getIpAddress() != null) {
       keyList.add(request.getProduct().getDeliveryChannel().name().toUpperCase() + "-IP");
     }
-    StringBuilder keyBuff =new StringBuilder()
-        .append(request.getProduct().getDeliveryChannel().name().toUpperCase())
-        .append("-")
-        .append(request.getProduct().getProductGroup().name().toUpperCase())
-        .append("-")
-        .append(request.getProduct().getIndividual().toString().toUpperCase())
-        .append("-")
-        .append(request.getCaseType().name().toUpperCase())
-        .append("-");
+    StringBuilder keyBuff =
+        new StringBuilder()
+            .append(request.getProduct().getDeliveryChannel().name().toUpperCase())
+            .append("-")
+            .append(request.getProduct().getProductGroup().name().toUpperCase())
+            .append("-")
+            .append(request.getProduct().getIndividual().toString().toUpperCase())
+            .append("-")
+            .append(request.getCaseType().name().toUpperCase())
+            .append("-");
     if (request.getUprn() != null && request.getUprn().getValue() != 0) {
       keyList.add(keyBuff.toString() + "UPRN");
     }
@@ -155,7 +156,9 @@ public class MockClient implements TestClient {
 
       String keyToRecord = getListKey(request, keyType);
       final List<Integer> postingsList =
-          postedMap!=null && postedMap.containsKey(keyToRecord) ? postedMap.get(keyToRecord) : new ArrayList<>();
+          postedMap != null && postedMap.containsKey(keyToRecord)
+              ? postedMap.get(keyToRecord)
+              : new ArrayList<>();
 
       final Date now = new Date(System.currentTimeMillis());
       SimpleDateFormat dmformatter = new SimpleDateFormat("DDDHH");

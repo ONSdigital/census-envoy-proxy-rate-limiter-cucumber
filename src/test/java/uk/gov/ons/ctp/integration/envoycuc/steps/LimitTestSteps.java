@@ -58,7 +58,8 @@ public class LimitTestSteps {
       final String individualStr,
       final String uprnStr) {
 
-    final String fullUprnStr = uprnStr.equals("666") ? uprnStr : stepsContext.getTestValuePrefix() + uprnStr;
+    final String fullUprnStr =
+        uprnStr.equals("666") ? uprnStr : stepsContext.getTestValuePrefix() + uprnStr;
 
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
@@ -84,7 +85,10 @@ public class LimitTestSteps {
       final String individualStr,
       final String telephone) {
 
-    final String fullTelephone = telephone.equals("blacklisted-telNo") ? telephone : stepsContext.getTestValuePrefix() + telephone;
+    final String fullTelephone =
+        telephone.equals("blacklisted-telNo")
+            ? telephone
+            : stepsContext.getTestValuePrefix() + telephone;
 
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
@@ -110,7 +114,10 @@ public class LimitTestSteps {
       final String individualStr,
       final String ipAddress) {
 
-    final String fullIpAddress = ipAddress.equals("blacklisted-ipAddress") ? ipAddress : stepsContext.getTestValuePrefix() + ipAddress;
+    final String fullIpAddress =
+        ipAddress.equals("blacklisted-ipAddress")
+            ? ipAddress
+            : stepsContext.getTestValuePrefix() + ipAddress;
 
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
@@ -284,5 +291,4 @@ public class LimitTestSteps {
   private String getUniqueValue() {
     return stepsContext.getUniqueValueAsString();
   }
-
 }
