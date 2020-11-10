@@ -266,9 +266,10 @@ public class MockClient implements TestClient {
   }
 
   private void setupTimeMaps() {
-    allowanceMap.forEach((key, value) -> {
-      postingsTimeMap.put(key, getNewTimeMap());
-    });
+    allowanceMap.forEach(
+        (key, value) -> {
+          postingsTimeMap.put(key, getNewTimeMap());
+        });
   }
 
   private Map<String, List<Integer>> getNewTimeMap() {
