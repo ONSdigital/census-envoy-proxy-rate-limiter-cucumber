@@ -25,9 +25,9 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 10            |   5            | 5              |"QUESTIONNAIRE"| "POST"          | "HH"        | "true"     | "11125"  |
       | 10            |   5            | 5              |"QUESTIONNAIRE"| "POST"          | "SPG"       | "true"     | "11126"  |
       | 100           |   50           | 50             |"QUESTIONNAIRE"| "POST"          | "CE"        | "true"     | "11127"  |
-      | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "HH"        | "false"    | "11128"  |
-      | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "SPG"       | "false"    | "11129"  |
-      | 20            |   0            | 20             |"CONTINUATION" | "POST"          | "SPG"       | "false"    | "666"    |
+      | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "HH"        | "true"     | "11128"  |
+      | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "SPG"       | "true"     | "11129"  |
+      | 20            |   0            | 20             |"CONTINUATION" | "POST"          | "SPG"       | "true"     | "666"    |
 
   @LimiterTestTelephone
   Scenario Outline: TELEPHONE TEST

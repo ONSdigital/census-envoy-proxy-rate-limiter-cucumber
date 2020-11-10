@@ -26,8 +26,8 @@ Feature: This feature tests that tests can be rerun once the hour ticks over and
       | 10            |   5            | 5              |"QUESTIONNAIRE"| "POST"          | "HH"        | "true"     | "11125" |
       | 10            |   5            | 5              |"QUESTIONNAIRE"| "POST"          | "SPG"       | "true"     | "11126" |
       | 100           |   50           | 50             |"QUESTIONNAIRE"| "POST"          | "CE"        | "true"     | "11127" |
-      | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "HH"        | "false"    | "11128" |
-      | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "SPG"       | "false"    | "11129" |
+      | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "HH"        | "true"     | "11128" |
+      | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "SPG"       | "true"     | "11129" |
 
   @RollForwardTestTelephone
   Scenario Outline: Roll Forward - TELEPHONE TEST

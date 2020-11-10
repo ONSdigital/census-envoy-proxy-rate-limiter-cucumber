@@ -5,23 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a10dfae-8759-4442-b91e-b03479acd833" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/context/StepsContext.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/combotests/backup.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/client/RateLimitClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/client/RateLimitClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/client/TestClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/client/TestClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/context/RateLimiterClientProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/config/RateLimiterClientConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/main/SpringIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/main/SpringIntegrationTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/mockclient/MockClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/mockclient/MockClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/steps/LimitTestSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/steps/LimitTestSteps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/combotests/QUESTIONNAIRE-POST-HH.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/combotests/QUESTIONNAIRE-POST-HH.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/combotests/QUESTIONNAIRE-POST-SPG.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/combotests/QUESTIONNAIRE-POST-SPG.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/combotests/UAC-POST-CE.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/combotests/UAC-POST-CE.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/combotests/UAC-POST-HH.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/combotests/UAC-POST-HH.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/combotests/UAC-POST-SPG.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/combotests/UAC-POST-SPG.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/combotests/CONTINUATION-POST.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/combotests/CONTINUATION-POST.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/features/limiter-test.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/limiter-test.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/roll-forward.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/roll-forward.feature" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -320,7 +308,7 @@
       <workItem from="1603186089194" duration="72777000" />
       <workItem from="1604308921764" duration="41645000" />
       <workItem from="1604460055031" duration="7124000" />
-      <workItem from="1604573552608" duration="37751000" />
+      <workItem from="1604573552608" duration="40401000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1602604337619</created>
@@ -574,15 +562,27 @@
       <option name="project" value="LOCAL" />
       <updated>1604684262707</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Code review and general tidy up&#10;Applied new rules">
+      <created>1605000060816</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1605000060816</updated>
+    </task>
+    <task id="LOCAL-00038" summary="reformatted">
+      <created>1605000105339</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1605000105339</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="finished Mock Client&#10;Ran first test&#10;Set Mock forward an hour and ren second tests&#10;All works &#10;Now tying Client in" />
-    <MESSAGE value="formatted code" />
     <MESSAGE value="Added dependency on Rate Limiter Client" />
     <MESSAGE value="Added code to call RateLimiterClient" />
     <MESSAGE value="Added environment variables" />
@@ -606,7 +606,9 @@
     <MESSAGE value="Split the combo tests up into their own features and labelled them using their parameters" />
     <MESSAGE value="interim commit" />
     <MESSAGE value="Review changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Review changes" />
+    <MESSAGE value="Code review and general tidy up&#10;Applied new rules" />
+    <MESSAGE value="reformatted" />
+    <option name="LAST_COMMIT_MESSAGE" value="reformatted" />
   </component>
   <component name="WindowStateProjectService">
     <state x="560" y="157" key="#Plugins" timestamp="1603186103716">
@@ -632,10 +634,10 @@
     </state>
     <state x="557" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1920.973@0.23.1920.973" timestamp="1604919054430" />
     <state x="557" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1920.975@0.23.1920.975" timestamp="1604663232195" />
-    <state x="397" y="65" key="CommitChangelistDialog2" timestamp="1604684262061">
-      <screen x="0" y="23" width="1920" height="975" />
+    <state x="404" y="43" key="CommitChangelistDialog2" timestamp="1605000105026">
+      <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="404" y="43" key="CommitChangelistDialog2/0.23.1920.973@0.23.1920.973" timestamp="1604577761933" />
+    <state x="404" y="43" key="CommitChangelistDialog2/0.23.1920.973@0.23.1920.973" timestamp="1605000105026" />
     <state x="397" y="65" key="CommitChangelistDialog2/0.23.1920.975@0.23.1920.975" timestamp="1604684262061" />
     <state x="404" y="43" key="CommitChangelistDialog2/0.23.1920.978@0.23.1920.978" timestamp="1604407309796" />
     <state width="441" height="466" key="DebuggerActiveHint" timestamp="1604937781275">
@@ -699,10 +701,10 @@
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="448" y="91" key="SettingsEditor/0.23.1920.973@0.23.1920.973" timestamp="1602600452786" />
-    <state x="560" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604684264695">
-      <screen x="0" y="23" width="1920" height="975" />
+    <state x="560" y="249" key="Vcs.Push.Dialog.v2" timestamp="1605000106826">
+      <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1604577768092" />
+    <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1605000106826" />
     <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.975@0.23.1920.975" timestamp="1604684264695" />
     <state x="560" y="250" key="Vcs.Push.Dialog.v2/0.23.1920.978@0.23.1920.978" timestamp="1604407312103" />
     <state x="761" y="430" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603442372462">
@@ -742,18 +744,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/mockclient/MockClient.java</url>
-          <line>126</line>
+          <line>127</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/mockclient/MockClient.java</url>
-          <line>121</line>
+          <line>122</line>
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/mockclient/MockClient.java</url>
-          <line>155</line>
+          <line>156</line>
           <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/uk/gov/ons/ctp/integration/envoycuc/mockclient/MockClient.java</url>
+          <line>139</line>
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -254,40 +254,21 @@ public class MockClient implements TestClient {
     allowanceMap.put("POST-QUESTIONNAIRE-TRUE-HH-UPRN", 5);
     allowanceMap.put("POST-QUESTIONNAIRE-TRUE-SPG-UPRN", 5);
     allowanceMap.put("POST-QUESTIONNAIRE-TRUE-CE-UPRN", 50);
-    allowanceMap.put("POST-CONTINUATION-FALSE-HH-UPRN", 12);
-    allowanceMap.put("POST-CONTINUATION-FALSE-SPG-UPRN", 12);
+    allowanceMap.put("POST-LARGE_PRINT-FALSE-HH-UPRN", 1);
+    allowanceMap.put("POST-LARGE_PRINT-FALSE-SPG-UPRN", 1);
+    allowanceMap.put("POST-LARGE_PRINT-TRUE-HH-UPRN", 5);
+    allowanceMap.put("POST-LARGE_PRINT-TRUE-SPG-UPRN", 5);
+    allowanceMap.put("POST-LARGE_PRINT-TRUE-CE-UPRN", 50);
+    allowanceMap.put("POST-CONTINUATION-TRUE-HH-UPRN", 12);
+    allowanceMap.put("POST-CONTINUATION-TRUE-SPG-UPRN", 12);
     allowanceMap.put("POST-IP", 100);
+    setupTimeMaps();
   }
 
-  @PostConstruct
   private void setupTimeMaps() {
-    postingsTimeMap.put("SMS-UAC-FALSE-HH-UPRN", getNewTimeMap());
-    postingsTimeMap.put("SMS-UAC-FALSE-SPG-UPRN", getNewTimeMap());
-    postingsTimeMap.put("SMS-UAC-FALSE-CE-UPRN", getNewTimeMap());
-    postingsTimeMap.put("SMS-UAC-FALSE-HH-TELNO", getNewTimeMap());
-    postingsTimeMap.put("SMS-UAC-FALSE-SPG-TELNO", getNewTimeMap());
-    postingsTimeMap.put("SMS-UAC-FALSE-CE-TELNO", getNewTimeMap());
-    postingsTimeMap.put("SMS-IP", getNewTimeMap());
-    postingsTimeMap.put("SMS-UAC-TRUE-HH-UPRN", getNewTimeMap());
-    postingsTimeMap.put("SMS-UAC-TRUE-SPG-UPRN", getNewTimeMap());
-    postingsTimeMap.put("SMS-UAC-TRUE-CE-UPRN", getNewTimeMap());
-    postingsTimeMap.put("SMS-UAC-TRUE-HH-TELNO", getNewTimeMap());
-    postingsTimeMap.put("SMS-UAC-TRUE-SPG-TELNO", getNewTimeMap());
-    postingsTimeMap.put("SMS-UAC-TRUE-CE-TELNO", getNewTimeMap());
-    postingsTimeMap.put("POST-UAC-FALSE-HH-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-UAC-FALSE-SPG-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-UAC-FALSE-CE-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-UAC-TRUE-HH-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-UAC-TRUE-SPG-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-UAC-TRUE-CE-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-QUESTIONNAIRE-FALSE-HH-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-QUESTIONNAIRE-FALSE-SPG-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-QUESTIONNAIRE-TRUE-HH-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-QUESTIONNAIRE-TRUE-SPG-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-QUESTIONNAIRE-TRUE-CE-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-CONTINUATION-FALSE-HH-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-CONTINUATION-FALSE-SPG-UPRN", getNewTimeMap());
-    postingsTimeMap.put("POST-IP", getNewTimeMap());
+    allowanceMap.forEach((key, value) -> {
+      postingsTimeMap.put(key, getNewTimeMap());
+    });
   }
 
   private Map<String, List<Integer>> getNewTimeMap() {
