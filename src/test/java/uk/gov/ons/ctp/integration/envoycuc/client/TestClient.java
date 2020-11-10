@@ -17,4 +17,6 @@ public interface TestClient {
       UniquePropertyReferenceNumber uprn,
       String telNo)
       throws CTPException;
+
+  void waitHours(int hours);
 }

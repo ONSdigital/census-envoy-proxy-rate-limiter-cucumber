@@ -9,10 +9,10 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
     Examples:
       | noFulfilments | expectedToPass | expectedToFail | productGroup | deliveryChannel  | caseType  | individual | telNo     | ipAddress | uprn     |
-      | 6             | 1              | 5              | "UAC"        | "POST"           | "SPG"     | "false"    | "0000000" | ".0.0.0"  | "911112" |
-      | 85            | 1              | 84             | "UAC"        | "POST"           | "SPG"     | "false"    | "0000000" | ".0.0.0"  | "911113" |
-      | 10            | 1              | 9              | "UAC"        | "POST"           | "SPG"     | "false"    | "0000000" | ".0.0.0"  | "911114" |
-      | 10            | 1              | 9              | "UAC"        | "POST"           | "SPG"     | "false"    | "0000000" | ".0.0.0"  | "911115" |
+      | 6             | 1              | 5              | "UAC"        | "POST"           | "SPG"     | "false"    | "0000000" | ".0.2.0"  | "911112" |
+      | 85            | 1              | 84             | "UAC"        | "POST"           | "SPG"     | "false"    | "0000000" | ".0.2.0"  | "911113" |
+      | 10            | 1              | 9              | "UAC"        | "POST"           | "SPG"     | "false"    | "0000000" | ".0.2.1"  | "911114" |
+      | 10            | 1              | 9              | "UAC"        | "POST"           | "SPG"     | "false"    | "0000000" | ".0.2.1"  | "911115" |
 
   @UACPostSPGIndividual
   Scenario Outline: Combinations TEST - UAC POST SPG Individual
@@ -22,7 +22,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
     Examples:
       | noFulfilments | expectedToPass | expectedToFail | productGroup | deliveryChannel  | caseType  | individual | telNo     | ipAddress | uprn     |
-      | 6             | 5              | 1              | "UAC"        | "POST"           | "SPG"     | "true"     | "0000000" | ".0.0.0"  | "911112" |
-      | 85            | 5              | 80             | "UAC"        | "POST"           | "SPG"     | "true"     | "0000000" | ".0.0.0"  | "911113" |
-      | 10            | 5              | 5              | "UAC"        | "POST"           | "SPG"     | "true"     | "0000000" | ".0.0.0"  | "911114" |
-      | 10            | 5              | 5              | "UAC"        | "POST"           | "SPG"     | "true"     | "0000000" | ".0.0.0"  | "911115" |
+      | 6             | 5              | 1              | "UAC"        | "POST"           | "SPG"     | "true"     | "0000000" | ".0.1.0"  | "911112" |
+      | 10            | 5              | 5              | "UAC"        | "POST"           | "SPG"     | "true"     | "0000000" | ".0.1.0"  | "911113" |
+      | 10            | 5              | 5              | "UAC"        | "POST"           | "SPG"     | "true"     | "0000000" | ".0.1.2"  | "911114" |
+      | 10            | 5              | 5              | "UAC"        | "POST"           | "SPG"     | "true"     | "0000000" | ".0.1.2"  | "911115" |

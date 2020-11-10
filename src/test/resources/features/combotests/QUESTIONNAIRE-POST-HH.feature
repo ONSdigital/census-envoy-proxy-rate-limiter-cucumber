@@ -23,4 +23,4 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel | caseType   | individual | telNo     | ipAddress | uprn     |
       | 6             | 5              | 1              |"QUESTIONNAIRE"| "POST"          | "HH"       | "true"     | "0000000" | ".0.0.0"  | "911112" |
       | 10            | 0              | 10             |"QUESTIONNAIRE"| "POST"          | "HH"       | "true"     | "0000000" | ".0.0.0"  | "911112" |
-      | 10            | 5              | 5              |"QUESTIONNAIRE"| "POST"          | "HH"       | "true"     | "0000000" | ".0.0.0"  | "911114" |
+      | 10            | 4              | 6              |"QUESTIONNAIRE"| "POST"          | "HH"       | "true"     | "0000000" | ".0.0.0"  | "911114" |

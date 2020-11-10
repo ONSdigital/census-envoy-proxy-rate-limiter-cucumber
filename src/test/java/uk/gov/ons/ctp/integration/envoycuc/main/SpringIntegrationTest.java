@@ -7,16 +7,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
-import uk.gov.ons.ctp.integration.envoycuc.context.RateLimiterClientProvider;
+import uk.gov.ons.ctp.integration.envoycuc.config.RateLimiterClientConfig;
 import uk.gov.ons.ctp.integration.envoycuc.context.RateLimiterClientRequestContext;
-import uk.gov.ons.ctp.integration.envoycuc.mockclient.MockClient;
+import uk.gov.ons.ctp.integration.envoycuc.context.StepsContext;
 
 @ContextConfiguration(
     classes = {
       SpringIntegrationTest.class,
       RateLimiterClientRequestContext.class,
-      MockClient.class,
-      RateLimiterClientProvider.class
+      RateLimiterClientConfig.class,
+      StepsContext.class
     },
     loader = SpringBootContextLoader.class,
     initializers = ConfigFileApplicationContextInitializer.class)

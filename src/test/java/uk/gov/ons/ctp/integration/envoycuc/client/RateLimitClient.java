@@ -8,4 +8,6 @@ public class RateLimitClient extends RateLimiterClient implements TestClient {
   public RateLimitClient(RestClient restClient) {
     super(restClient);
   }
+
+  public void waitHours(int hours) {}
 }

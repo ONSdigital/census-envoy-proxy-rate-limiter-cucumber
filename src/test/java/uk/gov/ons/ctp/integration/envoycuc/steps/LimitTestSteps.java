@@ -24,19 +24,29 @@ import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
 import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientRequest;
 import uk.gov.ons.ctp.integration.envoycuc.client.TestClient;
-import uk.gov.ons.ctp.integration.envoycuc.context.RateLimiterClientProvider;
+import uk.gov.ons.ctp.integration.envoycuc.config.RateLimiterClientConfig;
 import uk.gov.ons.ctp.integration.envoycuc.context.RateLimiterClientRequestContext;
-import uk.gov.ons.ctp.integration.envoycuc.mockclient.MockClient;
+import uk.gov.ons.ctp.integration.envoycuc.context.StepsContext;
 
 public class LimitTestSteps {
 
   private static final Logger log = LoggerFactory.getLogger(LimitTestSteps.class);
 
-  @Autowired private RateLimiterClientRequestContext rateLimiterClientRequestContext;
+  private final RateLimiterClientRequestContext rateLimiterClientRequestContext;
+  private final RateLimiterClientConfig rateLimiterClientConfig;
+  private final TestClient testClient;
+  private final StepsContext stepsContext;
 
-  @Autowired private MockClient mockClient;
-
-  @Autowired private RateLimiterClientProvider rateLimiterClientprovider;
+  public LimitTestSteps(
+      @Autowired RateLimiterClientRequestContext rateLimiterClientRequestContext,
+      @Autowired RateLimiterClientConfig rateLimiterClientConfig,
+      @Autowired TestClient testClient,
+      @Autowired StepsContext stepsContext) {
+    this.rateLimiterClientRequestContext = rateLimiterClientRequestContext;
+    this.rateLimiterClientConfig = rateLimiterClientConfig;
+    this.stepsContext = stepsContext;
+    this.testClient = testClient;
+  }
 
   @Given(
       "I have {int} fulfilment requests of product group {string} delivery channel {string} case type {string} individual is {string} uprn {string}")
@@ -48,7 +58,7 @@ public class LimitTestSteps {
       final String individualStr,
       final String uprnStr) {
 
-    final String fullUprnStr = rateLimiterClientprovider.getTestValuePrefix() + uprnStr;
+    final String fullUprnStr = uprnStr.equals("666") ? uprnStr : stepsContext.getTestValuePrefix() + uprnStr;
 
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
@@ -74,7 +84,7 @@ public class LimitTestSteps {
       final String individualStr,
       final String telephone) {
 
-    final String fullTelephone = rateLimiterClientprovider.getTestValuePrefix() + telephone;
+    final String fullTelephone = telephone.equals("blacklisted-telNo") ? telephone : stepsContext.getTestValuePrefix() + telephone;
 
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
@@ -100,7 +110,7 @@ public class LimitTestSteps {
       final String individualStr,
       final String ipAddress) {
 
-    final String fullIpAddress = rateLimiterClientprovider.getTestValuePrefix() + ipAddress;
+    final String fullIpAddress = ipAddress.equals("blacklisted-ipAddress") ? ipAddress : stepsContext.getTestValuePrefix() + ipAddress;
 
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
@@ -129,9 +139,9 @@ public class LimitTestSteps {
           final String ipAddress,
           final String uprnStr) {
 
-    final String fullTelephone = rateLimiterClientprovider.getTestValuePrefix() + telephone;
-    final String fullIpAddress = rateLimiterClientprovider.getTestValuePrefix() + ipAddress;
-    final String fullUprnStr = rateLimiterClientprovider.getTestValuePrefix() + uprnStr;
+    final String fullTelephone = stepsContext.getTestValuePrefix() + telephone;
+    final String fullIpAddress = stepsContext.getTestValuePrefix() + ipAddress;
+    final String fullUprnStr = stepsContext.getTestValuePrefix() + uprnStr;
 
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
@@ -150,13 +160,12 @@ public class LimitTestSteps {
 
   @When("I post the fulfilments to the envoy proxy client")
   public void iPostTheFulfilmentsToTheEnvoyproxyClient() {
-    final TestClient client = getTestClient();
 
     final List<Boolean> passList = rateLimiterClientRequestContext.getPassList();
     for (RateLimiterClientRequest r : rateLimiterClientRequestContext.getRateLimiterRequestList()) {
       boolean isPass = true;
       try {
-        client.checkRateLimit(
+        testClient.checkRateLimit(
             r.getDomain(),
             r.getProduct(),
             r.getCaseType(),
@@ -244,11 +253,11 @@ public class LimitTestSteps {
 
   @And("I wait until the hour")
   public void iWaitUntilTheHour() {
-    if (!rateLimiterClientprovider.isWaited()) {
+    if (!stepsContext.isWaited()) {
 
-      if (rateLimiterClientprovider.getUseStubClient()) {
-        mockClient.waitHours(1);
-        rateLimiterClientprovider.setWaited(true);
+      if (rateLimiterClientConfig.getIsMockClient()) {
+        testClient.waitHours(1);
+        stepsContext.setWaited(true);
         return;
       }
 
@@ -262,7 +271,7 @@ public class LimitTestSteps {
         log.info("waiting for " + timeToWait + " minutes.");
         try {
           Thread.sleep(1000 * 60 * timeToWait);
-          rateLimiterClientprovider.setWaited(true);
+          stepsContext.setWaited(true);
         } catch (InterruptedException ex) {
           final String errorMessage = "Unable to wait any longer, so abandoning the test";
           log.error(errorMessage);
@@ -273,16 +282,7 @@ public class LimitTestSteps {
   }
 
   private String getUniqueValue() {
-    return rateLimiterClientprovider.getUniqueValueAsString();
+    return stepsContext.getUniqueValueAsString();
   }
 
-  private TestClient getTestClient() {
-    TestClient client;
-    if (rateLimiterClientprovider.getUseStubClient()) {
-      client = mockClient;
-    } else {
-      client = rateLimiterClientprovider.getRateLimiterClient();
-    }
-    return client;
-  }
 }

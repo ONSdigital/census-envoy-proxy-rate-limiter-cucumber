@@ -9,10 +9,10 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
     Examples:
       | noFulfilments | expectedToPass | expectedToFail | productGroup | deliveryChannel  | caseType  | individual | telNo     | ipAddress | uprn     |
-      | 6             | 1              | 5              | "UAC"        | "POST"           | "HH"      | "false"    | "0000000" | ".0.0.0"  | "711112" |
-      | 85            | 1              | 84             | "UAC"        | "POST"           | "HH"      | "false"    | "0000000" | ".0.0.0"  | "711113" |
-      | 10            | 1              | 9              | "UAC"        | "POST"           | "HH"      | "false"    | "0000000" | ".0.0.0"  | "711114" |
-      | 10            | 1              | 9              | "UAC"        | "POST"           | "HH"      | "false"    | "0000000" | ".0.0.0"  | "711115" |
+      | 6             | 1              | 5              | "UAC"        | "POST"           | "HH"      | "false"    | "0000000" | ".0.3.0"  | "711112" |
+      | 85            | 1              | 84             | "UAC"        | "POST"           | "HH"      | "false"    | "0000000" | ".0.3.0"  | "711113" |
+      | 10            | 1              | 9              | "UAC"        | "POST"           | "HH"      | "false"    | "0000000" | ".0.2.1"  | "711114" |
+      | 10            | 1              | 9              | "UAC"        | "POST"           | "HH"      | "false"    | "0000000" | ".0.2.1"  | "711115" |
 
   @UACPostHHIndividual
   Scenario Outline: Combinations TEST - UAC POST HH Individual
@@ -22,7 +22,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
 
     Examples:
       | noFulfilments | expectedToPass | expectedToFail | productGroup | deliveryChannel  | caseType  | individual | telNo     | ipAddress | uprn     |
-      | 6             | 5              | 1              | "UAC"        | "POST"           | "HH"      | "true"     | "0000000" | ".0.0.0"  | "811112" |
-      | 85            | 5              | 80             | "UAC"        | "POST"           | "HH"      | "true"     | "0000000" | ".0.0.0"  | "811113" |
-      | 10            | 5              | 5              | "UAC"        | "POST"           | "HH"      | "true"     | "0000000" | ".0.0.0"  | "811114" |
-      | 10            | 5              | 5              | "UAC"        | "POST"           | "HH"      | "true"     | "0000000" | ".0.0.0"  | "811115" |
+      | 6             | 5              | 1              | "UAC"        | "POST"           | "HH"      | "true"     | "0000000" | ".0.8.7"  | "811112" |
+      | 85            | 5              | 80             | "UAC"        | "POST"           | "HH"      | "true"     | "0000000" | ".0.8.7"  | "811113" |
+      | 10            | 5              | 5              | "UAC"        | "POST"           | "HH"      | "true"     | "0000000" | ".0.2.1"  | "811114" |
+      | 10            | 5              | 5              | "UAC"        | "POST"           | "HH"      | "true"     | "0000000" | ".0.2.1"  | "811115" |
