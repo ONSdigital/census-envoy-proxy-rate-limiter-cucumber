@@ -42,7 +42,7 @@ public class MockClient implements TestClient {
   private Map<String, Integer> allowanceMap = new HashMap<>();
   private Map<String, Map<String, List<Integer>>> postingsTimeMap = new HashMap<>();
   private List<UniquePropertyReferenceNumber> blackListedUprnList =
-      Collections.singletonList(UniquePropertyReferenceNumber.create("666"));
+      Collections.singletonList(UniquePropertyReferenceNumber.create("999999"));
   private List<String> blackListedIpAddressList =
       Collections.singletonList("blacklisted-ipAddress");
   private List<String> blackListedTelNoList = Collections.singletonList("blacklisted-telNo");
@@ -137,17 +137,13 @@ public class MockClient implements TestClient {
 
       int numberRequestsAllowed = allowanceMap.get(requestKey);
       boolean isBlackListed = false;
-      if (keyType.equals("UPRN") && blackListedUprnList.contains(request.getUprn())) {
+
+      if (blackListedIpAddressList.contains(request.getIpAddress())
+          || blackListedUprnList.contains(request.getUprn())
+          || blackListedTelNoList.contains(request.getTelNo())) {
         numberRequestsAllowed = 0;
         isBlackListed = true;
-      }
-      if (keyType.equals("IP") && blackListedIpAddressList.contains(request.getIpAddress())) {
-        numberRequestsAllowed = 0;
-        isBlackListed = true;
-      }
-      if (keyType.equals("TELNO") && blackListedTelNoList.contains(request.getTelNo())) {
-        numberRequestsAllowed = 0;
-        isBlackListed = true;
+        requestValidationStatus.setValid(false);
       }
 
       if (!isBlackListed && postedMap == null) {
@@ -259,8 +255,8 @@ public class MockClient implements TestClient {
     allowanceMap.put("POST-LARGE_PRINT-TRUE-HH-UPRN", 5);
     allowanceMap.put("POST-LARGE_PRINT-TRUE-SPG-UPRN", 5);
     allowanceMap.put("POST-LARGE_PRINT-TRUE-CE-UPRN", 50);
-    allowanceMap.put("POST-CONTINUATION-TRUE-HH-UPRN", 12);
-    allowanceMap.put("POST-CONTINUATION-TRUE-SPG-UPRN", 12);
+    allowanceMap.put("POST-CONTINUATION-FALSE-HH-UPRN", 12);
+    allowanceMap.put("POST-CONTINUATION-FALSE-SPG-UPRN", 12);
     allowanceMap.put("POST-IP", 100);
     setupTimeMaps();
   }
