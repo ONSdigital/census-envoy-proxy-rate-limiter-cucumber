@@ -227,37 +227,52 @@ public class MockClient implements TestClient {
   @PostConstruct
   private void setupAllowances() {
     allowanceMap.put("SMS-UAC-FALSE-HH-UPRN", 5);
-    allowanceMap.put("SMS-UAC-FALSE-SPG-UPRN", 5);
-    allowanceMap.put("SMS-UAC-FALSE-CE-UPRN", 5);
     allowanceMap.put("SMS-UAC-FALSE-HH-TELNO", 10);
+
+    allowanceMap.put("SMS-UAC-FALSE-SPG-UPRN", 5);
     allowanceMap.put("SMS-UAC-FALSE-SPG-TELNO", 10);
+
+    allowanceMap.put("SMS-UAC-FALSE-CE-UPRN", 5);
     allowanceMap.put("SMS-UAC-FALSE-CE-TELNO", 5);
-    allowanceMap.put("SMS-IP", 100);
+
     allowanceMap.put("SMS-UAC-TRUE-HH-UPRN", 10);
-    allowanceMap.put("SMS-UAC-TRUE-SPG-UPRN", 10);
-    allowanceMap.put("SMS-UAC-TRUE-CE-UPRN", 50);
     allowanceMap.put("SMS-UAC-TRUE-HH-TELNO", 10);
+
+    allowanceMap.put("SMS-UAC-TRUE-SPG-UPRN", 10);
     allowanceMap.put("SMS-UAC-TRUE-SPG-TELNO", 10);
+
+    allowanceMap.put("SMS-UAC-TRUE-CE-UPRN", 50);
     allowanceMap.put("SMS-UAC-TRUE-CE-TELNO", 50);
+
+    allowanceMap.put("SMS-IP", 100);
+
     allowanceMap.put("POST-UAC-FALSE-HH-UPRN", 1);
     allowanceMap.put("POST-UAC-FALSE-SPG-UPRN", 1);
     allowanceMap.put("POST-UAC-FALSE-CE-UPRN", 1);
+
     allowanceMap.put("POST-UAC-TRUE-HH-UPRN", 5);
     allowanceMap.put("POST-UAC-TRUE-SPG-UPRN", 5);
     allowanceMap.put("POST-UAC-TRUE-CE-UPRN", 50);
+
     allowanceMap.put("POST-QUESTIONNAIRE-FALSE-HH-UPRN", 1);
     allowanceMap.put("POST-QUESTIONNAIRE-FALSE-SPG-UPRN", 1);
+
     allowanceMap.put("POST-QUESTIONNAIRE-TRUE-HH-UPRN", 5);
     allowanceMap.put("POST-QUESTIONNAIRE-TRUE-SPG-UPRN", 5);
     allowanceMap.put("POST-QUESTIONNAIRE-TRUE-CE-UPRN", 50);
+
     allowanceMap.put("POST-LARGE_PRINT-FALSE-HH-UPRN", 1);
     allowanceMap.put("POST-LARGE_PRINT-FALSE-SPG-UPRN", 1);
+
     allowanceMap.put("POST-LARGE_PRINT-TRUE-HH-UPRN", 5);
     allowanceMap.put("POST-LARGE_PRINT-TRUE-SPG-UPRN", 5);
     allowanceMap.put("POST-LARGE_PRINT-TRUE-CE-UPRN", 50);
+
     allowanceMap.put("POST-CONTINUATION-FALSE-HH-UPRN", 12);
     allowanceMap.put("POST-CONTINUATION-FALSE-SPG-UPRN", 12);
+
     allowanceMap.put("POST-IP", 100);
+
     setupTimeMaps();
   }
 
