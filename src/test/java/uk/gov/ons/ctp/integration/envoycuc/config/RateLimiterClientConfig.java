@@ -13,6 +13,7 @@ import uk.gov.ons.ctp.common.rest.RestClientConfig;
 import uk.gov.ons.ctp.integration.envoycuc.client.RateLimitClient;
 import uk.gov.ons.ctp.integration.envoycuc.client.TestClient;
 import uk.gov.ons.ctp.integration.envoycuc.mockclient.MockClient;
+import uk.gov.ons.ctp.integration.envoycuc.mockclient.MockLimiter;
 
 @Data
 @NoArgsConstructor
@@ -46,7 +47,7 @@ public class RateLimiterClientConfig {
   public TestClient testClient() {
     TestClient client;
     if (isMockClient) {
-      client = new MockClient();
+      client = new MockClient(new MockLimiter());
     } else {
       client = rateLimiterClient();
     }
