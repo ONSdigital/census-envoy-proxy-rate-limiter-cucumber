@@ -24,5 +24,5 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | noFulfilments | expectedToPass | expectedToFail | productGroup | deliveryChannel  | caseType  | individual | telNo     | ipAddress | uprn     |
       | 6             | 5              | 1              | "UAC"        | "POST"           | "HH"      | "true"     | "0000005" | ".0.8.7"  | "811112" |
       | 10            | 0              | 10             | "UAC"        | "POST"           | "HH"      | "true"     | "0000006" | ".0.8.7"  | "811112" |
-      | 10            | 5              | 5              | "UAC"        | "POST"           | "HH"      | "true"     | "0000007" | ".0.2.1"  | "811114" |
-      | 10            | 5              | 5              | "UAC"        | "POST"           | "HH"      | "true"     | "0000008" | ".0.2.1"  | "811115" |
+      | 10            | 5              | 5              | "UAC"        | "POST"           | "HH"      | "true"     | "0000007" | ".0.2.1"  | "801114" |
+      | 10            | 5              | 5              | "UAC"        | "POST"           | "HH"      | "true"     | "0000008" | ".0.2.1"  | "801115" |
