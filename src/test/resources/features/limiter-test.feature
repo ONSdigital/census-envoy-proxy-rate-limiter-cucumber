@@ -12,8 +12,8 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "SPG"       | "false"    | "11112"  |
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "CE"        | "false"    | "11113"  |
       | 20            |   10           | 10             | "UAC"         | "SMS"           | "HH"        | "true"     | "11114"  |
-      | 20            |   10           | 10             | "UAC"         | "SMS"           | "SPG"       | "true"     | "11115"  |
-      | 100           |   50           | 50             | "UAC"         | "SMS"           | "CE"        | "true"     | "11116"  |
+      | 20            |   20           | 0              | "UAC"         | "SMS"           | "SPG"       | "true"     | "11115"  |
+      | 100           |   100          | 0              | "UAC"         | "SMS"           | "CE"        | "true"     | "11116"  |
       | 10            |   1            | 9              | "UAC"         | "POST"          | "HH"        | "false"    | "11117"  |
       | 10            |   1            | 9              | "UAC"         | "POST"          | "SPG"       | "false"    | "11118"  |
       | 10            |   1            | 9              | "UAC"         | "POST"          | "CE"        | "false"    | "11119"  |
@@ -27,7 +27,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 100           |   50           | 50             |"QUESTIONNAIRE"| "POST"          | "CE"        | "true"     | "11127"  |
       | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "HH"        | "false"    | "11128"  |
       | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "SPG"       | "false"    | "11129"  |
-      | 20            |   0            | 20             |"CONTINUATION" | "POST"          | "SPG"       | "false"    | "999999" |
+      | 20            |   12           | 8              |"CONTINUATION" | "POST"          | "SPG"       | "false"    | "999998" |
 
   @LimiterTestTelephone
   Scenario Outline: TELEPHONE TEST
@@ -39,9 +39,9 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 20            |   10           | 10             | "UAC"         | "SMS"           | "HH"        | "false"    | "111111"           |
       | 20            |   10           | 10             | "UAC"         | "SMS"           | "SPG"       | "false"    | "111112"           |
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "CE"        | "false"    | "111113"           |
-      | 20            |   10           | 10             | "UAC"         | "SMS"           | "HH"        | "true"     | "111114"           |
-      | 20            |   10           | 10             | "UAC"         | "SMS"           | "SPG"       | "true"     | "111115"           |
-      | 100           |   50           | 50             | "UAC"         | "SMS"           | "CE"        | "true"     | "111116"           |
+      | 20            |   20           | 0              | "UAC"         | "SMS"           | "HH"        | "true"     | "111114"           |
+      | 20            |   20           | 0              | "UAC"         | "SMS"           | "SPG"       | "true"     | "111115"           |
+      | 100           |   100          | 0              | "UAC"         | "SMS"           | "CE"        | "true"     | "111116"           |
       | 100           |   0            | 100            | "UAC"         | "SMS"           | "CE"        | "true"     | "blacklisted-telNo"|
 
   @LimiterTestIPAddress

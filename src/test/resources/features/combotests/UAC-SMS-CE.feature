@@ -23,6 +23,6 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
     Examples:
       | noFulfilments | expectedToPass | expectedToFail | productGroup | deliveryChannel | caseType  | individual | telNo     | ipAddress | uprn     |
       | 11            | 11             | 0              | "UAC"        | "SMS"           | "CE"      | "true"     | "6333333" | ".0.0.6"  | "611112" |
-      | 85            | 39             | 46             | "UAC"        | "SMS"           | "CE"      | "true"     | "6333333" | ".0.0.6"  | "611113" |
+      | 85            | 85             | 0              | "UAC"        | "SMS"           | "CE"      | "true"     | "6333333" | ".0.0.6"  | "611113" |
       | 10            | 4              | 6              | "UAC"        | "SMS"           | "CE"      | "true"     | "6333334" | ".0.0.6"  | "611114" |
       | 10            | 0              | 10             | "UAC"        | "SMS"           | "CE"      | "true"     | "6333335" | ".0.0.6"  | "611115" |
