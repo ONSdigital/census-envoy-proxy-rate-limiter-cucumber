@@ -59,7 +59,7 @@ public class LimitTestSteps {
       final String uprnStr) {
 
     final String fullUprnStr =
-        uprnStr.equals("999999") ? uprnStr : stepsContext.getTestValuePrefix() + uprnStr;
+        uprnStr.equals("9999999999999") ? uprnStr : stepsContext.getTestValuePrefix() + uprnStr;
 
     for (int i = 0; i < noRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =

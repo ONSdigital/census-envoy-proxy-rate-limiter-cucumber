@@ -42,7 +42,7 @@ public class MockClient implements TestClient {
   private Map<String, Integer> allowanceMap = new HashMap<>();
   private Map<String, Map<String, List<Integer>>> postingsTimeMap = new HashMap<>();
   private List<UniquePropertyReferenceNumber> blackListedUprnList =
-      Collections.singletonList(UniquePropertyReferenceNumber.create("999999"));
+      Collections.singletonList(UniquePropertyReferenceNumber.create("9999999999999"));
   private List<String> blackListedIpAddressList =
       Collections.singletonList("blacklisted-ipAddress");
   private List<String> blackListedTelNoList = Collections.singletonList("blacklisted-telNo");
