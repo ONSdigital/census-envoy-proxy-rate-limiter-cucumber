@@ -11,8 +11,8 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | noFulfilments | expectedToPass | expectedToFail | productGroup | deliveryChannel  | caseType | individual | telNo     | ipAddress | uprn     |
       | 6             | 1              | 5              | "UAC"        | "POST"           | "CE"     | "false"    | "0000000" | ".0.0.4"  | "911112" |
       | 85            | 1              | 84             | "UAC"        | "POST"           | "CE"     | "false"    | "0000000" | ".0.0.4"  | "911113" |
-      | 10            | 1              | 9              | "UAC"        | "POST"           | "CE"     | "false"    | "0000000" | ".0.0.4"  | "911114" |
-      | 10            | 0              | 10             | "UAC"        | "POST"           | "CE"     | "false"    | "0000000" | ".0.0.4"  | "911115" |
+      | 10            | 0              | 10             | "UAC"        | "POST"           | "CE"     | "false"    | "0000000" | ".0.0.4"  | "911114" |
+      | 10            | 1              | 9              | "UAC"        | "POST"           | "CE"     | "false"    | "0000000" | ".0.0.5"  | "911115" |
 
   @UACPostCEIndividual
   Scenario Outline: Combinations TEST - UAC POST CE Individual

@@ -271,7 +271,7 @@ public class MockClient implements TestClient {
     allowanceMap.put("POST-CONTINUATION-FALSE-HH-UPRN", 12);
     allowanceMap.put("POST-CONTINUATION-FALSE-SPG-UPRN", 12);
 
-    allowanceMap.put("POST-IP", 100);
+    allowanceMap.put("POST-IP", 50);
 
     setupTimeMaps();
   }

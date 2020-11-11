@@ -23,5 +23,5 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
     Examples:
       | noFulfilments | expectedToPass | expectedToFail | productGroup  | deliveryChannel  | caseType    | individual | telNo     | ipAddress  | uprn     |
       | 7             | 7              | 0              |"CONTINUATION" | "POST"           | "SPG"       | "false"    | "0000000" | ".10.0.0"  | "911112" |
-      | 7             | 5              | 2              |"CONTINUATION" | "POST"           | "SPG"       | "false"    | "0000000" | ".10.0.0"  | "911112" |
-      | 13            | 12             | 1              |"CONTINUATION" | "POST"           | "SPG"       | "false"    | "0000000" | ".10.0.0"  | "911114" |
+      | 7             | 3              | 4              |"CONTINUATION" | "POST"           | "SPG"       | "false"    | "0000000" | ".10.0.0"  | "911112" |
+      | 13            | 12             | 1              |"CONTINUATION" | "POST"           | "SPG"       | "false"    | "0000000" | ".10.0.1"  | "911114" |
