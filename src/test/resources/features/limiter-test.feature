@@ -11,7 +11,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "HH"        | "false"    | "11111"  |
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "SPG"       | "false"    | "11112"  |
       | 10            |   5            | 5              | "UAC"         | "SMS"           | "CE"        | "false"    | "11113"  |
-      | 20            |   10           | 10             | "UAC"         | "SMS"           | "HH"        | "true"     | "11114"  |
+      | 20            |   20           | 0              | "UAC"         | "SMS"           | "HH"        | "true"     | "11114"  |
       | 20            |   20           | 0              | "UAC"         | "SMS"           | "SPG"       | "true"     | "11115"  |
       | 100           |   100          | 0              | "UAC"         | "SMS"           | "CE"        | "true"     | "11116"  |
       | 10            |   1            | 9              | "UAC"         | "POST"          | "HH"        | "false"    | "11117"  |
