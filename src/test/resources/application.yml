@@ -16,8 +16,8 @@ logging:
   profile: DEV
   useJson: false
 
-mock-client: ${:false}
+mock-client: false
 envoy:
-  host: ${:localhost}
-  port: ${:8181}
-  scheme: ${:http}
+  host: localhost
+  port: 8181
+  scheme: http

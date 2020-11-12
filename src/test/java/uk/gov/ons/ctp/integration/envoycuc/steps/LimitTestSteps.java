@@ -37,11 +37,12 @@ public class LimitTestSteps {
   private final TestClient testClient;
   private final StepsContext stepsContext;
 
+  @Autowired
   public LimitTestSteps(
-      @Autowired RateLimiterClientRequestContext rateLimiterClientRequestContext,
-      @Autowired RateLimiterClientConfig rateLimiterClientConfig,
-      @Autowired TestClient testClient,
-      @Autowired StepsContext stepsContext) {
+      RateLimiterClientRequestContext rateLimiterClientRequestContext,
+      RateLimiterClientConfig rateLimiterClientConfig,
+      TestClient testClient,
+      StepsContext stepsContext) {
     this.rateLimiterClientRequestContext = rateLimiterClientRequestContext;
     this.rateLimiterClientConfig = rateLimiterClientConfig;
     this.stepsContext = stepsContext;

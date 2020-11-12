@@ -15,8 +15,12 @@ import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientRequest;
 public class RateLimiterClientRequestContext {
 
   private List<RateLimiterClientRequest> rateLimiterRequestList = new ArrayList<>();
-  private int noRequests = 0;
+  private int numberRequests;
   private List<Boolean> passList = new ArrayList<>();
   private RateLimiterClientRequest rateLimiterClientRequest = new RateLimiterClientRequest();
   private boolean pending = false;
+
+  public void addPassed(boolean isPass) {
+    passList.add(isPass);
+  }
 }
