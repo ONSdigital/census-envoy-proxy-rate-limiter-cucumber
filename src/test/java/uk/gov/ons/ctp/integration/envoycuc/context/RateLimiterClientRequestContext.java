@@ -17,10 +17,15 @@ public class RateLimiterClientRequestContext {
   private List<RateLimiterClientRequest> rateLimiterRequestList = new ArrayList<>();
   private int numberRequests;
   private List<Boolean> passList = new ArrayList<>();
-  private RateLimiterClientRequest rateLimiterClientRequest = new RateLimiterClientRequest();
   private boolean pending = false;
 
   public void addPassed(boolean isPass) {
     passList.add(isPass);
   }
+
+  public void addRequest(final RateLimiterClientRequest rateLimiterClientRequest) {
+    rateLimiterRequestList.add(rateLimiterClientRequest);
+  }
+
+
 }

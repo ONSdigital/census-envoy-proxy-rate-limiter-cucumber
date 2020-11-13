@@ -72,7 +72,7 @@ public class LimitTestSteps {
               fullUprnStr,
               getUniqueValue(),
               getUniqueValue());
-      rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
+      rateLimiterClientRequestContext.addRequest(rateLimiterClientRequest);
     }
   }
 
@@ -101,7 +101,7 @@ public class LimitTestSteps {
               getUniqueValue(),
               fullTelephone,
               getUniqueValue());
-      rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
+      rateLimiterClientRequestContext.addRequest(rateLimiterClientRequest);
     }
   }
 
@@ -130,7 +130,7 @@ public class LimitTestSteps {
               getUniqueValue(),
               getUniqueValue(),
               fullIpAddress);
-      rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
+      rateLimiterClientRequestContext.addRequest(rateLimiterClientRequest);
     }
   }
 
@@ -162,7 +162,7 @@ public class LimitTestSteps {
               fullTelephone,
               fullIpAddress);
 
-      rateLimiterClientRequestContext.getRateLimiterRequestList().add(rateLimiterClientRequest);
+      rateLimiterClientRequestContext.addRequest(rateLimiterClientRequest);
     }
   }
 
