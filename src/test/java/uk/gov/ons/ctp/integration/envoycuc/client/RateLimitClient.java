@@ -9,5 +9,5 @@ public class RateLimitClient extends RateLimiterClient implements TestClient {
     super(restClient);
   }
 
-  public void waitHours() {}
+  public void resetLimiterMaps() {}
 }

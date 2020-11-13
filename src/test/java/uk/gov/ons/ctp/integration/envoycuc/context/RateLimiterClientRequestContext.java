@@ -23,6 +23,4 @@ public class RateLimiterClientRequestContext {
   public void addPassed(boolean isPass) {
     passList.add(isPass);
   }
-
-
 }

@@ -264,7 +264,7 @@ public class LimitTestSteps {
     if (!stepsContext.isWaited()) {
 
       if (rateLimiterClientConfig.getIsMockClient()) {
-        testClient.waitHours();
+        testClient.resetLimiterMaps();
         stepsContext.setWaited(true);
         return;
       }

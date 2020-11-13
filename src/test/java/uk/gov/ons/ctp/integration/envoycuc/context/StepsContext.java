@@ -37,7 +37,8 @@ public class StepsContext {
     uniqueValue = now.getTime();
     testValuePrefix = formatter.format(now);
 
-    dayHour = Integer.parseInt(getDayHourFormatter().format(now));
+    SimpleDateFormat dddMMFormatter = new SimpleDateFormat("DDDHH");
+    dayHour = Integer.parseInt(dddMMFormatter.format(now));
   }
 
   public String getUniqueValueAsString() {
@@ -45,7 +46,7 @@ public class StepsContext {
     return uniqueValue.toString();
   }
 
-  public SimpleDateFormat getDayHourFormatter() {
+  private SimpleDateFormat getDayHourFormatter() {
     return new SimpleDateFormat("DDDHH");
   }
 }

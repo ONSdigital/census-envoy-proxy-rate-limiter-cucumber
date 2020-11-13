@@ -18,5 +18,5 @@ public interface TestClient {
       String telNo)
       throws CTPException;
 
-  void waitHours();
+  void resetLimiterMaps();
 }

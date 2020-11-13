@@ -56,7 +56,7 @@ public class MockClient implements TestClient {
   }
 
   @Override
-  public void waitHours() {
-    mockLimiter.waitHours();
+  public void resetLimiterMaps() {
+    mockLimiter.resetLimiterMaps();
   }
 }
