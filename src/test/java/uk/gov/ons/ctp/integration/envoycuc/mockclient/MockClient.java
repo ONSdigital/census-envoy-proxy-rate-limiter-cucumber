@@ -56,7 +56,7 @@ public class MockClient implements TestClient {
   }
 
   @Override
-  public void resetLimiterMaps() {
+  public void rollOverTheHour() {
     mockLimiter.resetLimiterMaps();
   }
 }

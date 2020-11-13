@@ -18,5 +18,5 @@ public interface TestClient {
       String telNo)
       throws CTPException;
 
-  void resetLimiterMaps();
+  void rollOverTheHour();
 }
