@@ -52,7 +52,7 @@ public class LimitTestSteps {
   @Given(
       "I have {int} fulfilment requests of product group {string} delivery channel {string} case type {string} individual is {string} uprn {string}")
   public void iHaveFulfilmentRequestsOfProductGroupDeliveryChannelCaseTypeIndividualIsUprn(
-      final int noRequests,
+      final int numberRequest,
       final String productGroup,
       final String deliveryChannel,
       final String caseType,
@@ -62,7 +62,7 @@ public class LimitTestSteps {
     final String fullUprnStr =
         uprnStr.equals("9999999999999") ? uprnStr : stepsContext.getTestValuePrefix() + uprnStr;
 
-    for (int i = 0; i < noRequests; i++) {
+    for (int i = 0; i < numberRequest; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
           getRateLimiterClientRequest(
               productGroup,
@@ -79,7 +79,7 @@ public class LimitTestSteps {
   @Given(
       "I have {int} fulfilment requests of product group {string} delivery channel {string} case type {string} individual is {string} telephone {string}")
   public void iHaveFulfilmentRequestsOfProductGroupDeliveryChannelCaseTypeIndividualIsTelephone(
-      final int noRequests,
+      final int numberRequests,
       final String productGroup,
       final String deliveryChannel,
       final String caseType,
@@ -91,7 +91,7 @@ public class LimitTestSteps {
             ? telephone
             : stepsContext.getTestValuePrefix() + telephone;
 
-    for (int i = 0; i < noRequests; i++) {
+    for (int i = 0; i < numberRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
           getRateLimiterClientRequest(
               productGroup,
@@ -108,7 +108,7 @@ public class LimitTestSteps {
   @Given(
       "I have {int} fulfilment requests of product group {string} delivery channel {string} case type {string} individual is {string} ip {string}")
   public void iHaveFulfilmentRequestsOfProductGroupDeliveryChannelCaseTypeIndividualIsIP(
-      final int noRequests,
+      final int numberRequests,
       final String productGroup,
       final String deliveryChannel,
       final String caseType,
@@ -120,7 +120,7 @@ public class LimitTestSteps {
             ? ipAddress
             : stepsContext.getTestValuePrefix() + ipAddress;
 
-    for (int i = 0; i < noRequests; i++) {
+    for (int i = 0; i < numberRequests; i++) {
       final RateLimiterClientRequest rateLimiterClientRequest =
           getRateLimiterClientRequest(
               productGroup,
@@ -264,7 +264,7 @@ public class LimitTestSteps {
     if (!stepsContext.isWaited()) {
 
       if (rateLimiterClientConfig.getIsMockClient()) {
-        testClient.waitHours(1);
+        testClient.waitHours();
         stepsContext.setWaited(true);
         return;
       }

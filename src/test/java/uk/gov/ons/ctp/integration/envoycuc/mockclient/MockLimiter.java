@@ -231,20 +231,11 @@ public class MockLimiter {
     return new HashMap<>();
   }
 
-  public void waitHours(final int hours) {
-    postingsTimeMap.forEach(
-        (key1, value1) ->
-            value1.forEach(
-                (key2, value2) -> {
-                  final List<Integer> updatedTimeList = new ArrayList<>();
-                  value2.forEach(
-                      timeValue -> {
-                        updatedTimeList.add(
-                            timeValue
-                                - hours); // we only store the day and hour now, so to roll back
-                        // just subtract hours
-                      });
-                  value1.put(key2, updatedTimeList);
-                }));
+  public void waitHours() {
+    postingsTimeMap.clear();
+    setupTimeMaps();
   }
+
+
+  // SimpleDateFormat
 }
