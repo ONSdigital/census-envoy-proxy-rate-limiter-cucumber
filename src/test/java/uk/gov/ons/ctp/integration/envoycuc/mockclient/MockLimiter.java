@@ -105,8 +105,7 @@ public class MockLimiter {
               ? postedMap.get(keyToRecord)
               : new ArrayList<>();
 
-      final Date now = new Date(System.currentTimeMillis());
-      int dayHourNow = Integer.parseInt(getDayHourDateFormatter().format(now));
+      int dayHourNow = getDayHourNow();
       int postsWithinScopeCount = 0;
       for (int postDateHour : postingsList) {
         if (postDateHour == dayHourNow) {
@@ -150,8 +149,7 @@ public class MockLimiter {
       final String listKey = getListKey(request, keyType);
 
       postedMap.computeIfAbsent(listKey, k -> new ArrayList<>());
-      final Date now = new Date(System.currentTimeMillis());
-      int dayHour = Integer.parseInt(getDayHourDateFormatter().format(now));
+      int dayHour = getDayHourNow();
       postedMap.get(listKey).add(dayHour);
     }
   }
@@ -234,7 +232,9 @@ public class MockLimiter {
     setupTimeMaps();
   }
 
-  private SimpleDateFormat getDayHourDateFormatter() {
-    return new SimpleDateFormat("DDDHH");
+  private int getDayHourNow() {
+    SimpleDateFormat dayHourDateFormatter = new SimpleDateFormat("DDDHH");
+    final Date now = new Date(System.currentTimeMillis());
+    return Integer.parseInt(dayHourDateFormatter.format(now));
   }
 }
