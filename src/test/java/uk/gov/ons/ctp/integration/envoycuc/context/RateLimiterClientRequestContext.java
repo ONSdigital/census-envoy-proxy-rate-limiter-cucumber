@@ -19,13 +19,7 @@ public class RateLimiterClientRequestContext {
   private List<Boolean> passList = new ArrayList<>();
   private boolean pending = false;
 
-  public void addPassed(boolean isPass) {
-    passList.add(isPass);
-  }
-
   public void addRequest(final RateLimiterClientRequest rateLimiterClientRequest) {
     rateLimiterRequestList.add(rateLimiterClientRequest);
   }
-
-
 }

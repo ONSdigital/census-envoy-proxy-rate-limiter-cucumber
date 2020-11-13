@@ -45,8 +45,4 @@ public class StepsContext {
     uniqueValue++;
     return uniqueValue.toString();
   }
-
-  private SimpleDateFormat getDayHourFormatter() {
-    return new SimpleDateFormat("DDDHH");
-  }
 }
