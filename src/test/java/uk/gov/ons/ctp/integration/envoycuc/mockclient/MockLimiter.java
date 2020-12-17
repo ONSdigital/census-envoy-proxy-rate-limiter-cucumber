@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.web.server.ResponseStatusException;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientFulfilmentRequest;
+import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientRequest;
 import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientWebformRequest;
 import uk.gov.ons.ctp.integration.ratelimiter.model.CurrentLimit;
 import uk.gov.ons.ctp.integration.ratelimiter.model.LimitStatus;
@@ -95,7 +96,7 @@ public class MockLimiter {
   }
 
   private RequestValidationStatus createRequestValidationStatus(
-      final List<String> requestKeyList, final RateLimiterClientFulfilmentRequest request) {
+      final List<String> requestKeyList, final RateLimiterClientRequest request) {
     final RequestValidationStatus requestValidationStatus = new RequestValidationStatus();
     for (String requestKey : requestKeyList) {
       if (!allowanceMap.containsKey(requestKey)) {
@@ -160,8 +161,7 @@ public class MockLimiter {
     requestValidationStatus.getLimitStatusList().add(limitStatus);
   }
 
-  private void postRequest(
-      List<String> requestKeyList, final RateLimiterClientFulfilmentRequest request) {
+  private void postRequest(List<String> requestKeyList, final RateLimiterClientRequest request) {
     for (String requestKey : requestKeyList) {
       Map<String, List<Integer>> postedMap = postingsTimeMap.get(requestKey);
       if (postedMap == null) {
@@ -177,8 +177,7 @@ public class MockLimiter {
     }
   }
 
-  private String getListKey(
-      final RateLimiterClientFulfilmentRequest request, final String keyType) {
+  private String getListKey(final RateLimiterClientRequest request, final String keyType) {
     String listKey = null;
     if (keyType.equals("UPRN")) {
       listKey = request.getUprn().getValue() + "";

@@ -1,21 +1,15 @@
 package uk.gov.ons.ctp.integration.envoycuc.client;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
-import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient;
 import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient.Domain;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class RateLimiterClientFulfilmentRequest {
-
-  private RateLimiterClient.Domain domain = Domain.RH;
-  private Product product;
-  private CaseType caseType;
-  private String ipAddress;
-  private UniquePropertyReferenceNumber uprn;
-  private String telNo;
+public class RateLimiterClientFulfilmentRequest extends RateLimiterClientRequest {
 
   public RateLimiterClientFulfilmentRequest(
       Domain domain,
