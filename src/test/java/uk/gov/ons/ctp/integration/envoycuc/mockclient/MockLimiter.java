@@ -46,7 +46,7 @@ public class MockLimiter {
     postRequest(
         requestKeyList,
         rateLimiterClientFulfilmentRequest); // always post - it burns allowances every time for all
-                                             // scenarios
+    // scenarios
 
     return requestValidationStatus;
   }
@@ -61,7 +61,7 @@ public class MockLimiter {
     postRequest(
         requestKeyList,
         rateLimiterClientWebformRequest); // always post - it burns allowances every time for all
-                                          // scenarios
+    // scenarios
 
     return requestValidationStatus;
   }
