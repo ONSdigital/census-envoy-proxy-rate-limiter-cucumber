@@ -72,3 +72,4 @@ Feature: This feature tests that tests can be rerun once the hour ticks over and
       | 150                 |   100          | 50             | ".1.2.3"  |
       | 75                  |   75           | 0              | ".1.2.4"  |
       | 75                  |   25           | 50             | ".1.2.4"  |
+      | 50                  |   0            | 50             | ".1.2.4"  |

@@ -69,4 +69,5 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 150                 |   100          | 50             | ".1.2.3"  |
       | 75                  |   75           | 0              | ".1.2.4"  |
       | 75                  |   25           | 50             | ".1.2.4"  |
+      | 50                  |   0            | 50             | ".1.2.4"  |
 
