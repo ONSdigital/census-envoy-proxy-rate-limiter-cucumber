@@ -5,6 +5,8 @@ import java.util.Map;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -40,7 +42,10 @@ public class RateLimiterClientConfig {
     httpErrorMapping.put(HttpStatus.TOO_MANY_REQUESTS, HttpStatus.TOO_MANY_REQUESTS);
     final RestClient restClient =
         new RestClient(restClientConfig, httpErrorMapping, HttpStatus.INTERNAL_SERVER_ERROR);
-    return new RateLimitClient(restClient);
+    final Resilience4JCircuitBreakerFactory circuitBreakerFactory =
+        new Resilience4JCircuitBreakerFactory();
+    final CircuitBreaker circuitBreaker = circuitBreakerFactory.create("envoyLimiterCb");
+    return new RateLimitClient(restClient, circuitBreaker);
   }
 
   @Bean

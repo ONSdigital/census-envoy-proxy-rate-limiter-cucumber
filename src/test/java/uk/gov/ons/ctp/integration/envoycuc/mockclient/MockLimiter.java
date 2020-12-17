@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.web.server.ResponseStatusException;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
-import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientRequest;
+import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientFulfilmentRequest;
+import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientWebformRequest;
 import uk.gov.ons.ctp.integration.ratelimiter.model.CurrentLimit;
 import uk.gov.ons.ctp.integration.ratelimiter.model.LimitStatus;
 
@@ -35,20 +36,37 @@ public class MockLimiter {
     setupAllowances();
   }
 
-  public RequestValidationStatus postRequest(
-      final RateLimiterClientRequest rateLimiterClientRequest) throws ResponseStatusException {
+  public RequestValidationStatus postFulfilmentRequest(
+      final RateLimiterClientFulfilmentRequest rateLimiterClientFulfilmentRequest)
+      throws ResponseStatusException {
 
-    List<String> requestKeyList = getKeys(rateLimiterClientRequest);
+    List<String> requestKeyList = getFulfilmentKeys(rateLimiterClientFulfilmentRequest);
     final RequestValidationStatus requestValidationStatus =
-        createRequestValidationStatus(requestKeyList, rateLimiterClientRequest);
+        createRequestValidationStatus(requestKeyList, rateLimiterClientFulfilmentRequest);
     postRequest(
         requestKeyList,
-        rateLimiterClientRequest); // always post - it burns allowances every time for all scenarios
+        rateLimiterClientFulfilmentRequest); // always post - it burns allowances every time for all
+                                             // scenarios
 
     return requestValidationStatus;
   }
 
-  private List<String> getKeys(RateLimiterClientRequest request) {
+  public RequestValidationStatus postWebformRequest(
+      final RateLimiterClientWebformRequest rateLimiterClientWebformRequest)
+      throws ResponseStatusException {
+
+    List<String> requestKeyList = getWebformKeys();
+    final RequestValidationStatus requestValidationStatus =
+        createRequestValidationStatus(requestKeyList, rateLimiterClientWebformRequest);
+    postRequest(
+        requestKeyList,
+        rateLimiterClientWebformRequest); // always post - it burns allowances every time for all
+                                          // scenarios
+
+    return requestValidationStatus;
+  }
+
+  private List<String> getFulfilmentKeys(RateLimiterClientFulfilmentRequest request) {
     List<String> keyList = new ArrayList<>();
     if (request.getIpAddress() != null) {
       keyList.add(request.getProduct().getDeliveryChannel().name().toUpperCase() + "-IP");
@@ -72,8 +90,12 @@ public class MockLimiter {
     return keyList;
   }
 
+  private List<String> getWebformKeys() {
+    return Collections.singletonList("IP");
+  }
+
   private RequestValidationStatus createRequestValidationStatus(
-      final List<String> requestKeyList, final RateLimiterClientRequest request) {
+      final List<String> requestKeyList, final RateLimiterClientFulfilmentRequest request) {
     final RequestValidationStatus requestValidationStatus = new RequestValidationStatus();
     for (String requestKey : requestKeyList) {
       if (!allowanceMap.containsKey(requestKey)) {
@@ -138,7 +160,8 @@ public class MockLimiter {
     requestValidationStatus.getLimitStatusList().add(limitStatus);
   }
 
-  private void postRequest(List<String> requestKeyList, final RateLimiterClientRequest request) {
+  private void postRequest(
+      List<String> requestKeyList, final RateLimiterClientFulfilmentRequest request) {
     for (String requestKey : requestKeyList) {
       Map<String, List<Integer>> postedMap = postingsTimeMap.get(requestKey);
       if (postedMap == null) {
@@ -154,7 +177,8 @@ public class MockLimiter {
     }
   }
 
-  private String getListKey(final RateLimiterClientRequest request, final String keyType) {
+  private String getListKey(
+      final RateLimiterClientFulfilmentRequest request, final String keyType) {
     String listKey = null;
     if (keyType.equals("UPRN")) {
       listKey = request.getUprn().getValue() + "";
@@ -215,6 +239,8 @@ public class MockLimiter {
     allowanceMap.put("POST-CONTINUATION-FALSE-SPG-UPRN", 12);
 
     allowanceMap.put("POST-IP", 50);
+
+    allowanceMap.put("IP", 100);
 
     setupTimeMaps();
   }

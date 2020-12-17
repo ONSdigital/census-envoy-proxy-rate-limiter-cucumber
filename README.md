@@ -50,6 +50,9 @@ mvn clean install will cause a maven task to run the glue classes which drive th
 
    RateLimiterClientConfig delivers a TestClient for use - either the RateLimiterClient for use with an external limiter or MockClient which interactes 
    with the MockLimiter. This depends on the mock_client env var 
+   
+Added Webform test that checks for 100 requests per IP address in an hour
+Added Webform endpoint to MockClient and MockLimiter   
 
      
 

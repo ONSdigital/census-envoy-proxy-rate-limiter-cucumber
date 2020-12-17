@@ -8,7 +8,7 @@ import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient;
 import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient.Domain;
 
 @Data
-public class RateLimiterClientRequest {
+public class RateLimiterClientFulfilmentRequest {
 
   private RateLimiterClient.Domain domain = Domain.RH;
   private Product product;
@@ -17,7 +17,7 @@ public class RateLimiterClientRequest {
   private UniquePropertyReferenceNumber uprn;
   private String telNo;
 
-  public RateLimiterClientRequest(
+  public RateLimiterClientFulfilmentRequest(
       Domain domain,
       Product product,
       CaseType caseType,
@@ -32,7 +32,7 @@ public class RateLimiterClientRequest {
     this.telNo = telNo;
   }
 
-  public RateLimiterClientRequest() {}
+  public RateLimiterClientFulfilmentRequest() {}
 
   public String toString() {
     return String.format(product.toString(), caseType, ipAddress, uprn, telNo);

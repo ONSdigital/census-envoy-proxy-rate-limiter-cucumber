@@ -22,7 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
 import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
-import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientRequest;
+import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientFulfilmentRequest;
+import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientWebformRequest;
 import uk.gov.ons.ctp.integration.envoycuc.client.TestClient;
 import uk.gov.ons.ctp.integration.envoycuc.config.RateLimiterClientConfig;
 import uk.gov.ons.ctp.integration.envoycuc.context.RateLimiterClientRequestContext;
@@ -63,8 +64,8 @@ public class LimitTestSteps {
         uprnStr.equals("9999999999999") ? uprnStr : stepsContext.getTestValuePrefix() + uprnStr;
 
     for (int i = 0; i < numberRequest; i++) {
-      final RateLimiterClientRequest rateLimiterClientRequest =
-          getRateLimiterClientRequest(
+      final RateLimiterClientFulfilmentRequest rateLimiterClientRequest =
+          getRateLimiterClientFulfilmentRequest(
               productGroup,
               deliveryChannel,
               caseType,
@@ -72,7 +73,7 @@ public class LimitTestSteps {
               fullUprnStr,
               getUniqueValue(),
               getUniqueValue());
-      rateLimiterClientRequestContext.addRequest(rateLimiterClientRequest);
+      rateLimiterClientRequestContext.addFulfilmentRequest(rateLimiterClientRequest);
     }
   }
 
@@ -92,8 +93,8 @@ public class LimitTestSteps {
             : stepsContext.getTestValuePrefix() + telephone;
 
     for (int i = 0; i < numberRequests; i++) {
-      final RateLimiterClientRequest rateLimiterClientRequest =
-          getRateLimiterClientRequest(
+      final RateLimiterClientFulfilmentRequest rateLimiterClientRequest =
+          getRateLimiterClientFulfilmentRequest(
               productGroup,
               deliveryChannel,
               caseType,
@@ -101,7 +102,7 @@ public class LimitTestSteps {
               getUniqueValue(),
               fullTelephone,
               getUniqueValue());
-      rateLimiterClientRequestContext.addRequest(rateLimiterClientRequest);
+      rateLimiterClientRequestContext.addFulfilmentRequest(rateLimiterClientRequest);
     }
   }
 
@@ -121,8 +122,8 @@ public class LimitTestSteps {
             : stepsContext.getTestValuePrefix() + ipAddress;
 
     for (int i = 0; i < numberRequests; i++) {
-      final RateLimiterClientRequest rateLimiterClientRequest =
-          getRateLimiterClientRequest(
+      final RateLimiterClientFulfilmentRequest rateLimiterClientRequest =
+          getRateLimiterClientFulfilmentRequest(
               productGroup,
               deliveryChannel,
               caseType,
@@ -130,7 +131,7 @@ public class LimitTestSteps {
               getUniqueValue(),
               getUniqueValue(),
               fullIpAddress);
-      rateLimiterClientRequestContext.addRequest(rateLimiterClientRequest);
+      rateLimiterClientRequestContext.addFulfilmentRequest(rateLimiterClientRequest);
     }
   }
 
@@ -152,8 +153,8 @@ public class LimitTestSteps {
     final String fullUprnStr = stepsContext.getTestValuePrefix() + uprnStr;
 
     for (int i = 0; i < noRequests; i++) {
-      final RateLimiterClientRequest rateLimiterClientRequest =
-          getRateLimiterClientRequest(
+      final RateLimiterClientFulfilmentRequest rateLimiterClientRequest =
+          getRateLimiterClientFulfilmentRequest(
               productGroup,
               deliveryChannel,
               caseType,
@@ -162,7 +163,7 @@ public class LimitTestSteps {
               fullTelephone,
               fullIpAddress);
 
-      rateLimiterClientRequestContext.addRequest(rateLimiterClientRequest);
+      rateLimiterClientRequestContext.addFulfilmentRequest(rateLimiterClientRequest);
     }
   }
 
@@ -170,16 +171,40 @@ public class LimitTestSteps {
   public void iPostTheFulfilmentsToTheEnvoyproxyClient() {
 
     final List<Boolean> passList = rateLimiterClientRequestContext.getPassList();
-    for (RateLimiterClientRequest r : rateLimiterClientRequestContext.getRateLimiterRequestList()) {
+    for (RateLimiterClientFulfilmentRequest r :
+        rateLimiterClientRequestContext.getRateLimiterFulfilmentRequestList()) {
       boolean isPass = true;
       try {
-        testClient.checkRateLimit(
+        testClient.checkFulfilmentRateLimit(
             r.getDomain(),
             r.getProduct(),
             r.getCaseType(),
             r.getIpAddress(),
             r.getUprn(),
             r.getTelNo());
+      } catch (ResponseStatusException ex) {
+        HttpStatus httpStatus = ex.getStatus();
+        if (httpStatus == HttpStatus.TOO_MANY_REQUESTS) {
+          isPass = false;
+          log.debug("Rate Limit Exceeded: " + ex.getReason());
+        }
+      } catch (Exception unexpectedException) {
+        throw new RuntimeException(
+            "Invalid status thrown for request: " + r.toString(), unexpectedException.getCause());
+      }
+      passList.add(isPass);
+    }
+  }
+
+  @When("I post the webform requests to the envoy proxy client")
+  public void iPostTheWebformRequestsToTheEnvoyproxyClient() {
+
+    final List<Boolean> passList = rateLimiterClientRequestContext.getPassList();
+    for (RateLimiterClientWebformRequest r :
+        rateLimiterClientRequestContext.getRateLimiterWebformRequestList()) {
+      boolean isPass = true;
+      try {
+        testClient.checkWebformRateLimit(r.getDomain(), r.getIpAddress());
       } catch (ResponseStatusException ex) {
         HttpStatus httpStatus = ex.getStatus();
         if (httpStatus == HttpStatus.TOO_MANY_REQUESTS) {
@@ -233,7 +258,7 @@ public class LimitTestSteps {
     assertEquals("Actual No Failures should be " + expectedFailures, expectedFailures, actFailures);
   }
 
-  private RateLimiterClientRequest getRateLimiterClientRequest(
+  private RateLimiterClientFulfilmentRequest getRateLimiterClientFulfilmentRequest(
       String productGroup,
       String deliveryChannel,
       String caseTypeStr,
@@ -241,7 +266,7 @@ public class LimitTestSteps {
       String uprnStr,
       String telNo,
       String ipAddress) {
-    final RateLimiterClientRequest request = new RateLimiterClientRequest();
+    final RateLimiterClientFulfilmentRequest request = new RateLimiterClientFulfilmentRequest();
     Product.CaseType caseType = Product.CaseType.valueOf(caseTypeStr);
     Product product =
         Product.builder()
@@ -255,6 +280,12 @@ public class LimitTestSteps {
     UniquePropertyReferenceNumber uprn = UniquePropertyReferenceNumber.create(uprnStr);
     request.setUprn(uprn);
     request.setTelNo(telNo);
+    request.setIpAddress(ipAddress);
+    return request;
+  }
+
+  private RateLimiterClientWebformRequest getRateLimiterClientWebformRequest(String ipAddress) {
+    final RateLimiterClientWebformRequest request = new RateLimiterClientWebformRequest();
     request.setIpAddress(ipAddress);
     return request;
   }
@@ -291,5 +322,20 @@ public class LimitTestSteps {
 
   private String getUniqueValue() {
     return stepsContext.getUniqueValueAsString();
+  }
+
+  @Given("I have {int} webform requests for ipAddress {string}")
+  public void iHaveNumWebformRequestsWebformRequestsForIpAddressIpAddress(
+      final int numberRequests, final String ipAddress) {
+    final String fullIpAddress =
+        ipAddress.equals("blacklisted-ipAddress")
+            ? ipAddress
+            : stepsContext.getTestValuePrefix() + ipAddress;
+
+    for (int i = 0; i < numberRequests; i++) {
+      final RateLimiterClientWebformRequest rateLimiterClientRequest =
+          getRateLimiterClientWebformRequest(fullIpAddress);
+      rateLimiterClientRequestContext.addWebformRequest(rateLimiterClientRequest);
+    }
   }
 }
