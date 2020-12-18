@@ -7,8 +7,6 @@ import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
-import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientFulfilmentRequest;
-import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientWebformRequest;
 import uk.gov.ons.ctp.integration.envoycuc.client.TestClient;
 import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient;
 import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient.Domain;
@@ -32,10 +30,8 @@ public class MockClient implements TestClient {
       UniquePropertyReferenceNumber uprn,
       String telNo) {
 
-    final RateLimiterClientFulfilmentRequest rateLimiterClientFulfilmentRequest =
-        new RateLimiterClientFulfilmentRequest(domain, product, caseType, ipAddress, uprn, telNo);
     final RequestValidationStatus requestValidationStatus =
-        mockLimiter.postFulfilmentRequest(rateLimiterClientFulfilmentRequest);
+        mockLimiter.postFulfilmentRequest(domain, product, caseType, ipAddress, uprn, telNo);
 
     checkValidity(requestValidationStatus);
   }
@@ -43,11 +39,9 @@ public class MockClient implements TestClient {
   @Override
   public void checkWebformRateLimit(Domain domain, String ipAddress)
       throws CTPException, ResponseStatusException {
-    RateLimiterClientWebformRequest rateLimiterClientWebformRequest =
-        new RateLimiterClientWebformRequest(domain, ipAddress);
 
     final RequestValidationStatus requestValidationStatus =
-        mockLimiter.postWebformRequest(rateLimiterClientWebformRequest);
+        mockLimiter.postWebformRequest(domain, ipAddress);
 
     checkValidity(requestValidationStatus);
   }

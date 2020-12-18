@@ -28,6 +28,7 @@ import uk.gov.ons.ctp.integration.envoycuc.client.TestClient;
 import uk.gov.ons.ctp.integration.envoycuc.config.RateLimiterClientConfig;
 import uk.gov.ons.ctp.integration.envoycuc.context.RateLimiterClientRequestContext;
 import uk.gov.ons.ctp.integration.envoycuc.context.StepsContext;
+import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient.Domain;
 
 public class LimitTestSteps {
 
@@ -285,9 +286,7 @@ public class LimitTestSteps {
   }
 
   private RateLimiterClientWebformRequest getRateLimiterClientWebformRequest(String ipAddress) {
-    final RateLimiterClientWebformRequest request = new RateLimiterClientWebformRequest();
-    request.setIpAddress(ipAddress);
-    return request;
+    return new RateLimiterClientWebformRequest(Domain.RH, ipAddress);
   }
 
   @And("I wait until the hour")
