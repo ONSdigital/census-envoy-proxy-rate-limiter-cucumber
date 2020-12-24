@@ -59,3 +59,15 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 150           |   100          | 50             | "UAC"         | "SMS"           | "CE"        | "true"     | ".1.1.6"               |
       | 150           |   0            | 150            | "UAC"         | "SMS"           | "CE"        | "true"     | "blacklisted-ipAddress"|
 
+  @LimiterWebformTestIPAddress
+  Scenario Outline: IP ADDRESS TEST FOR WEBFORM
+    Given I have <numWebformRequests> webform requests for ipAddress <ipAddress>
+    When I post the webform requests to the envoy proxy client
+    Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
+    Examples:
+      | numWebformRequests  | expectedToPass | expectedToFail | ipAddress |
+      | 150                 |   100          | 50             | ".1.2.3"  |
+      | 75                  |   75           | 0              | ".1.2.4"  |
+      | 75                  |   25           | 50             | ".1.2.4"  |
+      | 50                  |   0            | 50             | ".1.2.4"  |
+

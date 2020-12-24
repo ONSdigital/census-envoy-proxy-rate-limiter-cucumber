@@ -7,9 +7,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.web.server.ResponseStatusException;
+import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
-import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientRequest;
+import uk.gov.ons.ctp.integration.common.product.model.Product;
+import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient.Domain;
 import uk.gov.ons.ctp.integration.ratelimiter.model.CurrentLimit;
 import uk.gov.ons.ctp.integration.ratelimiter.model.LimitStatus;
 
@@ -30,50 +31,84 @@ public class MockLimiter {
   private final List<String> blackListedIpAddressList =
       Collections.singletonList("blacklisted-ipAddress");
   private final List<String> blackListedTelNoList = Collections.singletonList("blacklisted-telNo");
+  private Domain domain;
 
   public MockLimiter() {
     setupAllowances();
   }
 
-  public RequestValidationStatus postRequest(
-      final RateLimiterClientRequest rateLimiterClientRequest) throws ResponseStatusException {
-
-    List<String> requestKeyList = getKeys(rateLimiterClientRequest);
+  public RequestValidationStatus postFulfilmentRequest(
+      Domain domain,
+      Product product,
+      CaseType caseType,
+      String ipAddress,
+      UniquePropertyReferenceNumber uprn,
+      String telNo) {
+    this.domain = domain;
+    List<String> requestKeyList = getFulfilmentKeys(product, caseType, ipAddress, uprn, telNo);
     final RequestValidationStatus requestValidationStatus =
-        createRequestValidationStatus(requestKeyList, rateLimiterClientRequest);
+        createRequestValidationStatus(requestKeyList, uprn, ipAddress, telNo);
     postRequest(
         requestKeyList,
-        rateLimiterClientRequest); // always post - it burns allowances every time for all scenarios
+        uprn,
+        ipAddress,
+        telNo); // always post - it burns allowances every time for all scenarios
 
     return requestValidationStatus;
   }
 
-  private List<String> getKeys(RateLimiterClientRequest request) {
+  public RequestValidationStatus postWebformRequest(Domain domain, String ipAddress) {
+    this.domain = domain;
+    List<String> requestKeyList = getWebformKeys();
+    final RequestValidationStatus requestValidationStatus =
+        createRequestValidationStatus(requestKeyList, null, ipAddress, null);
+    postRequest(
+        requestKeyList,
+        null,
+        ipAddress,
+        null); // always post - it burns allowances every time for all scenarios
+
+    return requestValidationStatus;
+  }
+
+  private List<String> getFulfilmentKeys(
+      Product product,
+      CaseType caseType,
+      String ipAddress,
+      UniquePropertyReferenceNumber uprn,
+      String telNo) {
     List<String> keyList = new ArrayList<>();
-    if (request.getIpAddress() != null) {
-      keyList.add(request.getProduct().getDeliveryChannel().name().toUpperCase() + "-IP");
+    if (ipAddress != null) {
+      keyList.add(product.getDeliveryChannel().name().toUpperCase() + "-IP");
     }
     StringBuilder keyBuff =
         new StringBuilder()
-            .append(request.getProduct().getDeliveryChannel().name().toUpperCase())
+            .append(product.getDeliveryChannel().name().toUpperCase())
             .append("-")
-            .append(request.getProduct().getProductGroup().name().toUpperCase())
+            .append(product.getProductGroup().name().toUpperCase())
             .append("-")
-            .append(request.getProduct().getIndividual().toString().toUpperCase())
+            .append(product.getIndividual().toString().toUpperCase())
             .append("-")
-            .append(request.getCaseType().name().toUpperCase())
+            .append(caseType.name().toUpperCase())
             .append("-");
-    if (request.getUprn() != null && request.getUprn().getValue() != 0) {
+    if (uprn != null && uprn.getValue() != 0) {
       keyList.add(keyBuff.toString() + "UPRN");
     }
-    if (request.getTelNo() != null) {
+    if (telNo != null) {
       keyList.add(keyBuff.toString() + "TELNO");
     }
     return keyList;
   }
 
+  private List<String> getWebformKeys() {
+    return Collections.singletonList("IP");
+  }
+
   private RequestValidationStatus createRequestValidationStatus(
-      final List<String> requestKeyList, final RateLimiterClientRequest request) {
+      final List<String> requestKeyList,
+      final UniquePropertyReferenceNumber uprn,
+      final String ipAddress,
+      final String telNo) {
     final RequestValidationStatus requestValidationStatus = new RequestValidationStatus();
     for (String requestKey : requestKeyList) {
       if (!allowanceMap.containsKey(requestKey)) {
@@ -87,9 +122,9 @@ public class MockLimiter {
       int numberRequestsAllowed = allowanceMap.get(requestKey);
       boolean isBlackListed = false;
 
-      if (blackListedIpAddressList.contains(request.getIpAddress())
-          || blackListedUprnList.contains(request.getUprn())
-          || blackListedTelNoList.contains(request.getTelNo())) {
+      if (blackListedIpAddressList.contains(ipAddress)
+          || blackListedUprnList.contains(uprn)
+          || blackListedTelNoList.contains(telNo)) {
         numberRequestsAllowed = 0;
         isBlackListed = true;
         requestValidationStatus.setValid(false);
@@ -99,7 +134,7 @@ public class MockLimiter {
         return requestValidationStatus;
       }
 
-      String keyToRecord = getListKey(request, keyType);
+      String keyToRecord = getListKey(uprn, ipAddress, telNo, keyType);
       final List<Integer> postingsList =
           postedMap != null && postedMap.containsKey(keyToRecord)
               ? postedMap.get(keyToRecord)
@@ -138,7 +173,11 @@ public class MockLimiter {
     requestValidationStatus.getLimitStatusList().add(limitStatus);
   }
 
-  private void postRequest(List<String> requestKeyList, final RateLimiterClientRequest request) {
+  private void postRequest(
+      List<String> requestKeyList,
+      final UniquePropertyReferenceNumber uprn,
+      final String ipAddress,
+      final String telNo) {
     for (String requestKey : requestKeyList) {
       Map<String, List<Integer>> postedMap = postingsTimeMap.get(requestKey);
       if (postedMap == null) {
@@ -146,7 +185,7 @@ public class MockLimiter {
       }
       final String[] keyConstituents = requestKey.split("-");
       final String keyType = keyConstituents[keyConstituents.length - 1];
-      final String listKey = getListKey(request, keyType);
+      final String listKey = getListKey(uprn, ipAddress, telNo, keyType);
 
       postedMap.computeIfAbsent(listKey, k -> new ArrayList<>());
       int dayHour = getDayHourNow();
@@ -154,16 +193,20 @@ public class MockLimiter {
     }
   }
 
-  private String getListKey(final RateLimiterClientRequest request, final String keyType) {
+  private String getListKey(
+      final UniquePropertyReferenceNumber uprn,
+      final String ipAddress,
+      final String telNo,
+      final String keyType) {
     String listKey = null;
     if (keyType.equals("UPRN")) {
-      listKey = request.getUprn().getValue() + "";
+      listKey = uprn.toString();
     }
     if (keyType.equals("IP")) {
-      listKey = request.getIpAddress();
+      listKey = ipAddress;
     }
     if (keyType.equals("TELNO")) {
-      listKey = request.getTelNo();
+      listKey = telNo;
     }
     return listKey;
   }
@@ -215,6 +258,8 @@ public class MockLimiter {
     allowanceMap.put("POST-CONTINUATION-FALSE-SPG-UPRN", 12);
 
     allowanceMap.put("POST-IP", 50);
+
+    allowanceMap.put("IP", 100);
 
     setupTimeMaps();
   }
