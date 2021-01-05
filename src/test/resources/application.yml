@@ -23,6 +23,10 @@ envoy:
   scheme: http
 
 blacklist:
-   ip-addresses:
-       - 8.8.8.8
-       - 8.8.4.4
+  ip-addresses:
+      - 8.8.8.8
+      - 8.8.4.4
+  telephone-numbers:
+      - blacklisted-telNo
+  uprns:
+      - 9999999999999

@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,8 +66,7 @@ public class LimitTestSteps {
       final String individualStr,
       final String uprnStr) {
 
-    final String fullUprnStr =
-        uprnStr.equals("9999999999999") ? uprnStr : stepsContext.getTestValuePrefix() + uprnStr;
+    final String fullUprnStr = enrichUprn(uprnStr);
 
     for (int i = 0; i < numberRequest; i++) {
       final RateLimiterClientFulfilmentRequest rateLimiterClientRequest =
@@ -92,10 +92,7 @@ public class LimitTestSteps {
       final String individualStr,
       final String telephone) {
 
-    final String fullTelephone =
-        telephone.equals("blacklisted-telNo")
-            ? telephone
-            : stepsContext.getTestValuePrefix() + telephone;
+    final String fullTelephone = enrichTelephoneNumber(telephone);
 
     for (int i = 0; i < numberRequests; i++) {
       final RateLimiterClientFulfilmentRequest rateLimiterClientRequest =
@@ -323,10 +320,21 @@ public class LimitTestSteps {
     return stepsContext.getUniqueValueAsString();
   }
 
+  // add prefix to value to remove conflicts, or keep the same for blacklisted values
+  private String enrich(String value, Set<String> blacklistedValues) {
+    return blacklistedValues.contains(value) ? value : stepsContext.getTestValuePrefix() + value;
+  }
+
+  private String enrichTelephoneNumber(String telephone) {
+    return enrich(telephone, blackListConfig.getTelephoneNumbers());
+  }
+
   private String enrichIpAddress(String ipAddress) {
-    return blackListConfig.getIpAddresses().contains(ipAddress)
-        ? ipAddress
-        : stepsContext.getTestValuePrefix() + ipAddress;
+    return enrich(ipAddress, blackListConfig.getIpAddresses());
+  }
+
+  private String enrichUprn(String uprnStr) {
+    return enrich(uprnStr, blackListConfig.getUprns());
   }
 
   @Given("I have {int} webform requests for ipAddress {string}")

@@ -39,7 +39,6 @@ public class StepsContext {
     SimpleDateFormat formatter = new SimpleDateFormat("mmss");
     uniqueValue = now.getTime();
     testValuePrefix = StringUtils.chop(formatter.format(now));
-
     SimpleDateFormat dddMMFormatter = new SimpleDateFormat("DDDHH");
     dayHour = Integer.parseInt(dddMMFormatter.format(now));
   }

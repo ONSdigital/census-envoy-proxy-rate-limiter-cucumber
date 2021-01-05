@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
@@ -28,13 +29,17 @@ public class MockLimiter {
 
   private final Map<String, Integer> allowanceMap = new HashMap<>();
   private final Map<String, Map<String, List<Integer>>> postingsTimeMap = new HashMap<>();
-  private final List<UniquePropertyReferenceNumber> blackListedUprnList =
-      Collections.singletonList(UniquePropertyReferenceNumber.create("9999999999999"));
+  private final Set<UniquePropertyReferenceNumber> blackListedUprns;
   private final Set<String> blackListedIpAddresses;
-  private final List<String> blackListedTelNoList = Collections.singletonList("blacklisted-telNo");
+  private final Set<String> blackListedTelNumbers;
 
   public MockLimiter(BlackListConfig blackListConfig) {
     blackListedIpAddresses = blackListConfig.getIpAddresses();
+    blackListedTelNumbers = blackListConfig.getTelephoneNumbers();
+    blackListedUprns =
+        blackListConfig.getUprns().stream()
+            .map(s -> UniquePropertyReferenceNumber.create(s))
+            .collect(Collectors.toSet());
     setupAllowances();
   }
 
@@ -122,8 +127,8 @@ public class MockLimiter {
       boolean isBlackListed = false;
 
       if (blackListedIpAddresses.contains(ipAddress)
-          || blackListedUprnList.contains(uprn)
-          || blackListedTelNoList.contains(telNo)) {
+          || blackListedUprns.contains(uprn)
+          || blackListedTelNumbers.contains(telNo)) {
         numberRequestsAllowed = 0;
         isBlackListed = true;
         requestValidationStatus.setValid(false);

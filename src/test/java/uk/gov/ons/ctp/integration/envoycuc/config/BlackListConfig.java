@@ -8,4 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("blacklist")
 public class BlackListConfig {
   private Set<String> ipAddresses;
+  private Set<String> telephoneNumbers;
+  private Set<String> uprns;
 }
