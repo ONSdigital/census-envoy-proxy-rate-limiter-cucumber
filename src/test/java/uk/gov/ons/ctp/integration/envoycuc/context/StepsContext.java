@@ -1,11 +1,11 @@
 package uk.gov.ons.ctp.integration.envoycuc.context;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 
 @Data
 @NoArgsConstructor
@@ -26,7 +26,8 @@ public class StepsContext {
    * Each time String getUniqueValueAsString() is called - this value is incremented to give a truly
    * unique value in tests where we don't care about that particular value.
    *
-   * <p>Note that the prefix must be limited to 3 digits if used for a valid IPv4 address octet.
+   * <p>Note that the prefix must be limited to 3 digits and <= 255, if used for a valid IPv4
+   * address octet.
    *
    * <p>dayHour is used where we want values within a test to be constant for THAT CONTEXT -
    * throughout the whole test This is so that we gain a fixed value for the test, but on rerun a
@@ -36,11 +37,21 @@ public class StepsContext {
   @PostConstruct
   private void createUniqueValue() {
     final Date now = new Date(System.currentTimeMillis());
-    SimpleDateFormat formatter = new SimpleDateFormat("mmss");
     uniqueValue = now.getTime();
-    testValuePrefix = StringUtils.chop(formatter.format(now));
+    testValuePrefix = generateValidOctetDigits();
     SimpleDateFormat dddMMFormatter = new SimpleDateFormat("DDDHH");
     dayHour = Integer.parseInt(dddMMFormatter.format(now));
+  }
+
+  /**
+   * Generate "somewhat" random (within an hour) 3 digits suitable for an IPv4 octet. We divide
+   * seconds by 20 to ensure that we have unique values that span an hour.
+   *
+   * @return "somewhat" random (within an hour) octet of 3 digits
+   */
+  private String generateValidOctetDigits() {
+    int secondsOfDay = LocalDateTime.now().toLocalTime().toSecondOfDay();
+    return "" + ((secondsOfDay / 20) % 256);
   }
 
   public String getUniqueValueAsString() {
