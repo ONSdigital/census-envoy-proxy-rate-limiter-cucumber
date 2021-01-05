@@ -21,3 +21,8 @@ envoy:
   host: localhost
   port: 8181
   scheme: http
+
+blacklist:
+   ip-addresses:
+       - 8.8.8.8
+       - 8.8.4.4

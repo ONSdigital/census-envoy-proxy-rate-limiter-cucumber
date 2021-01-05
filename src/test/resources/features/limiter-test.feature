@@ -57,7 +57,7 @@ Feature: This feature tests all of the requirements for the Envoy Proxy Limiter 
       | 150           |   100          | 50             | "UAC"         | "SMS"           | "HH"        | "true"     | ".1.1.4"               |
       | 150           |   100          | 50             | "UAC"         | "SMS"           | "SPG"       | "true"     | ".1.1.5"               |
       | 150           |   100          | 50             | "UAC"         | "SMS"           | "CE"        | "true"     | ".1.1.6"               |
-      | 150           |   0            | 150            | "UAC"         | "SMS"           | "CE"        | "true"     | "blacklisted-ipAddress"|
+      | 150           |   0            | 150            | "UAC"         | "SMS"           | "CE"        | "true"     | "8.8.8.8"              |
 
   @LimiterWebformTestIPAddress
   Scenario Outline: IP ADDRESS TEST FOR WEBFORM

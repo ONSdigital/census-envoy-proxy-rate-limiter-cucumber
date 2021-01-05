@@ -7,9 +7,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import uk.gov.ons.ctp.common.domain.CaseType;
 import uk.gov.ons.ctp.common.domain.UniquePropertyReferenceNumber;
 import uk.gov.ons.ctp.integration.common.product.model.Product;
+import uk.gov.ons.ctp.integration.envoycuc.config.BlackListConfig;
 import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient.Domain;
 import uk.gov.ons.ctp.integration.ratelimiter.model.CurrentLimit;
 import uk.gov.ons.ctp.integration.ratelimiter.model.LimitStatus;
@@ -28,12 +30,11 @@ public class MockLimiter {
   private final Map<String, Map<String, List<Integer>>> postingsTimeMap = new HashMap<>();
   private final List<UniquePropertyReferenceNumber> blackListedUprnList =
       Collections.singletonList(UniquePropertyReferenceNumber.create("9999999999999"));
-  private final List<String> blackListedIpAddressList =
-      Collections.singletonList("blacklisted-ipAddress");
+  private final Set<String> blackListedIpAddresses;
   private final List<String> blackListedTelNoList = Collections.singletonList("blacklisted-telNo");
-  private Domain domain;
 
-  public MockLimiter() {
+  public MockLimiter(BlackListConfig blackListConfig) {
+    blackListedIpAddresses = blackListConfig.getIpAddresses();
     setupAllowances();
   }
 
@@ -44,7 +45,6 @@ public class MockLimiter {
       String ipAddress,
       UniquePropertyReferenceNumber uprn,
       String telNo) {
-    this.domain = domain;
     List<String> requestKeyList = getFulfilmentKeys(product, caseType, ipAddress, uprn, telNo);
     final RequestValidationStatus requestValidationStatus =
         createRequestValidationStatus(requestKeyList, uprn, ipAddress, telNo);
@@ -58,7 +58,6 @@ public class MockLimiter {
   }
 
   public RequestValidationStatus postWebformRequest(Domain domain, String ipAddress) {
-    this.domain = domain;
     List<String> requestKeyList = getWebformKeys();
     final RequestValidationStatus requestValidationStatus =
         createRequestValidationStatus(requestKeyList, null, ipAddress, null);
@@ -122,7 +121,7 @@ public class MockLimiter {
       int numberRequestsAllowed = allowanceMap.get(requestKey);
       boolean isBlackListed = false;
 
-      if (blackListedIpAddressList.contains(ipAddress)
+      if (blackListedIpAddresses.contains(ipAddress)
           || blackListedUprnList.contains(uprn)
           || blackListedTelNoList.contains(telNo)) {
         numberRequestsAllowed = 0;
