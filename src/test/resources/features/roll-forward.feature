@@ -63,8 +63,9 @@ Feature: This feature tests that tests can be rerun once the hour ticks over and
       | 150           |   0            | 150            | "UAC"         | "SMS"           | "CE"        | "true"     | "8.8.8.8"              |
 
   @RollForwardWebformTestIPAddress
-  Scenario Outline: IP ADDRESS TEST FOR WEBFORM
+  Scenario Outline: Roll Forward - IP ADDRESS TEST FOR WEBFORM
     Given I have <numWebformRequests> webform requests for ipAddress <ipAddress>
+    And I wait until the hour
     When I post the webform requests to the envoy proxy client
     Then I expect the first <expectedToPass> calls to succeed and <expectedToFail> calls to fail
     Examples:
