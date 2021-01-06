@@ -1,5 +1,7 @@
 package uk.gov.ons.ctp.integration.envoycuc.mockclient;
 
+import com.godaddy.logging.Logger;
+import com.godaddy.logging.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,6 +14,7 @@ import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient;
 import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient.Domain;
 
 public class MockClient implements TestClient {
+  private static final Logger log = LoggerFactory.getLogger(MockClient.class);
 
   private final MockLimiter mockLimiter;
 
@@ -77,8 +80,18 @@ public class MockClient implements TestClient {
   // use the similar code to the real rate limiter client so that we can ensure the test data
   // will pass validation.
   private boolean isValidIpAddress(String ipAddress) {
-    return !StringUtils.isBlank(ipAddress)
-        && InetAddressValidator.getInstance().isValidInet4Address(ipAddress);
+    boolean valid = true;
+    if (StringUtils.isBlank(ipAddress)) {
+      log.with("ipAddress", ipAddress)
+          .warn("Cannot accept blank IP address. This will not be used for rate limit check");
+      valid = false;
+    }
+    if (!InetAddressValidator.getInstance().isValidInet4Address(ipAddress)) {
+      log.with("ipAddress", ipAddress)
+          .warn("IP address is not valid IPv4 format. This will not be used for rate limit check");
+      valid = false;
+    }
+    return valid;
   }
 
   @Override

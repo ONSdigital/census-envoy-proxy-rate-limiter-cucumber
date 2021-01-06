@@ -77,7 +77,7 @@ public class LimitTestSteps {
               individualStr,
               fullUprnStr,
               getUniqueValue(),
-              getUniqueValue());
+              stepsContext.getUniqueValueAsOctets());
       rateLimiterClientRequestContext.addFulfilmentRequest(rateLimiterClientRequest);
     }
   }
@@ -103,7 +103,7 @@ public class LimitTestSteps {
               individualStr,
               getUniqueValue(),
               fullTelephone,
-              getUniqueValue());
+              stepsContext.getUniqueValueAsOctets());
       rateLimiterClientRequestContext.addFulfilmentRequest(rateLimiterClientRequest);
     }
   }

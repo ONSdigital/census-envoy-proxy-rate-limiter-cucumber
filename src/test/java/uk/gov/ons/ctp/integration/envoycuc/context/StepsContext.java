@@ -58,4 +58,14 @@ public class StepsContext {
     uniqueValue++;
     return uniqueValue.toString();
   }
+
+  public String getUniqueValueAsOctets() {
+    long temp = uniqueValue++;
+    int[] octet = new int[4];
+    for (int i = 0; i < octet.length; i++) {
+      octet[i] = (int) (temp % 256);
+      temp = temp / 256;
+    }
+    return octet[3] + "." + octet[2] + "." + octet[1] + "." + octet[0];
+  }
 }
