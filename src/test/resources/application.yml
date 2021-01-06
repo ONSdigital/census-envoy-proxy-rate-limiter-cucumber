@@ -12,6 +12,8 @@ logging:
   level:
     root: INFO
     uk.gov.ons.ctp: INFO
+    # reduce logging from the ratelimiter, otherwise it makes concourse output cumbersome.
+    uk.gov.ons.ctp.integration.ratelimiter: WARN
     org.springframework: ERROR
   profile: DEV
   useJson: false
