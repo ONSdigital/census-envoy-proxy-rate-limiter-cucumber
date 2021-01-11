@@ -18,6 +18,8 @@ logging:
     org.springframework: ERROR
   profile: DEV
   useJson: false
+  encryption:
+    password: CENSUS
 
 mock-client: false
 envoy:
