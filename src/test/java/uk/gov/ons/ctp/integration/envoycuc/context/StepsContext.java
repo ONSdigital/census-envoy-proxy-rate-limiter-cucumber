@@ -32,7 +32,7 @@ public class StepsContext {
    * <p>dayHour is used where we want values within a test to be constant for THAT CONTEXT -
    * throughout the whole test This is so that we gain a fixed value for the test, but on rerun a
    * new value is created based on DDDHH and will be unique to the live rate limiter and so that
-   * tests will run as intended and will not be queried by a constantly running rate limiter.
+   * tests will run as intended and will not be queered by a constantly running rate limiter.
    */
   @PostConstruct
   private void createUniqueValue() {
