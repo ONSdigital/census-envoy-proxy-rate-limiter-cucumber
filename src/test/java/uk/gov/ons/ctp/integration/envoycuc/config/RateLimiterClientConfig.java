@@ -34,6 +34,9 @@ public class RateLimiterClientConfig {
   @Value("${envoy.scheme}")
   private String envoyScheme;
 
+  @Value("${logging.encryption.password}")
+  private String encryptionPassword;
+
   @Value("${mock-client}")
   private Boolean isMockClient;
 
@@ -55,7 +58,7 @@ public class RateLimiterClientConfig {
     final Resilience4JCircuitBreakerFactory circuitBreakerFactory =
         new Resilience4JCircuitBreakerFactory();
     final CircuitBreaker circuitBreaker = circuitBreakerFactory.create("envoyLimiterCb");
-    return new RateLimitClient(restClient, circuitBreaker);
+    return new RateLimitClient(restClient, circuitBreaker, encryptionPassword);
   }
 
   @Bean

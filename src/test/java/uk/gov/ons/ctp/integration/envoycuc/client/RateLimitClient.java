@@ -6,8 +6,9 @@ import uk.gov.ons.ctp.integration.ratelimiter.client.RateLimiterClient;
 
 public class RateLimitClient extends RateLimiterClient implements TestClient {
 
-  public RateLimitClient(RestClient restClient, CircuitBreaker circuitBreaker) {
-    super(restClient, circuitBreaker);
+  public RateLimitClient(
+      RestClient restClient, CircuitBreaker circuitBreaker, String encryptionPassword) {
+    super(restClient, circuitBreaker, encryptionPassword);
   }
 
   public void rollOverTheHour() {}
