@@ -63,7 +63,7 @@ public class MockClient implements TestClient {
       return;
     }
 
-    // TODO Auto-generated method stub
+    // TODO WRITEME code needs to be added when tests added for this check method.
   }
 
   private void checkValidity(final RequestValidationStatus requestValidationStatus) {
