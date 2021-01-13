@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import uk.gov.ons.ctp.integration.common.product.model.Product;
 import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientFulfilmentRequest;
 import uk.gov.ons.ctp.integration.envoycuc.client.RateLimiterClientWebformRequest;
 import uk.gov.ons.ctp.integration.envoycuc.client.TestClient;
+import uk.gov.ons.ctp.integration.envoycuc.config.BlackListConfig;
 import uk.gov.ons.ctp.integration.envoycuc.config.RateLimiterClientConfig;
 import uk.gov.ons.ctp.integration.envoycuc.context.RateLimiterClientRequestContext;
 import uk.gov.ons.ctp.integration.envoycuc.context.StepsContext;
@@ -38,17 +40,20 @@ public class LimitTestSteps {
   private final RateLimiterClientConfig rateLimiterClientConfig;
   private final TestClient testClient;
   private final StepsContext stepsContext;
+  private BlackListConfig blackListConfig;
 
   @Autowired
   public LimitTestSteps(
       RateLimiterClientRequestContext rateLimiterClientRequestContext,
       RateLimiterClientConfig rateLimiterClientConfig,
       TestClient testClient,
-      StepsContext stepsContext) {
+      StepsContext stepsContext,
+      BlackListConfig blackListConfig) {
     this.rateLimiterClientRequestContext = rateLimiterClientRequestContext;
     this.rateLimiterClientConfig = rateLimiterClientConfig;
     this.stepsContext = stepsContext;
     this.testClient = testClient;
+    this.blackListConfig = blackListConfig;
   }
 
   @Given(
@@ -61,8 +66,7 @@ public class LimitTestSteps {
       final String individualStr,
       final String uprnStr) {
 
-    final String fullUprnStr =
-        uprnStr.equals("9999999999999") ? uprnStr : stepsContext.getTestValuePrefix() + uprnStr;
+    final String fullUprnStr = enrichUprn(uprnStr);
 
     for (int i = 0; i < numberRequest; i++) {
       final RateLimiterClientFulfilmentRequest rateLimiterClientRequest =
@@ -73,7 +77,7 @@ public class LimitTestSteps {
               individualStr,
               fullUprnStr,
               getUniqueValue(),
-              getUniqueValue());
+              stepsContext.getUniqueValueAsOctets());
       rateLimiterClientRequestContext.addFulfilmentRequest(rateLimiterClientRequest);
     }
   }
@@ -88,10 +92,7 @@ public class LimitTestSteps {
       final String individualStr,
       final String telephone) {
 
-    final String fullTelephone =
-        telephone.equals("blacklisted-telNo")
-            ? telephone
-            : stepsContext.getTestValuePrefix() + telephone;
+    final String fullTelephone = enrichTelephoneNumber(telephone);
 
     for (int i = 0; i < numberRequests; i++) {
       final RateLimiterClientFulfilmentRequest rateLimiterClientRequest =
@@ -102,7 +103,7 @@ public class LimitTestSteps {
               individualStr,
               getUniqueValue(),
               fullTelephone,
-              getUniqueValue());
+              stepsContext.getUniqueValueAsOctets());
       rateLimiterClientRequestContext.addFulfilmentRequest(rateLimiterClientRequest);
     }
   }
@@ -117,11 +118,7 @@ public class LimitTestSteps {
       final String individualStr,
       final String ipAddress) {
 
-    final String fullIpAddress =
-        ipAddress.equals("blacklisted-ipAddress")
-            ? ipAddress
-            : stepsContext.getTestValuePrefix() + ipAddress;
-
+    final String fullIpAddress = enrichIpAddress(ipAddress);
     for (int i = 0; i < numberRequests; i++) {
       final RateLimiterClientFulfilmentRequest rateLimiterClientRequest =
           getRateLimiterClientFulfilmentRequest(
@@ -323,14 +320,27 @@ public class LimitTestSteps {
     return stepsContext.getUniqueValueAsString();
   }
 
+  // add prefix to value to remove conflicts, or keep the same for blacklisted values
+  private String enrich(String value, Set<String> blacklistedValues) {
+    return blacklistedValues.contains(value) ? value : stepsContext.getTestValuePrefix() + value;
+  }
+
+  private String enrichTelephoneNumber(String telephone) {
+    return enrich(telephone, blackListConfig.getTelephoneNumbers());
+  }
+
+  private String enrichIpAddress(String ipAddress) {
+    return enrich(ipAddress, blackListConfig.getIpAddresses());
+  }
+
+  private String enrichUprn(String uprnStr) {
+    return enrich(uprnStr, blackListConfig.getUprns());
+  }
+
   @Given("I have {int} webform requests for ipAddress {string}")
   public void iHaveNumWebformRequestsWebformRequestsForIpAddressIpAddress(
       final int numberRequests, final String ipAddress) {
-    final String fullIpAddress =
-        ipAddress.equals("blacklisted-ipAddress")
-            ? ipAddress
-            : stepsContext.getTestValuePrefix() + ipAddress;
-
+    final String fullIpAddress = enrichIpAddress(ipAddress);
     for (int i = 0; i < numberRequests; i++) {
       final RateLimiterClientWebformRequest rateLimiterClientRequest =
           getRateLimiterClientWebformRequest(fullIpAddress);

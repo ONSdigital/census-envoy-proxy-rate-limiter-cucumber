@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +21,7 @@ import uk.gov.ons.ctp.integration.envoycuc.mockclient.MockLimiter;
 
 @Data
 @NoArgsConstructor
+@EnableConfigurationProperties
 @Configuration
 public class RateLimiterClientConfig {
 
@@ -33,6 +36,13 @@ public class RateLimiterClientConfig {
 
   @Value("${mock-client}")
   private Boolean isMockClient;
+
+  private BlackListConfig blacklistConfig;
+
+  @Autowired
+  public RateLimiterClientConfig(BlackListConfig blacklistConfig) {
+    this.blacklistConfig = blacklistConfig;
+  }
 
   @Bean
   public RateLimitClient rateLimiterClient() {
@@ -52,7 +62,7 @@ public class RateLimiterClientConfig {
   public TestClient testClient() {
     TestClient client;
     if (isMockClient) {
-      client = new MockClient(new MockLimiter());
+      client = new MockClient(new MockLimiter(blacklistConfig));
     } else {
       client = rateLimiterClient();
     }

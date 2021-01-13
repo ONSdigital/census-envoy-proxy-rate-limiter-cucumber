@@ -12,6 +12,9 @@ logging:
   level:
     root: INFO
     uk.gov.ons.ctp: INFO
+    # reduce logging from the ratelimiter, otherwise it makes concourse output cumbersome.
+    uk.gov.ons.ctp.integration.ratelimiter: WARN
+    uk.gov.ons.ctp.common.rest.RestClient: WARN
     org.springframework: ERROR
   profile: DEV
   useJson: false
@@ -21,3 +24,12 @@ envoy:
   host: localhost
   port: 8181
   scheme: http
+
+blacklist:
+  ip-addresses:
+      - 8.8.8.8
+      - 8.8.4.4
+  telephone-numbers:
+      - blacklisted-telNo
+  uprns:
+      - 9999999999999
