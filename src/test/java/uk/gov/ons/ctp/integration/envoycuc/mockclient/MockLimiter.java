@@ -251,11 +251,11 @@ public class MockLimiter {
     allowanceMap.put("POST-QUESTIONNAIRE-TRUE-SPG-UPRN", 5);
     allowanceMap.put("POST-QUESTIONNAIRE-TRUE-CE-UPRN", 50);
 
-    allowanceMap.put("POST-LARGE_PRINT-FALSE-HH-UPRN", 1);
-    allowanceMap.put("POST-LARGE_PRINT-FALSE-SPG-UPRN", 1);
+    allowanceMap.put("POST-LARGE_PRINT-FALSE-HH-UPRN", 5);
+    allowanceMap.put("POST-LARGE_PRINT-FALSE-SPG-UPRN", 5);
 
-    allowanceMap.put("POST-LARGE_PRINT-TRUE-HH-UPRN", 5);
-    allowanceMap.put("POST-LARGE_PRINT-TRUE-SPG-UPRN", 5);
+    allowanceMap.put("POST-LARGE_PRINT-TRUE-HH-UPRN", 10);
+    allowanceMap.put("POST-LARGE_PRINT-TRUE-SPG-UPRN", 10);
     allowanceMap.put("POST-LARGE_PRINT-TRUE-CE-UPRN", 50);
 
     allowanceMap.put("POST-CONTINUATION-FALSE-HH-UPRN", 12);
