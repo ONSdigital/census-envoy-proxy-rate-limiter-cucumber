@@ -12,6 +12,7 @@ import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import uk.gov.ons.ctp.common.error.CTPException;
 import uk.gov.ons.ctp.common.rest.RestClient;
 import uk.gov.ons.ctp.common.rest.RestClientConfig;
 import uk.gov.ons.ctp.integration.envoycuc.client.RateLimitClient;
@@ -48,9 +49,27 @@ public class RateLimiterClientConfig {
   }
 
   @Bean
-  public RateLimitClient rateLimiterClient() {
+  public RateLimitClient rateLimiterClient() throws CTPException {
+    int connectionManagerDefaultMaxPerRoute = 20;
+    int connectionManagerMaxTotal = 50;
+
+    int connectTimeoutMillis = 0;
+    int connectionRequestTimeoutMillis = 0;
+    int socketTimeoutMillis = 0;
+
     RestClientConfig restClientConfig =
-        new RestClientConfig(envoyScheme, envoyHost, envoyPort, "", "");
+        new RestClientConfig(
+            envoyScheme,
+            envoyHost,
+            envoyPort,
+            "",
+            "",
+            connectionManagerDefaultMaxPerRoute,
+            connectionManagerMaxTotal,
+            connectTimeoutMillis,
+            connectionRequestTimeoutMillis,
+            socketTimeoutMillis);
+
     Map<HttpStatus, HttpStatus> httpErrorMapping = new HashMap<>();
     httpErrorMapping.put(HttpStatus.TOO_MANY_REQUESTS, HttpStatus.TOO_MANY_REQUESTS);
     final RestClient restClient =
@@ -62,7 +81,7 @@ public class RateLimiterClientConfig {
   }
 
   @Bean
-  public TestClient testClient() {
+  public TestClient testClient() throws CTPException {
     TestClient client;
     if (isMockClient) {
       client = new MockClient(new MockLimiter(blacklistConfig));
