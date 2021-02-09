@@ -58,7 +58,13 @@ public class RateLimiterClientConfig {
     int socketTimeoutMillis = 0;
 
     RestClientConfig restClientConfig =
-        new RestClientConfig(envoyScheme, envoyHost, envoyPort, "", "", connectionManagerDefaultMaxPerRoute,
+        new RestClientConfig(
+            envoyScheme,
+            envoyHost,
+            envoyPort,
+            "",
+            "",
+            connectionManagerDefaultMaxPerRoute,
             connectionManagerMaxTotal,
             connectTimeoutMillis,
             connectionRequestTimeoutMillis,
